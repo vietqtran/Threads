@@ -1,0 +1,13 @@
+dist/
+webDist/
+distWeb/
+distLambda/
+goldstackLocal/
+coverage/
+node_modules/
+.terraform/
+*.tfstate
+*.tfstate.backup
+.pnp.js
+*.json
+.yarn/
