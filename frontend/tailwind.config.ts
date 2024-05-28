@@ -21,7 +21,46 @@ const config = {
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))'
+          foreground: 'hsl(var(--primary-foreground))',
+          green: {
+            '50': '#eafff4',
+            '100': '#cdfee4',
+            '200': '#a0facf',
+            '300': '#62f3b5',
+            '400': '#1ddf93',
+            '500': '#00ca82',
+            '600': '#00a46a',
+            '700': '#008358',
+            '800': '#006847',
+            '900': '#00553c',
+            '950': '#003023'
+          },
+          'light-blue': {
+            '50': '#ebffff',
+            '100': '#cefeff',
+            '200': '#a2faff',
+            '300': '#63f3fd',
+            '400': '#1ce3f4',
+            '500': '#00daf0',
+            '600': '#039eb7',
+            '700': '#0a7d94',
+            '800': '#126578',
+            '900': '#145365',
+            '950': '#063746'
+          },
+          blue: {
+            '50': '#eff8ff',
+            '100': '#dceffd',
+            '200': '#c0e4fd',
+            '300': '#95d3fb',
+            '400': '#63baf7',
+            '500': '#3f9cf2',
+            '600': '#247ce6',
+            '700': '#2169d4',
+            '800': '#2156ac',
+            '900': '#204a88',
+            '950': '#182e53'
+          }
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
