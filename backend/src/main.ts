@@ -9,6 +9,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   const configService = app.get(ConfigService)
 
+  app.setGlobalPrefix('api/v1/');
+
   const config = new DocumentBuilder()
     .setTitle('EcomMERN API')
     .setDescription('EcomMERN API description')
@@ -27,10 +29,8 @@ async function bootstrap() {
   await app.listen(port)
   
   // Logging
-  logger.debug(`NODE_ENV: ${process.env.NODE_ENV}`)
   logger.debug(`Application is running on: ${await app.getUrl()}`)
   logger.debug(`Swagger is running on: ${await app.getUrl()}/api`)
-  logger.debug(`PORT: ${process.env.PORT}`)
   logger.debug(`DATABASE_URL: ${configService.get('database.url')}`)
 }
 bootstrap()
