@@ -1,5 +1,3 @@
-import databaseConfig from "./database/database.config";
+import databaseConfig from './database/database.config'
 
-export default [
-    databaseConfig
-];
+export default [databaseConfig]

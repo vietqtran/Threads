@@ -1,8 +1,9 @@
-import { registerAs } from '@nestjs/config';
+import { registerAs } from '@nestjs/config'
 
 export default registerAs(
-    'database',
-    (): Record<string, any> => ({
-        url: process.env?.DATABASE_URL
-    })
-);
+  'database',
+  (): Record<string, any> => ({
+    url: process.env?.DATABASE_URL,
+    dbName: process.env?.DATABASE_NAME
+  })
+)

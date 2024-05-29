@@ -9,21 +9,21 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   const configService = app.get(ConfigService)
 
-  app.setGlobalPrefix('api/v1/');
+  app.setGlobalPrefix('api/v1/')
 
   configSwagger(app)
 
   app.enableCors({
     origin: '*',
     methods: 'GET,PUT,PATCH,POST,DELETE',
-    credentials: true,
-  });
+    credentials: true
+  })
 
   app.useGlobalPipes(new ValidationPipe())
-  
+
   const port = process.env.PORT || 4000
   await app.listen(port)
-  
+
   // Logging
   logger.debug(`Application is running on: ${await app.getUrl()}`)
   logger.debug(`Swagger is running on: ${await app.getUrl()}/api`)
