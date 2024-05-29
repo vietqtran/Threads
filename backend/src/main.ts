@@ -3,6 +3,7 @@ import { AppModule } from '@/resources/app/app.module'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import { Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { configSwagger } from './configs/swagger'
 
 async function bootstrap() {
   const logger = new Logger(bootstrap.name)
@@ -11,13 +12,7 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api/v1/');
 
-  const config = new DocumentBuilder()
-    .setTitle('EcomMERN API')
-    .setDescription('EcomMERN API description')
-    .setVersion('1.0.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  configSwagger(app)
 
   app.enableCors({
     origin: '*',
