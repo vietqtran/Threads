@@ -1,12 +1,15 @@
-import { Module } from '@nestjs/common'
+import * as Joi from 'joi'
+
+import { ConfigModule, ConfigService } from '@nestjs/config'
+
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import configs from '@/configs'
-import { UsersModule } from '../users/users.module'
 import { AuthModule } from '../auth/auth.module'
+import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
-import * as Joi from 'joi'
+import { PasswordService } from '@/services/password/password.service'
+import { UsersModule } from '../users/users.module'
+import configs from '@/configs'
 
 @Module({
   imports: [
@@ -38,6 +41,6 @@ import * as Joi from 'joi'
     AuthModule
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService, PasswordService]
 })
 export class AppModule {}

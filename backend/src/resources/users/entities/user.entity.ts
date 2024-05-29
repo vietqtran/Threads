@@ -1,6 +1,7 @@
-import { BaseEntity } from '@/base/entity.base'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { Document, now } from 'mongoose'
+
+import { BaseEntity } from '@/base/entity.base'
+import { Document } from 'mongoose'
 
 @Schema({
   timestamps: {
@@ -14,6 +15,9 @@ export class User extends BaseEntity {
 
   @Prop({ required: true, unique: true })
   email: string
+
+  @Prop({ required: true })
+  hashedPassword: string
 
   @Prop({ required: false })
   avatar?: string

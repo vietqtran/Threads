@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger'
 import {
   IsEmail,
   IsNotEmpty,
@@ -7,6 +6,8 @@ import {
   IsUrl,
   MaxLength
 } from 'class-validator'
+
+import { ApiProperty } from '@nestjs/swagger'
 
 export class CreateUserDto {
   @IsString()
@@ -25,6 +26,13 @@ export class CreateUserDto {
     example: 'vietqtran@gmail.com'
   })
   email: string
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    example: '12345678'
+  })
+  hashedPassword: string
 
   @IsOptional()
   @IsUrl()
