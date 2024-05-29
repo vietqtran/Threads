@@ -6,9 +6,9 @@ export const useAxios = () => {
   const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    timeout: 10000,
+    timeout: 10000
   })
 
   axiosInstance.interceptors.response.use(
