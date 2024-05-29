@@ -1,3 +1,8 @@
+import Test from "@/components/common/Test";
+
 export default function Page() {
-  return <div></div>
+  
+  return <div>
+    <Test/>
+  </div>
 }
