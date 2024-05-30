@@ -1,7 +1,6 @@
 import * as bcrypt from 'bcrypt'
 
 import { Injectable } from '@nestjs/common'
-import { PasswordNotMatchException } from '@/common/exceptions/PasswordNotMatch.exception'
 
 @Injectable()
 export class PasswordService {
@@ -12,12 +11,8 @@ export class PasswordService {
   }
 
   async isMatched(password: string, hash: string): Promise<boolean> {
-    try {
-      const check = await bcrypt.compare(password, hash)
-      if (check) return true
-      throw new PasswordNotMatchException()
-    } catch (error) {
-      return false
-    }
+    const check = await bcrypt.compare(password, hash)
+    if (check) return true
+    return false
   }
 }

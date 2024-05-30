@@ -7,7 +7,7 @@ import { AppService } from './app.service'
 import { AuthModule } from '../auth/auth.module'
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
-import { PasswordService } from '@/services/password/password.service'
+import { PasswordService } from '@/resources/password/password.service'
 import { UsersModule } from '../users/users.module'
 import configs from '@/configs'
 
@@ -21,9 +21,13 @@ import configs from '@/configs'
         MONGO_ID: Joi.string().optional(),
         MONGO_CLUSTER_NAME: Joi.string().optional(),
         DATABASE_NAME: Joi.string().optional(),
-        DATABASE_URL: Joi.string().required()
+        DATABASE_URL: Joi.string().required(),
+        JWT_ACCESS_SECRET: Joi.string().required(),
+        JWT_ACCESS_EXPIRES_IN: Joi.string().required(),
+        JWT_REFRESH_SECRET: Joi.string().required(),
+        JWT_REFRESH_EXPIRES_IN: Joi.string().required()
       }),
-      load: configs,
+      load: [...configs],
       isGlobal: true,
       cache: true,
       envFilePath: ['.env'],

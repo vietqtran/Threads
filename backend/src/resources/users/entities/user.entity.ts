@@ -7,7 +7,8 @@ import { Document } from 'mongoose'
   timestamps: {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
-  }
+  },
+  versionKey: false
 })
 export class User extends BaseEntity {
   @Prop({ required: true, unique: true })
