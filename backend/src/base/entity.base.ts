@@ -1,6 +1,6 @@
+import { ObjectId } from 'mongoose'
 import { Prop } from '@nestjs/mongoose'
 import { Transform } from 'class-transformer'
-import { ObjectId } from 'mongoose'
 
 export class BaseEntity {
   @Transform(({ value }) => value.toString())

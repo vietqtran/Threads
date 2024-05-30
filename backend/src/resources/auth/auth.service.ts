@@ -49,12 +49,27 @@ export class AuthService {
     return createdUser
   }
 
-  async getCookieWithJwtToken(payload: TokenPayload) {
+  async getCookieWithJwtAccessToken(payload: TokenPayload) {
     const token = await this.jwtService.signAsync(payload)
     return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('jwt.accessExpiresIn')}; SameSite=None; Secure`
   }
 
+  async getCookieWithJwtRefreshToken(payload: TokenPayload) {
+    const token = await this.jwtService.signAsync(payload, {
+      secret: this.configService.get('jwt.refreshSecret'),
+      expiresIn: `${this.configService.get('jwt.refreshExpiresIn')}s`
+    })
+    const cookie = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('jwt.refreshExpiresIn')}; SameSite=None; Secure`
+    return {
+      cookie,
+      token
+    }
+  }
+
   getCookieForLogOut() {
-    return `Authentication=; HttpOnly; Path=/; Max-Age=0`
+    return [
+      'Authentication=; HttpOnly; Path=/; Max-Age=0',
+      'Refresh=; HttpOnly; Path=/; Max-Age=0'
+    ]
   }
 }

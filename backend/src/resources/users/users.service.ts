@@ -4,6 +4,7 @@ import { User, UserDocument } from './entities/user.entity'
 import { FilterQuery, Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
 import { UpdateUserDto } from './dto/update-user.dto'
+import * as argon2 from 'argon2'
 
 @Injectable()
 export class UsersService {
@@ -60,5 +61,29 @@ export class UsersService {
   async findOne(queries: FilterQuery<UserDocument>) {
     const user = await this.userModel.findOne(queries).exec()
     return user
+  }
+
+  async setCurrentRefreshToken(refreshToken: string, userId: string) {
+    const currentHashedRefreshToken = await argon2.hash(refreshToken)
+    await this.update(userId, {
+      hashedRefreshToken: currentHashedRefreshToken
+    })
+  }
+
+  async getUserIfRefreshTokenMatches(refreshToken: string, userId: string) {
+    const user = await this.findOne({ _id: userId })
+    const isRefreshTokenMatching = await argon2.verify(
+      user.hashedRefreshToken,
+      refreshToken
+    )
+    if (isRefreshTokenMatching) {
+      return user
+    }
+  }
+
+  async removeRefreshToken(userId: string) {
+    await this.update(userId, {
+      hashedRefreshToken: null
+    })
   }
 }

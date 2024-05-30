@@ -1,4 +1,4 @@
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBody, ApiTags } from '@nestjs/swagger'
 import { AuthService } from './auth.service'
 import {
   Body,
@@ -15,45 +15,85 @@ import { RegisterDto } from './dto/register.dto'
 import LocalAuthGuard from './guards/local.guard'
 import RequestWithUser from './interfaces/request-with-user.interface'
 import { Response } from 'express'
-import { LoginDto } from './dto/login.dto'
-import JwtAuthGuard from './guards/jwt-auth.guard'
+import JwtAuthGuard from './guards/jwt.guard'
 import { Public } from '@/common/decorators/public.decorator'
+import { TokenPayload } from './interfaces/token-payload'
+import { UsersService } from '../users/users.service'
+import { LoginDto } from './dto/login.dto'
+import JwtRefreshGuard from './guards/jwt-refresh-token.guard'
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly usersService: UsersService
+  ) {}
 
+  @ApiBody({
+    type: LoginDto,
+    examples: {
+      user1: {
+        value: {
+          email: 'vietqtran@gmail.com',
+          password: '12345678'
+        }
+      }
+    }
+  })
   @Post('login')
   @UseGuards(LocalAuthGuard)
   @Public()
   @HttpCode(HttpStatus.OK)
-  async login(@Res() response: Response, @Body() loginDto: LoginDto) {
-    const user = await this.authService.getAuthenticatedUser(
-      loginDto.email,
-      loginDto.password
-    )
-    const cookie = await this.authService.getCookieWithJwtToken({
-      sub: user._id + '',
+  async login(@Req() request: RequestWithUser) {
+    const { user } = request
+    const payload: TokenPayload = {
       email: user.email,
       username: user.username,
-      provider: 'email'
-    })
-    response.setHeader('Set-Cookie', cookie)
-    return response.send(user)
+      provider: user.provider,
+      sub: user._id + ''
+    }
+    const accessTokenCookie =
+      await this.authService.getCookieWithJwtAccessToken(payload)
+    const refreshTokenCookie =
+      await this.authService.getCookieWithJwtRefreshToken(payload)
+
+    await this.usersService.setCurrentRefreshToken(
+      refreshTokenCookie.token,
+      user._id + ''
+    )
+
+    request.res.setHeader('Set-Cookie', [
+      accessTokenCookie,
+      refreshTokenCookie.cookie
+    ])
+    return user
   }
 
   @Post('register')
   @Public()
   async register(@Body() registerDto: RegisterDto, @Res() response: Response) {
     const user = await this.authService.register(registerDto)
-    const cookie = await this.authService.getCookieWithJwtToken({
-      sub: user._id + '',
+    const payload: TokenPayload = {
       email: user.email,
       username: user.username,
-      provider: 'email'
-    })
-    response.setHeader('Set-Cookie', cookie)
+      provider: user.provider,
+      sub: user._id + ''
+    }
+    const accessTokenCookie =
+      await this.authService.getCookieWithJwtAccessToken(payload)
+    const refreshTokenCookie =
+      await this.authService.getCookieWithJwtRefreshToken(payload)
+
+    await this.usersService.setCurrentRefreshToken(
+      refreshTokenCookie.cookie,
+      user._id + ''
+    )
+
+    response.setHeader('Set-Cookie', [
+      accessTokenCookie,
+      refreshTokenCookie.token
+    ])
     return response.send(user)
   }
 
@@ -61,6 +101,7 @@ export class AuthController {
   @Post('logout')
   async logOut(@Req() request: RequestWithUser, @Res() response: Response) {
     const { user } = request
+    await this.usersService.removeRefreshToken(user._id + '')
     response.setHeader('Set-Cookie', this.authService.getCookieForLogOut())
     return response.send(user)
   }
@@ -70,6 +111,22 @@ export class AuthController {
   currentUser(@Req() request: RequestWithUser) {
     const { user } = request
     console.log(user)
+    return user
+  }
+
+  @UseGuards(JwtRefreshGuard)
+  @Get('refresh')
+  async refresh(@Req() request: RequestWithUser) {
+    const { user } = request
+    const accessTokenCookie =
+      await this.authService.getCookieWithJwtAccessToken({
+        email: user.email,
+        username: user.username,
+        provider: user.provider,
+        sub: user._id + ''
+      })
+
+    request.res.setHeader('Set-Cookie', accessTokenCookie)
     return user
   }
 }

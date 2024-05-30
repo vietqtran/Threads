@@ -14,7 +14,11 @@ export class User extends BaseEntity {
   @Prop({ required: true, unique: true })
   username: string
 
-  @Prop({ required: true, unique: true })
+  @Prop({
+    required: true,
+    unique: true,
+    transform: (email: string) => email.toLowerCase()
+  })
   email: string
 
   @Prop({ required: true })
