@@ -74,26 +74,6 @@ export class AuthController {
   @Public()
   async register(@Body() registerDto: RegisterDto, @Res() response: Response) {
     const user = await this.authService.register(registerDto)
-    const payload: TokenPayload = {
-      email: user.email,
-      username: user.username,
-      provider: user.provider,
-      sub: user._id + ''
-    }
-    const accessTokenCookie =
-      await this.authService.getCookieWithJwtAccessToken(payload)
-    const refreshTokenCookie =
-      await this.authService.getCookieWithJwtRefreshToken(payload)
-
-    await this.usersService.setCurrentRefreshToken(
-      refreshTokenCookie.cookie,
-      user._id + ''
-    )
-
-    response.setHeader('Set-Cookie', [
-      accessTokenCookie,
-      refreshTokenCookie.token
-    ])
     return response.send(user)
   }
 
