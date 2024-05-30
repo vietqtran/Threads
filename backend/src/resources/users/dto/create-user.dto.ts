@@ -35,9 +35,23 @@ export class CreateUserDto {
   hashedPassword: string
 
   @IsOptional()
+  @IsString()
+  @ApiProperty({
+    example: ''
+  })
+  hashedRefreshToken?: string
+
+  @IsOptional()
   @IsUrl()
   @ApiProperty({
     example: 'https://github.com/vietqtran'
   })
   avatar?: string
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({
+    example: 'email'
+  })
+  provider?: string
 }

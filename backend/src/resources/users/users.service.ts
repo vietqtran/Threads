@@ -12,7 +12,6 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    // Check if user already exists
     const existedUser = await this.userModel
       .findOne({
         email: createUserDto.email
@@ -21,7 +20,6 @@ export class UsersService {
     if (existedUser) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST)
     }
-    // Create user
     const createdUser = await this.userModel.create(createUserDto)
     const savedUser = await createdUser.save()
     if (!savedUser) {
@@ -34,12 +32,10 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    // Check if user exists
     const user = await this.userModel.findById(id).exec()
     if (!user) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND)
     }
-    // Update user
     const updatedUser = await this.userModel
       .findByIdAndUpdate(id, updateUserDto)
       .setOptions({ overwrite: true, new: true })

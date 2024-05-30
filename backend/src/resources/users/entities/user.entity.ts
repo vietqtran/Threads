@@ -21,6 +21,12 @@ export class User extends BaseEntity {
   hashedPassword: string
 
   @Prop({ required: false })
+  hashedRefreshToken?: string
+
+  @Prop({ default: 'email' })
+  provider?: string
+
+  @Prop({ required: false })
   avatar?: string
 }
 

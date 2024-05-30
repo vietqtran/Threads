@@ -40,7 +40,6 @@ export class AuthController {
       provider: 'email'
     })
     response.setHeader('Set-Cookie', cookie)
-    user.hashedPassword = undefined
     return response.send(user)
   }
 
@@ -55,7 +54,6 @@ export class AuthController {
       provider: 'email'
     })
     response.setHeader('Set-Cookie', cookie)
-    user.hashedPassword = undefined
     return response.send(user)
   }
 
@@ -64,7 +62,6 @@ export class AuthController {
   async logOut(@Req() request: RequestWithUser, @Res() response: Response) {
     const { user } = request
     response.setHeader('Set-Cookie', this.authService.getCookieForLogOut())
-    user.hashedPassword = undefined
     return response.send(user)
   }
 
@@ -73,7 +70,6 @@ export class AuthController {
   currentUser(@Req() request: RequestWithUser) {
     const { user } = request
     console.log(user)
-    user.hashedPassword = undefined
     return user
   }
 }
