@@ -17,7 +17,7 @@ export class AuthService {
   ) {}
 
   async getAuthenticatedUser(email: string, password: string) {
-    const user = await this.usersService.findOne({ email })
+    const user = await this.usersService.findOneAndSelectPassword({ email })
     if (!user) {
       throw new HttpException(
         'User with this email does not exist',
@@ -36,10 +36,6 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const { username, email, password } = registerDto
-    const user = await this.usersService.findOne({ email })
-    if (user) {
-      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST)
-    }
     const hashedPassword = await this.passwordService.hashPassword(password)
     const createdUser = await this.usersService.create({
       username,
@@ -50,8 +46,7 @@ export class AuthService {
   }
 
   async getCookieWithJwtAccessToken(payload: TokenPayload) {
-    const token = await this.jwtService.signAsync(payload)
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('jwt.accessExpiresIn')}; SameSite=None; Secure`
+    return `Authentication=${await this.jwtService.signAsync(payload)}; HttpOnly; Path=/; Max-Age=${this.configService.get('jwt.accessExpiresIn')}; SameSite=None; Secure`
   }
 
   async getCookieWithJwtRefreshToken(payload: TokenPayload) {
@@ -59,9 +54,8 @@ export class AuthService {
       secret: this.configService.get('jwt.refreshSecret'),
       expiresIn: `${this.configService.get('jwt.refreshExpiresIn')}s`
     })
-    const cookie = `Refresh=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('jwt.refreshExpiresIn')}; SameSite=None; Secure`
     return {
-      cookie,
+      cookie: `Refresh=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('jwt.refreshExpiresIn')}; SameSite=None; Secure`,
       token
     }
   }
