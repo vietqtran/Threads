@@ -5,36 +5,27 @@ import { FilterQuery, Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
 import { UpdateUserDto } from './dto/update-user.dto'
 import * as argon2 from 'argon2'
+import { UserNotFoundException } from '@/common/exceptions/UserNotFound.exception'
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel(User.name) private readonly userModel: Model<UserDocument>
-  ) {}
+  constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
   async create(createUserDto: CreateUserDto) {
-    const existedUser = await this.userModel.findOneAndUpdate(
-      { email: createUserDto.email },
-      createUserDto,
-      { upsert: true, new: true }
-    )
+    const existedUser = await this.userModel.findOneAndUpdate({ email: createUserDto.email }, createUserDto, {
+      upsert: true,
+      new: true
+    })
     if (!existedUser) {
-      throw new HttpException(
-        'Error while creating user',
-        HttpStatus.INTERNAL_SERVER_ERROR
-      )
+      throw new HttpException('Error while creating user', HttpStatus.INTERNAL_SERVER_ERROR)
     }
     return existedUser
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const updatedUser = await this.userModel.findByIdAndUpdate(
-      id,
-      updateUserDto,
-      { new: true }
-    )
+    const updatedUser = await this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true })
     if (!updatedUser) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+      throw new UserNotFoundException()
     }
     return updatedUser
   }
@@ -44,11 +35,11 @@ export class UsersService {
   }
 
   async findOne(queries: FilterQuery<UserDocument>) {
-    return this.userModel.findOne(queries)
-  }
-
-  async findOneAndSelectPassword(queries: FilterQuery<UserDocument>) {
-    return this.userModel.findOne(queries, { password: 0 })
+    const user = await this.userModel.findOne(queries)
+    if (!user) {
+      throw new UserNotFoundException()
+    }
+    return user
   }
 
   async setCurrentRefreshToken(refreshToken: string, userId: string) {
@@ -62,10 +53,7 @@ export class UsersService {
     if (!user) {
       return null
     }
-    const isRefreshTokenMatching = await argon2.verify(
-      user.hashedRefreshToken,
-      refreshToken
-    )
+    const isRefreshTokenMatching = await argon2.verify(user.hashedRefreshToken, refreshToken)
     return isRefreshTokenMatching ? user : null
   }
 

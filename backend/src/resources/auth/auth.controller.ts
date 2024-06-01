@@ -1,16 +1,6 @@
 import { ApiBody, ApiTags } from '@nestjs/swagger'
 import { AuthService } from './auth.service'
-import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Post,
-  Req,
-  Res,
-  UseGuards
-} from '@nestjs/common'
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common'
 import { RegisterDto } from './dto/register.dto'
 import LocalAuthGuard from './guards/local.guard'
 import RequestWithUser from './interfaces/request-with-user.interface'
@@ -53,20 +43,10 @@ export class AuthController {
       provider: user.provider,
       sub: user._id + ''
     }
-    const accessTokenCookie =
-      await this.authService.getCookieWithJwtAccessToken(payload)
-    const refreshTokenCookie =
-      await this.authService.getCookieWithJwtRefreshToken(payload)
-
-    await this.usersService.setCurrentRefreshToken(
-      refreshTokenCookie.token,
-      user._id + ''
-    )
-
-    request.res.setHeader('Set-Cookie', [
-      accessTokenCookie,
-      refreshTokenCookie.cookie
-    ])
+    const accessTokenCookie = await this.authService.getCookieWithJwtAccessToken(payload)
+    const refreshTokenCookie = await this.authService.getCookieWithJwtRefreshToken(payload)
+    await this.usersService.setCurrentRefreshToken(refreshTokenCookie.token, user._id + '')
+    request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie.cookie])
     return user
   }
 
@@ -98,15 +78,16 @@ export class AuthController {
   @Get('refresh')
   async refresh(@Req() request: RequestWithUser) {
     const { user } = request
-    const accessTokenCookie =
-      await this.authService.getCookieWithJwtAccessToken({
-        email: user.email,
-        username: user.username,
-        provider: user.provider,
-        sub: user._id + ''
-      })
-
-    request.res.setHeader('Set-Cookie', accessTokenCookie)
+    const payload: TokenPayload = {
+      email: user.email,
+      username: user.username,
+      provider: user.provider,
+      sub: user._id + ''
+    }
+    const accessTokenCookie = await this.authService.getCookieWithJwtAccessToken(payload)
+    const refreshTokenCookie = await this.authService.getCookieWithJwtRefreshToken(payload)
+    await this.usersService.setCurrentRefreshToken(refreshTokenCookie.token, user._id + '')
+    request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie.cookie])
     return user
   }
 }

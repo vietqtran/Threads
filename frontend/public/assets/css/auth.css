@@ -1,0 +1,52 @@
+.gradient-background__wrapper {
+  background: #141414;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.gradient-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-filter: blur(250px);
+  filter: blur(250px);
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.gradient-background__shape--1 {
+  bottom: 0;
+  left: 0;
+  width: 700px;
+  height: 700px;
+  background: #247ce6;
+  mix-blend-mode: lighten;
+  -webkit-transform: translate(-30%, 40%);
+  transform: translate(-30%, 40%);
+}
+
+.gradient-background__shape {
+  mix-blend-mode: lighten;
+  -webkit-animation-duration: 20s;
+  animation-duration: 20s;
+  position: absolute;
+  border-radius: 100%;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: cubic-bezier(0.1, 0, 0.9, 1);
+  animation-timing-function: cubic-bezier(0.1, 0, 0.9, 1);
+}
+
+.gradient-background__shape--2 {
+  top: 0;
+  right: 0;
+  width: 600px;
+  height: 600px;
+  background: #1ddf93;
+  -webkit-transform: translate(20%, -40%);
+  transform: translate(20%, -40%);
+}

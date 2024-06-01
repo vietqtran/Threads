@@ -1,7 +1,7 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
-
 import { ConfigService } from '@nestjs/config'
+import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
+import { PasswordNotMatchException } from '@/common/exceptions/PasswordNotMatch.exception'
 import { PasswordService } from '@/resources/password/password.service'
 import { RegisterDto } from './dto/register.dto'
 import { TokenPayload } from './interfaces/token-payload'
@@ -17,19 +17,10 @@ export class AuthService {
   ) {}
 
   async getAuthenticatedUser(email: string, password: string) {
-    const user = await this.usersService.findOneAndSelectPassword({ email })
-    if (!user) {
-      throw new HttpException(
-        'User with this email does not exist',
-        HttpStatus.BAD_REQUEST
-      )
-    }
-    const isPasswordMatching = await this.passwordService.isMatched(
-      password,
-      user.hashedPassword
-    )
+    const user = await this.usersService.findOne({ email })
+    const isPasswordMatching = await this.passwordService.isMatched(password, user.hashedPassword)
     if (!isPasswordMatching) {
-      throw new HttpException('Password is not correct', HttpStatus.BAD_REQUEST)
+      throw new PasswordNotMatchException()
     }
     return user
   }
@@ -61,9 +52,6 @@ export class AuthService {
   }
 
   getCookieForLogOut() {
-    return [
-      'Authentication=; HttpOnly; Path=/; Max-Age=0',
-      'Refresh=; HttpOnly; Path=/; Max-Age=0'
-    ]
+    return ['Authentication=; HttpOnly; Path=/; Max-Age=0', 'Refresh=; HttpOnly; Path=/; Max-Age=0']
   }
 }

@@ -1,14 +1,17 @@
 import { AnimatePresence, motion } from 'framer-motion'
+import React, { useRef } from 'react'
 import { reset, setFlyout } from '@/store/header'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { HEADER_FLYOUT } from '@/constants/header'
 import { Input } from '@/components/ui/input'
-import React from 'react'
 import { RootState } from '@/store'
+import SearchItem from './SearchItem'
 import SelectCategoryButton from './SelectCategoryButton'
+import { useClickOutside } from '@/hooks'
 
 const SearchBar = () => {
+  const ref = useRef(null)
   const dispatch = useDispatch()
   const { flyout } = useSelector((state: RootState) => state.header)
 
@@ -16,31 +19,40 @@ const SearchBar = () => {
     dispatch(setFlyout(HEADER_FLYOUT.FOCUS_INPUT))
   }
 
-  const handleBlurInput = () => {
-    dispatch(reset())
-  }
+  useClickOutside(ref, () => {
+    flyout === HEADER_FLYOUT.FOCUS_INPUT && dispatch(reset())
+  })
 
   return (
     <div className="flex size-full flex-1 items-center p-3">
       <div className="flex size-full rounded-lg border">
         <SelectCategoryButton />
-        <div className="relative size-full flex-1 items-center rounded-r-lg border-l">
+        <div ref={ref} className="relative size-full flex-1 items-center rounded-r-lg border-l">
           <Input
             type="text"
             onFocus={handleFocusInput}
-            onBlur={handleBlurInput}
             placeholder="Search EcomMERN"
-            className="size-full text-xs bg-gray-50"
+            className="size-full bg-gray-50 text-xs"
           />
           <AnimatePresence>
             {flyout === HEADER_FLYOUT.FOCUS_INPUT && (
               <motion.div
+                onClick={(e) => e.stopPropagation()}
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: '300px' }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.1, ease: 'linear' }}
-                className="absolute top-[calc(100%+1px)] h-[300px] w-full overflow-hidden rounded-b-lg bg-white shadow-lg ring-1 ring-border"
-              ></motion.div>
+                className="absolute top-[calc(100%+1px)] w-full overflow-hidden rounded-b-lg bg-white shadow-lg ring-1 ring-border"
+              >
+                <SearchItem />
+                <SearchItem />
+                <SearchItem />
+                <SearchItem />
+                <SearchItem />
+                <SearchItem />
+                <SearchItem />
+                <SearchItem />
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
