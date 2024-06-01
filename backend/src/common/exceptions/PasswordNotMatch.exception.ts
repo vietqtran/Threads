@@ -1,9 +1,10 @@
+import { HttpException, HttpStatus } from '@nestjs/common'
+
 import { ExceptionType } from '@/enums/exception.enum'
-import { HttpException } from '@nestjs/common'
 
 export class PasswordNotMatchException extends HttpException {
   constructor() {
-    super('Password is not match', 400)
+    super('Password is not match', HttpStatus.BAD_REQUEST)
     this.name = ExceptionType.PASSWORD_NOT_MATCH
   }
 }

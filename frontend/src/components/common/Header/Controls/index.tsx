@@ -59,7 +59,10 @@ const Controls = () => {
         </svg>
         <span className="block rounded-full bg-red-500 px-1 py-0.5 text-xs leading-none text-white">0</span>
       </div>
-      <Avatar size={32} url="/assets/images/avatar.jpg" />
+      <div className='flex cursor-pointer items-center gap-1'>
+        <Avatar size={32} url="/assets/images/avatar.jpg" />
+        <span className='text-xs font-medium'>Sign in</span>
+      </div>
     </div>
   )
 }
