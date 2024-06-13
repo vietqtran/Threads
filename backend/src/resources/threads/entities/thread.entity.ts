@@ -16,7 +16,7 @@ export class Thread extends BaseEntity {
   @Prop({ required: false })
   content?: string
 
-  @Prop({ type: MongooseSchema.Types.Array })
+  @Prop({ type: MongooseSchema.Types.Array, required: false, default: [], items: { url: String, type: String } })
   medias?: {
     url: string,
     type: string
