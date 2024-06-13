@@ -3,6 +3,7 @@ import { ThreadsService } from './threads.service';
 import { CreateThreadDto } from './dto/create-thread.dto';
 import { UpdateThreadDto } from './dto/update-thread.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { LikeThreadDto } from './dto/like-thread.dto';
 
 @ApiTags('Threads')
 @Controller('threads')
@@ -42,5 +43,10 @@ export class ThreadsController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.threadsService.remove(id);
+  }
+
+  @Post('/like')
+  async likeThread(@Body() likeThreadsto: LikeThreadDto) {
+    return await this.threadsService.toggleLikeThread(likeThreadsto);
   }
 }

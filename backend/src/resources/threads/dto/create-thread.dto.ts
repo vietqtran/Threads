@@ -1,3 +1,4 @@
+import { User } from '@/resources/users/entities/user.entity';
 import { ThreadContentType, ThreadType } from './../constants/thread-type.enum';
 import { ApiProperty } from "@nestjs/swagger";
 import { IsArray, IsNotEmpty, IsOptional, IsString, IsEnum } from "class-validator";
@@ -39,4 +40,11 @@ export class CreateThreadDto {
     url: string
     type: string
   }[]
+
+  @ApiProperty({
+    example: []
+  })
+  @IsArray()
+  @IsOptional()
+  likedUsers?: User[]
 }

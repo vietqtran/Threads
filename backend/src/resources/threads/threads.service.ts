@@ -1,13 +1,15 @@
+import { LikeThreadDto } from './dto/like-thread.dto';
 import { HttpException, Injectable } from '@nestjs/common';
 import { CreateThreadDto } from './dto/create-thread.dto';
 import { UpdateThreadDto } from './dto/update-thread.dto';
-import { Model, StringExpression } from 'mongoose';
+import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Thread, ThreadDocument } from './entities/thread.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class ThreadsService {
-  constructor(@InjectModel(Thread.name) private readonly threadModel: Model<ThreadDocument>) { }
+  constructor(@InjectModel(Thread.name) private readonly threadModel: Model<ThreadDocument>, private readonly usersService: UsersService) { }
 
   async create(createThreadDto: CreateThreadDto) {
     if (!this.isValidThread(createThreadDto)) {
@@ -49,6 +51,21 @@ export class ThreadsService {
 
   async remove(id: string) {
     return await this.threadModel.findByIdAndDelete(id);
+  }
+
+  async toggleLikeThread(likeThreadDto: LikeThreadDto) {
+    const thread = await this.threadModel.findById(likeThreadDto.threadId);
+    if (!thread) {
+      throw new HttpException('Thread not found', 404);
+    }
+    const isUserLikedThread = thread.likedUsers.some(user => user._id.toString() === likeThreadDto.userId);
+    if (isUserLikedThread) {
+      thread.likedUsers = thread.likedUsers.filter(user => user._id.toString() !== likeThreadDto.userId);
+    } else {
+      const user = await this.usersService.findOne({ _id: likeThreadDto.userId })
+      thread.likedUsers.push(user);
+    }
+    return await thread.save();
   }
 
   private isValidThread(dto: CreateThreadDto | UpdateThreadDto) {

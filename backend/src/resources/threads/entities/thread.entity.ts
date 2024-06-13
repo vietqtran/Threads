@@ -32,6 +32,10 @@ export class Thread extends BaseEntity {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   @Type(() => User)
   user: User;
+
+  @Prop({ type: MongooseSchema.Types.Array, required: false, ref: User.name, default: [], items: User })
+  @Type(() => User)
+  likedUsers?: User[]
 }
 
 export type ThreadDocument = Thread & Document
