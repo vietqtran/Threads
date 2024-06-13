@@ -12,7 +12,7 @@ export class ThreadsService {
   constructor(
     @InjectModel(Thread.name) private readonly threadModel: Model<ThreadDocument>,
     private readonly usersService: UsersService
-  ) { }
+  ) {}
 
   async create(createThreadDto: CreateThreadDto) {
     if (!this.isValidThread(createThreadDto)) {

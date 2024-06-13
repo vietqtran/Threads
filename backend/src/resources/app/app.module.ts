@@ -49,4 +49,4 @@ import { AppService } from './app.service'
   controllers: [AppController],
   providers: [AppService, PasswordService]
 })
-export class AppModule { }
+export class AppModule {}

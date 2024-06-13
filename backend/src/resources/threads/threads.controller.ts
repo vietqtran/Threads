@@ -8,7 +8,7 @@ import { ThreadsService } from './threads.service'
 @ApiTags('Threads')
 @Controller('threads')
 export class ThreadsController {
-  constructor(private readonly threadsService: ThreadsService) { }
+  constructor(private readonly threadsService: ThreadsService) {}
 
   @Post()
   async create(@Body() createThreadDto: CreateThreadDto) {

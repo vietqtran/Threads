@@ -11,4 +11,4 @@ import { ThreadsService } from './threads.service'
   providers: [ThreadsService],
   exports: [ThreadsService]
 })
-export class ThreadsModule { }
+export class ThreadsModule {}

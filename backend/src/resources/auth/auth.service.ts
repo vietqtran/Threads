@@ -15,7 +15,7 @@ export class AuthService {
     private readonly passwordService: PasswordService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService
-  ) { }
+  ) {}
 
   async getAuthenticatedUser(email: string, password: string) {
     const user = await this.usersService.getUserForLogin({ email })
