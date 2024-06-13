@@ -1,7 +1,7 @@
 export enum ThreadType {
   POST = 'post',
   REPOST = 'repost',
-  SHARE = 'share',
+  SHARE = 'share'
 }
 
 export enum ThreadContentType {

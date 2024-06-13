@@ -1,10 +1,11 @@
-import { BaseEntity } from "@/base/entity.base";
-import { User } from "@/resources/users/entities/user.entity";
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Type } from "class-transformer";
-import mongoose from "mongoose";
-import { Document, Schema as MongooseSchema } from 'mongoose';
-import { ThreadContentType, ThreadType } from "../constants/thread-type.enum";
+import { BaseEntity } from '@/base/entity.base'
+import { User } from '@/resources/users/entities/user.entity'
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { Type } from 'class-transformer'
+import mongoose from 'mongoose'
+import { Document, Schema as MongooseSchema } from 'mongoose'
+import { ThreadContentType, ThreadType } from '../constants/thread-type.enum'
+import { MediaType } from '../constants/media-type.enum'
 
 @Schema({
   timestamps: {
@@ -17,10 +18,18 @@ export class Thread extends BaseEntity {
   @Prop({ required: false })
   content?: string
 
-  @Prop({ type: MongooseSchema.Types.Array, required: false, default: [], items: { url: String, type: String } })
+  @Prop({
+    type: MongooseSchema.Types.Array,
+    required: false,
+    default: [],
+    items: {
+      url: String,
+      type: MediaType
+    }
+  })
   medias?: {
-    url: string,
-    type: string
+    url: string
+    type: MediaType
   }[]
 
   @Prop({ enum: ThreadType, required: true })
@@ -31,7 +40,7 @@ export class Thread extends BaseEntity {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   @Type(() => User)
-  user: User;
+  user: User
 
   @Prop({ type: MongooseSchema.Types.Array, required: false, ref: User.name, default: [], items: User })
   @Type(() => User)
