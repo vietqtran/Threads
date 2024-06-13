@@ -12,13 +12,13 @@ export class ThreadsService {
   constructor(
     @InjectModel(Thread.name) private readonly threadModel: Model<ThreadDocument>,
     private readonly usersService: UsersService
-  ) { }
+  ) {}
 
   async create(createThreadDto: CreateThreadDto) {
     if (!this.isValidThread(createThreadDto)) {
       throw new HttpException('Invalid media type', 400)
     }
-    return await this.threadModel.create(createThreadDto);
+    return await this.threadModel.create(createThreadDto)
   }
 
   async findAll() {
@@ -49,7 +49,7 @@ export class ThreadsService {
     if (!this.isValidThread(updateThreadDto)) {
       throw new HttpException('Invalid media type', 400)
     }
-    return await this.threadModel.findByIdAndUpdate(id, updateThreadDto);
+    return await this.threadModel.findByIdAndUpdate(id, updateThreadDto)
   }
 
   async remove(id: string) {
@@ -68,12 +68,12 @@ export class ThreadsService {
       const user = await this.usersService.findOne({ _id: likeThreadDto.userId })
       thread.likedUsers.push(user)
     }
-    return await thread.save();
+    return await thread.save()
   }
 
   private isValidThread(dto: CreateThreadDto | UpdateThreadDto) {
     if (dto.medias && dto.medias.length > 0) {
-      const validMedias = dto.medias.some(media => {
+      const validMedias = dto.medias.some((media) => {
         return !['image', 'video', 'audio'].includes(media.type)
       })
       if (validMedias) {
