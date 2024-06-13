@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common'
-import { ThreadsService } from './threads.service'
-import { CreateThreadDto } from './dto/create-thread.dto'
-import { UpdateThreadDto } from './dto/update-thread.dto'
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
+import { CreateThreadDto } from './dto/create-thread.dto'
 import { LikeThreadDto } from './dto/like-thread.dto'
+import { UpdateThreadDto } from './dto/update-thread.dto'
+import { ThreadsService } from './threads.service'
 
 @ApiTags('Threads')
 @Controller('threads')
 export class ThreadsController {
-  constructor(private readonly threadsService: ThreadsService) {}
+  constructor(private readonly threadsService: ThreadsService) { }
 
   @Post()
   async create(@Body() createThreadDto: CreateThreadDto) {

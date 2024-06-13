@@ -2,10 +2,9 @@ import { BaseEntity } from '@/base/entity.base'
 import { User } from '@/resources/users/entities/user.entity'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Type } from 'class-transformer'
-import mongoose from 'mongoose'
-import { Document, Schema as MongooseSchema } from 'mongoose'
-import { ThreadContentType, ThreadType } from '../constants/thread-type.enum'
+import mongoose, { Document, Schema as MongooseSchema } from 'mongoose'
 import { MediaType } from '../constants/media-type.enum'
+import { ThreadContentType, ThreadType } from '../constants/thread-type.enum'
 
 @Schema({
   timestamps: {

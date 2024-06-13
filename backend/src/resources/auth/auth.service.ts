@@ -1,12 +1,12 @@
-import { ConfigService } from '@nestjs/config'
-import { Injectable } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
 import { PasswordNotMatchException } from '@/common/exceptions/PasswordNotMatch.exception'
+import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
 import { PasswordService } from '@/resources/password/password.service'
+import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { JwtService } from '@nestjs/jwt'
+import { UsersService } from '../users/users.service'
 import { RegisterDto } from './dto/register.dto'
 import { TokenPayload } from './interfaces/token-payload'
-import { UsersService } from '../users/users.service'
-import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
 
 @Injectable()
 export class AuthService {
@@ -15,7 +15,7 @@ export class AuthService {
     private readonly passwordService: PasswordService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService
-  ) {}
+  ) { }
 
   async getAuthenticatedUser(email: string, password: string) {
     const user = await this.usersService.getUserForLogin({ email })

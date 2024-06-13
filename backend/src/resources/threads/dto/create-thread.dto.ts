@@ -1,8 +1,8 @@
 import { User } from '@/resources/users/entities/user.entity'
-import { ThreadContentType, ThreadType } from './../constants/thread-type.enum'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsArray, IsNotEmpty, IsOptional, IsString, IsEnum } from 'class-validator'
+import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 import { MediaType } from '../constants/media-type.enum'
+import { ThreadContentType, ThreadType } from './../constants/thread-type.enum'
 
 export class CreateThreadDto {
   @ApiProperty()

@@ -1,18 +1,18 @@
-import { LikeThreadDto } from './dto/like-thread.dto'
 import { HttpException, Injectable } from '@nestjs/common'
-import { CreateThreadDto } from './dto/create-thread.dto'
-import { UpdateThreadDto } from './dto/update-thread.dto'
-import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
-import { Thread, ThreadDocument } from './entities/thread.entity'
+import { Model } from 'mongoose'
 import { UsersService } from '../users/users.service'
+import { CreateThreadDto } from './dto/create-thread.dto'
+import { LikeThreadDto } from './dto/like-thread.dto'
+import { UpdateThreadDto } from './dto/update-thread.dto'
+import { Thread, ThreadDocument } from './entities/thread.entity'
 
 @Injectable()
 export class ThreadsService {
   constructor(
     @InjectModel(Thread.name) private readonly threadModel: Model<ThreadDocument>,
     private readonly usersService: UsersService
-  ) {}
+  ) { }
 
   async create(createThreadDto: CreateThreadDto) {
     if (!this.isValidThread(createThreadDto)) {

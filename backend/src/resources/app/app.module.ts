@@ -2,15 +2,15 @@ import * as Joi from 'joi'
 
 import { ConfigModule, ConfigService } from '@nestjs/config'
 
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-import { AuthModule } from '../auth/auth.module'
+import configs from '@/configs'
+import { PasswordService } from '@/resources/password/password.service'
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
-import { PasswordService } from '@/resources/password/password.service'
-import { UsersModule } from '../users/users.module'
-import configs from '@/configs'
+import { AuthModule } from '../auth/auth.module'
 import { ThreadsModule } from '../threads/threads.module'
+import { UsersModule } from '../users/users.module'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
 
 @Module({
   imports: [
@@ -49,4 +49,4 @@ import { ThreadsModule } from '../threads/threads.module'
   controllers: [AppController],
   providers: [AppService, PasswordService]
 })
-export class AppModule {}
+export class AppModule { }

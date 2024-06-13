@@ -4,23 +4,5 @@
   "singleQuote": true,
   "trailingComma": "none",
   "printWidth": 120,
-  "tabWidth": 2,
-  "importOrder": [
-    "^@core/(.*)$",
-    "^@server/(.*)$",
-    "^@resources/(.*)$",
-    "^@common/(.*)$",
-    "^@base/(.*)$",
-    "^@config/(.*)$",
-    "^@helpers/(.*)$",
-    "^[./]"
-  ],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true,
-  "importOrderCaseInsensitive": true,
-  "importOrderMergeDuplicateImports": true,
-  "importOrderBuiltinModulesToTop": true,
-  "importOrderGroupNamespaceSpecifiers": true,
-  "importOrderNamespaceSpecifiers": true,
-  "importOrderSpecifiers": true
+  "tabWidth": 2
 }
