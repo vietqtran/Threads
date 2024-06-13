@@ -10,6 +10,7 @@ import { MongooseModule } from '@nestjs/mongoose'
 import { PasswordService } from '@/resources/password/password.service'
 import { UsersModule } from '../users/users.module'
 import configs from '@/configs'
+import { ThreadsModule } from '../threads/threads.module'
 
 @Module({
   imports: [
@@ -42,7 +43,8 @@ import configs from '@/configs'
       inject: [ConfigService]
     }),
     UsersModule,
-    AuthModule
+    AuthModule,
+    ThreadsModule
   ],
   controllers: [AppController],
   providers: [AppService, PasswordService]

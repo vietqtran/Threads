@@ -6,6 +6,7 @@ import { PasswordService } from '@/resources/password/password.service'
 import { RegisterDto } from './dto/register.dto'
 import { TokenPayload } from './interfaces/token-payload'
 import { UsersService } from '../users/users.service'
+import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
 
 @Injectable()
 export class AuthService {
@@ -27,6 +28,10 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const { username, email, password } = registerDto
+    const user = await this.usersService.findOne({ email })
+    if(user){
+      throw new UserExistedException()
+    }
     const hashedPassword = await this.passwordService.hashPassword(password)
     const createdUser = await this.usersService.create({
       username,

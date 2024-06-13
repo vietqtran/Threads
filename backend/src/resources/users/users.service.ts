@@ -9,7 +9,7 @@ import { UserNotFoundException } from '@/common/exceptions/UserNotFound.exceptio
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
+  constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) { }
 
   async create(createUserDto: CreateUserDto) {
     const existedUser = await this.userModel.findOneAndUpdate({ email: createUserDto.email }, createUserDto, {

@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 
 import { BaseEntity } from '@/base/entity.base'
-import { Document } from 'mongoose'
+import mongoose, { Document } from 'mongoose'
+import { Thread } from '@/resources/threads/entities/thread.entity'
 
 @Schema({
   timestamps: {

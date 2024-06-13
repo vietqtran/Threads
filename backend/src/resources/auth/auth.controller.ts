@@ -1,6 +1,6 @@
 import { ApiBody, ApiTags } from '@nestjs/swagger'
 import { AuthService } from './auth.service'
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common'
 import { RegisterDto } from './dto/register.dto'
 import LocalAuthGuard from './guards/local.guard'
 import RequestWithUser from './interfaces/request-with-user.interface'
@@ -11,6 +11,8 @@ import { TokenPayload } from './interfaces/token-payload'
 import { UsersService } from '../users/users.service'
 import { LoginDto } from './dto/login.dto'
 import JwtRefreshGuard from './guards/jwt-refresh-token.guard'
+import MongooseClassSerializerInterceptor from '@/common/interceptors/mongooseClassSerializer.interceptor'
+import { User } from '../users/entities/user.entity'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -18,7 +20,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly usersService: UsersService
-  ) {}
+  ) { }
 
   @ApiBody({
     type: LoginDto,
@@ -51,6 +53,7 @@ export class AuthController {
   }
 
   @Post('register')
+  @UseInterceptors(MongooseClassSerializerInterceptor(User))
   @Public()
   async register(@Body() registerDto: RegisterDto, @Res() response: Response) {
     const user = await this.authService.register(registerDto)
