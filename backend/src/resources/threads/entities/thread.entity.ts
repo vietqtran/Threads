@@ -4,6 +4,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Type } from "class-transformer";
 import mongoose from "mongoose";
 import { Document, Schema as MongooseSchema } from 'mongoose';
+import { ThreadContentType, ThreadType } from "../constants/thread-type.enum";
 
 @Schema({
   timestamps: {
@@ -21,6 +22,12 @@ export class Thread extends BaseEntity {
     url: string,
     type: string
   }[]
+
+  @Prop({ enum: ThreadType, required: true })
+  type: ThreadType
+
+  @Prop({ enum: ThreadContentType, required: true })
+  contentType: ThreadContentType
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   @Type(() => User)

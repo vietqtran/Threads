@@ -1,5 +1,6 @@
+import { ThreadContentType, ThreadType } from './../constants/thread-type.enum';
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsArray, IsNotEmpty, IsOptional, IsString, IsEnum } from "class-validator";
 
 export class CreateThreadDto {
   @ApiProperty()
@@ -12,6 +13,22 @@ export class CreateThreadDto {
   })
   @IsString()
   content: string
+
+  @ApiProperty({
+    enum: ThreadType,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @IsEnum(ThreadType)
+  type: ThreadType
+
+  @ApiProperty({
+    enum: ThreadContentType
+  })
+  @IsString()
+  @IsNotEmpty()
+  @IsEnum(ThreadContentType)
+  contentType: ThreadContentType
 
   @ApiProperty({
     example: [{ url: 'url', type: 'image' }]
