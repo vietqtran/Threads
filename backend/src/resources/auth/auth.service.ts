@@ -15,10 +15,10 @@ export class AuthService {
     private readonly passwordService: PasswordService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService
-  ) {}
+  ) { }
 
   async getAuthenticatedUser(email: string, password: string) {
-    const user = await this.usersService.findOne({ email })
+    const user = await this.usersService.getUserForLogin({ email })
     const isPasswordMatching = await this.passwordService.isMatched(password, user.hashedPassword)
     if (!isPasswordMatching) {
       throw new PasswordNotMatchException()
@@ -28,8 +28,8 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const { username, email, password } = registerDto
-    const user = await this.usersService.findOne({ email })
-    if(user){
+    const user = await this.usersService.findOneWithoutException({ email })
+    if (user) {
       throw new UserExistedException()
     }
     const hashedPassword = await this.passwordService.hashPassword(password)

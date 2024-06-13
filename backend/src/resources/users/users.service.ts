@@ -42,6 +42,19 @@ export class UsersService {
     return user
   }
 
+  async findOneWithoutException(queries: FilterQuery<UserDocument>) {
+    const user = await this.userModel.findOne(queries)
+    return user
+  }
+
+  async getUserForLogin(queries: FilterQuery<UserDocument>) {
+    const user = await this.userModel.findOne(queries).select('+hashedPassword')
+    if (!user) {
+      throw new UserNotFoundException()
+    }
+    return user
+  }
+
   async setCurrentRefreshToken(refreshToken: string, userId: string) {
     await this.userModel.findByIdAndUpdate(userId, {
       hashedRefreshToken: await argon2.hash(refreshToken)

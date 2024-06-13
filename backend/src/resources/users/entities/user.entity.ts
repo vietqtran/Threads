@@ -22,10 +22,10 @@ export class User extends BaseEntity {
   })
   email: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, select: false })
   hashedPassword: string
 
-  @Prop({ required: false })
+  @Prop({ required: false, select: false })
   hashedRefreshToken?: string
 
   @Prop({ default: 'email' })
