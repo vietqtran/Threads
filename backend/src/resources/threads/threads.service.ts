@@ -10,6 +10,12 @@ export class ThreadsService {
   constructor(@InjectModel(Thread.name) private readonly threadModel: Model<ThreadDocument>) { }
 
   async create(createThreadDto: CreateThreadDto) {
+    const validMedias = createThreadDto.medias.some(media => {
+      return !['image', 'video', 'audio'].includes(media.type)
+    })
+    if (validMedias) {
+      throw new HttpException('Invalid media type', 400)
+    }
     return await this.threadModel.create(createThreadDto);
   }
 
@@ -18,11 +24,11 @@ export class ThreadsService {
   }
 
   async findByUser(user: string) {
-    return await this.threadModel.find({ user });
+    return await this.threadModel.find({ user }).populate('user');
   }
 
   async findBySeachTerm(searchTerm: string) {
-    return await this.threadModel.find({ content: { $regex: searchTerm, $options: 'i' } });
+    return await this.threadModel.find({ content: { $regex: searchTerm, $options: 'i' } }).populate('user');
   }
 
   async findOne(id: string) {
@@ -38,7 +44,7 @@ export class ThreadsService {
     if (!thread) {
       throw new HttpException('Thread not found', 404);
     }
-    return await this.threadModel.findByIdAndUpdate(id, { ...thread, updateThreadDto });
+    return await this.threadModel.findByIdAndUpdate(id, { ...thread, updateThreadDto }).populate('user');
   }
 
   async remove(id: string) {
