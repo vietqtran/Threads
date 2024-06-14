@@ -11,16 +11,13 @@ import { ThreadsModule } from '../threads/threads.module'
 import { UsersModule } from '../users/users.module'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { RepliesModule } from '../replies/replies.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
-        MONGO_USERNAME: Joi.string().optional(),
-        MONGO_PASSWORD: Joi.string().optional(),
-        MONGO_ID: Joi.string().optional(),
-        MONGO_CLUSTER_NAME: Joi.string().optional(),
         DATABASE_NAME: Joi.string().optional(),
         DATABASE_URL: Joi.string().required(),
         JWT_ACCESS_SECRET: Joi.string().required(),
@@ -44,7 +41,8 @@ import { AppService } from './app.service'
     }),
     UsersModule,
     AuthModule,
-    ThreadsModule
+    ThreadsModule,
+    RepliesModule
   ],
   controllers: [AppController],
   providers: [AppService, PasswordService]

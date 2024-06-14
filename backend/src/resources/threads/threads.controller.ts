@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { CreateThreadDto } from './dto/create-thread.dto'
 import { LikeThreadDto } from './dto/like-thread.dto'
@@ -35,7 +35,7 @@ export class ThreadsController {
     return await this.threadsService.findOne(id)
   }
 
-  @Put(':id')
+  @Patch(':id')
   async update(@Param('id') id: string, @Body() updateThreadDto: UpdateThreadDto) {
     return await this.threadsService.update(id, updateThreadDto)
   }

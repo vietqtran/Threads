@@ -2,7 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { UsersService } from '../users/users.service'
-import { CreateThreadDto } from './dto/create-thread.dto'
+import { CreateThreadDto, Media } from './dto/create-thread.dto'
 import { LikeThreadDto } from './dto/like-thread.dto'
 import { UpdateThreadDto } from './dto/update-thread.dto'
 import { Thread, ThreadDocument } from './entities/thread.entity'
@@ -15,7 +15,7 @@ export class ThreadsService {
   ) {}
 
   async create(createThreadDto: CreateThreadDto) {
-    if (!this.isValidThread(createThreadDto)) {
+    if (!this.isValidMedias(createThreadDto.medias)) {
       throw new HttpException('Invalid media type', 400)
     }
     return await this.threadModel.create(createThreadDto)
@@ -42,12 +42,12 @@ export class ThreadsService {
   }
 
   async update(id: string, updateThreadDto: UpdateThreadDto) {
+    if (!this.isValidMedias(updateThreadDto.medias)) {
+      throw new HttpException('Invalid media type', 400)
+    }
     const thread = await this.threadModel.findById(id)
     if (!thread) {
       throw new HttpException('Thread not found', 404)
-    }
-    if (!this.isValidThread(updateThreadDto)) {
-      throw new HttpException('Invalid media type', 400)
     }
     return await this.threadModel.findByIdAndUpdate(id, updateThreadDto)
   }
@@ -66,14 +66,17 @@ export class ThreadsService {
       thread.likedUsers = thread.likedUsers.filter((user) => user._id.toString() !== likeThreadDto.userId)
     } else {
       const user = await this.usersService.findOne({ _id: likeThreadDto.userId })
+      if (!user) {
+        throw new HttpException('User not found', 404)
+      }
       thread.likedUsers.push(user)
     }
     return await thread.save()
   }
 
-  private isValidThread(dto: CreateThreadDto | UpdateThreadDto) {
-    if (dto.medias && dto.medias.length > 0) {
-      const validMedias = dto.medias.some((media) => {
+  public isValidMedias(medias: Media[]) {
+    if (medias && medias.length > 0) {
+      const validMedias = medias.some((media) => {
         return !['image', 'video', 'audio'].includes(media.type)
       })
       if (validMedias) {
@@ -83,3 +86,4 @@ export class ThreadsService {
     return true
   }
 }
+
