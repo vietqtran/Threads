@@ -6,6 +6,7 @@ import { UsersService } from '../users/users.service'
 import { CreateReplyDto } from './dto/create-reply.dto'
 import { UpdateReplyDto } from './dto/update-reply.dto'
 import { Reply, ReplyDocument } from './entities/reply.entity'
+import { LikeReplyDto } from './dto/like-reply.dto'
 
 @Injectable()
 export class RepliesService {
@@ -65,6 +66,24 @@ export class RepliesService {
     thread.replies = thread.replies.filter((reply) => reply._id.toString() !== id)
     await thread.save()
     return await this.replyModel.findByIdAndDelete(id)
+  }
+
+  async toggleLikeReply(likeReplyDto: LikeReplyDto) {
+    const reply = await this.replyModel.findById(likeReplyDto.replyId)
+    if (!reply) {
+      throw new HttpException('reply not found', 404)
+    }
+    const isUserLikedReply = reply.likedUsers.some((user) => user._id.toString() === likeReplyDto.userId)
+    if (isUserLikedReply) {
+      reply.likedUsers = reply.likedUsers.filter((user) => user._id.toString() !== likeReplyDto.userId)
+    } else {
+      const user = await this.usersService.findOne({ _id: likeReplyDto.userId })
+      if (!user) {
+        throw new HttpException('User not found', 404)
+      }
+      reply.likedUsers.push(user)
+    }
+    return await reply.save()
   }
 }
 

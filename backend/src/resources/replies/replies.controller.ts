@@ -3,6 +3,7 @@ import { CreateReplyDto } from './dto/create-reply.dto'
 import { UpdateReplyDto } from './dto/update-reply.dto'
 import { RepliesService } from './replies.service'
 import { ApiTags } from '@nestjs/swagger'
+import { LikeReplyDto } from './dto/like-reply.dto'
 
 @ApiTags('replies')
 @Controller('replies')
@@ -32,5 +33,10 @@ export class RepliesController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.repliesService.remove(id)
+  }
+
+  @Post('/like')
+  async likeReply(@Body() likeReplyDto: LikeReplyDto) {
+    return await this.repliesService.toggleLikeReply(likeReplyDto)
   }
 }
