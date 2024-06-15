@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: '#f3f5f7';
+  --background-body: '#fafafa';
+}
+
+[data-theme='dark'] {
+  :root {
+    --foreground: '#000000';
+    --background-body: '#0a0a0a';
+  }
+}
+
+body {
+  color: rgb(var(--foreground));
+  background-color: var(--background-body);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
