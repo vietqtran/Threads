@@ -2,25 +2,22 @@ import * as Joi from 'joi'
 
 import { ConfigModule, ConfigService } from '@nestjs/config'
 
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-import { AuthModule } from '../auth/auth.module'
+import configs from '@/configs'
+import { PasswordService } from '@/resources/password/password.service'
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
-import { PasswordService } from '@/resources/password/password.service'
-import { UsersModule } from '../users/users.module'
-import configs from '@/configs'
+import { AuthModule } from '../auth/auth.module'
 import { ThreadsModule } from '../threads/threads.module'
+import { UsersModule } from '../users/users.module'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
+import { RepliesModule } from '../replies/replies.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
-        MONGO_USERNAME: Joi.string().optional(),
-        MONGO_PASSWORD: Joi.string().optional(),
-        MONGO_ID: Joi.string().optional(),
-        MONGO_CLUSTER_NAME: Joi.string().optional(),
         DATABASE_NAME: Joi.string().optional(),
         DATABASE_URL: Joi.string().required(),
         JWT_ACCESS_SECRET: Joi.string().required(),
@@ -44,7 +41,8 @@ import { ThreadsModule } from '../threads/threads.module'
     }),
     UsersModule,
     AuthModule,
-    ThreadsModule
+    ThreadsModule,
+    RepliesModule
   ],
   controllers: [AppController],
   providers: [AppService, PasswordService]

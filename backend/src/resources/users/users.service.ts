@@ -1,15 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
-import { CreateUserDto } from './dto/create-user.dto'
-import { User, UserDocument } from './entities/user.entity'
-import { FilterQuery, Model } from 'mongoose'
-import { InjectModel } from '@nestjs/mongoose'
-import { UpdateUserDto } from './dto/update-user.dto'
-import * as argon2 from 'argon2'
 import { UserNotFoundException } from '@/common/exceptions/UserNotFound.exception'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { InjectModel } from '@nestjs/mongoose'
+import * as argon2 from 'argon2'
+import { FilterQuery, Model } from 'mongoose'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
+import { User, UserDocument } from './entities/user.entity'
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) { }
+  constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
   async create(createUserDto: CreateUserDto) {
     const existedUser = await this.userModel.findOneAndUpdate({ email: createUserDto.email }, createUserDto, {
@@ -42,6 +42,19 @@ export class UsersService {
     return user
   }
 
+  async findOneWithoutException(queries: FilterQuery<UserDocument>) {
+    const user = await this.userModel.findOne(queries)
+    return user
+  }
+
+  async getUserForLogin(queries: FilterQuery<UserDocument>) {
+    const user = await this.userModel.findOne(queries).select('+hashedPassword')
+    if (!user) {
+      throw new UserNotFoundException()
+    }
+    return user
+  }
+
   async setCurrentRefreshToken(refreshToken: string, userId: string) {
     await this.userModel.findByIdAndUpdate(userId, {
       hashedRefreshToken: await argon2.hash(refreshToken)
@@ -49,7 +62,7 @@ export class UsersService {
   }
 
   async getUserIfRefreshTokenMatches(refreshToken: string, userId: string) {
-    const user = await this.userModel.findById(userId)
+    const user = await this.userModel.findById(userId).select('+hashedRefreshToken')
     if (!user) {
       return null
     }
