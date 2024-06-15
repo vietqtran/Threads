@@ -1,12 +1,12 @@
-import { ConfigService } from '@nestjs/config'
-import { Injectable } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
 import { PasswordNotMatchException } from '@/common/exceptions/PasswordNotMatch.exception'
+import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
 import { PasswordService } from '@/resources/password/password.service'
+import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { JwtService } from '@nestjs/jwt'
+import { UsersService } from '../users/users.service'
 import { RegisterDto } from './dto/register.dto'
 import { TokenPayload } from './interfaces/token-payload'
-import { UsersService } from '../users/users.service'
-import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
 
 @Injectable()
 export class AuthService {
@@ -18,7 +18,7 @@ export class AuthService {
   ) {}
 
   async getAuthenticatedUser(email: string, password: string) {
-    const user = await this.usersService.findOne({ email })
+    const user = await this.usersService.getUserForLogin({ email })
     const isPasswordMatching = await this.passwordService.isMatched(password, user.hashedPassword)
     if (!isPasswordMatching) {
       throw new PasswordNotMatchException()
@@ -28,8 +28,8 @@ export class AuthService {
 
   async register(registerDto: RegisterDto) {
     const { username, email, password } = registerDto
-    const user = await this.usersService.findOne({ email })
-    if(user){
+    const user = await this.usersService.findOneWithoutException({ email })
+    if (user) {
       throw new UserExistedException()
     }
     const hashedPassword = await this.passwordService.hashPassword(password)

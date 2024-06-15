@@ -1,18 +1,18 @@
-import { ApiBody, ApiTags } from '@nestjs/swagger'
-import { AuthService } from './auth.service'
+import { Public } from '@/common/decorators/public.decorator'
+import MongooseClassSerializerInterceptor from '@/common/interceptors/mongooseClassSerializer.interceptor'
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common'
+import { ApiBody, ApiTags } from '@nestjs/swagger'
+import { Response } from 'express'
+import { User } from '../users/entities/user.entity'
+import { UsersService } from '../users/users.service'
+import { AuthService } from './auth.service'
+import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
+import JwtRefreshGuard from './guards/jwt-refresh-token.guard'
+import JwtAuthGuard from './guards/jwt.guard'
 import LocalAuthGuard from './guards/local.guard'
 import RequestWithUser from './interfaces/request-with-user.interface'
-import { Response } from 'express'
-import JwtAuthGuard from './guards/jwt.guard'
-import { Public } from '@/common/decorators/public.decorator'
 import { TokenPayload } from './interfaces/token-payload'
-import { UsersService } from '../users/users.service'
-import { LoginDto } from './dto/login.dto'
-import JwtRefreshGuard from './guards/jwt-refresh-token.guard'
-import MongooseClassSerializerInterceptor from '@/common/interceptors/mongooseClassSerializer.interceptor'
-import { User } from '../users/entities/user.entity'
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -20,7 +20,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly usersService: UsersService
-  ) { }
+  ) {}
 
   @ApiBody({
     type: LoginDto,
