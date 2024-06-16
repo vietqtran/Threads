@@ -1,10 +1,10 @@
 import './globals.css'
 
-import { Inter } from 'next/font/google'
 import type { Metadata } from 'next'
+import { Roboto_Flex } from 'next/font/google'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 
-const inter = Inter({ subsets: ['latin'] })
+const robotoFlex = Roboto_Flex({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Threads',
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={robotoFlex.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="theme" key={'theme'}>
           {children}
         </ThemeProvider>
