@@ -86,4 +86,3 @@ export class ThreadsService {
     return true
   }
 }
-

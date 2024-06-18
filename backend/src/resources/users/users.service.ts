@@ -6,6 +6,7 @@ import { FilterQuery, Model } from 'mongoose'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User, UserDocument } from './entities/user.entity'
+import { AcceptFollowDto, FollowUserDto } from './dto/follow-user'
 
 @Injectable()
 export class UsersService {
@@ -72,5 +73,38 @@ export class UsersService {
 
   async removeRefreshToken(userId: string) {
     await this.userModel.findByIdAndUpdate(userId, { hashedRefreshToken: null })
+  }
+
+  async toggleFollowUser(followUserDto: FollowUserDto) {
+    const { from, to, isAccepted } = followUserDto
+    const user = await this.findOne({ _id: from })
+    const isFollowed = user.following.some((following) => following.user._id.toString() === to)
+    if (isFollowed) {
+      user.following = user.following.filter((following) => following.user._id.toString() !== to)
+      await user.save()
+      return user
+    }
+    const followedUser = await this.findOne({ _id: to })
+    user.following.push({ user: followedUser, isAccepted })
+    await user.save()
+    return user
+  }
+
+  async acceptFollow(acceptFollowDto: AcceptFollowDto) {
+    const { from, to } = acceptFollowDto
+    const user = await this.findOne({ _id: from })
+    user.following = user.following.map((following) => {
+      if (following.user._id.toString() === to) {
+        return { ...following, isAccepted: true }
+      }
+      return following
+    })
+    await user.save()
+    return user
+  }
+
+  async getFollowingUsers(id: string) {
+    const user = await this.findOne({ _id: id })
+    return user.following.filter((following) => following.isAccepted).map((following) => following.user)
   }
 }

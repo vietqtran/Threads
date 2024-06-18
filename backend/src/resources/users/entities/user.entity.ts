@@ -31,6 +31,12 @@ export class User extends BaseEntity {
 
   @Prop({ required: false, transform: (avatar: string) => avatar.trim() })
   avatar?: string
+
+  @Prop({ required: false, default: [] })
+  following: {
+    user: User
+    isAccepted: boolean
+  }[]
 }
 
 export type UserDocument = User & Document
