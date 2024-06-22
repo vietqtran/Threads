@@ -10,7 +10,7 @@ import React from 'react'
 const Header = () => {
   return (
     <header className="bg- fixed inset-y-0 left-0 flex h-screen w-19 flex-col bg-background/85 backdrop-blur-lg">
-      <div className="flex flex-shrink-0 justify-center py-15px">
+      <div className="z-0 flex flex-shrink-0 justify-center py-15px">
         <Link href="/" className="block duration-200 ease-linear hover:scale-105 active:scale-90">
           <Icon className="hidden dark:block" size={34} name="threads_white" />
           <Icon className="dark:hidden" size={34} name="threads_black" />
@@ -19,7 +19,7 @@ const Header = () => {
 
       <NavBar />
 
-      <div className="flex h-[130px] w-full flex-shrink-0 justify-center">
+      <div className="z-10 flex h-[130px] w-full flex-shrink-0 justify-center">
         <ul className="mb-5.5">
           <Pin />
           <Menu />
