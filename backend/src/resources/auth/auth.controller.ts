@@ -73,7 +73,6 @@ export class AuthController {
   @Get('authenticate')
   currentUser(@Req() request: RequestWithUser) {
     const { user } = request
-    console.log(user)
     return user
   }
 

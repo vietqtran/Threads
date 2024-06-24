@@ -3,6 +3,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Roboto_Flex } from 'next/font/google'
 import { ThemeProvider } from '@/providers/ThemeProvider'
+import TanstackQueryProvider from '@/providers/TanstackQueryProvider'
 
 const robotoFlex = Roboto_Flex({ subsets: ['latin'] })
 
@@ -22,9 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={robotoFlex.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="theme" key={'theme'}>
-          {children}
-        </ThemeProvider>
+        <TanstackQueryProvider>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="theme" key={'theme'}>
+            {children}
+          </ThemeProvider>
+        </TanstackQueryProvider>
       </body>
     </html>
   )

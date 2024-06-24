@@ -1,24 +1,19 @@
-'use client'
+import { getUsers } from '@/hooks/useUsers'
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
 
-import { useTheme } from 'next-themes'
+export default async function Home() {
+  const queryClient = new QueryClient()
 
-// export const generateMetadata = () => {
-//    return {
-//       title: 'Dev - Home • Threads',
-//       description: 'Home • Threads',
-//    }
-// }
-
-export default function Home() {
-  const { setTheme } = useTheme()
+  await queryClient.prefetchQuery({
+    queryKey: ['posts'],
+    queryFn: getUsers
+  })
 
   return (
     <>
-      <div className="pl-[100px]">
-        <button onClick={() => setTheme('light')}>Light</button>
-        <button onClick={() => setTheme('dark')}>Dark</button>
-        <button onClick={() => setTheme('system')}>System</button>
-      </div>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <div className="pl-[100px]"></div>
+      </HydrationBoundary>
     </>
   )
 }

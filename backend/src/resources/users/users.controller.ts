@@ -4,6 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { UsersService } from './users.service'
 import { AcceptFollowDto, FollowUserDto } from './dto/follow-user'
+import { Public } from '@/common/decorators/public.decorator'
 
 @ApiTags('Users')
 @Controller('users')
@@ -11,6 +12,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @Public()
   async findAll() {
     const users = await this.usersService.findAll()
     return users
