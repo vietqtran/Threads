@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { memo } from 'react'
 
 interface Props {
   name: string
@@ -11,4 +11,4 @@ const Icon = ({ name, size, className }: Props) => {
   return <Image className={className || ''} src={`/icons/${name}.svg`} width={size} height={size} alt="" priority />
 }
 
-export default Icon
+export default memo(Icon)

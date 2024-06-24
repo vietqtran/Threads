@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { memo } from 'react'
 
 import Icon from '../../Icon'
 import { motion } from 'framer-motion'
@@ -48,46 +48,52 @@ const PinMenu = ({ setIsOpen }: Props) => {
             )}
           </div>
         </div>
-        <div className="h-auto w-full p-2">
-          <div className="w-full rounded-xl p-3 hover:bg-content-hover">
-            <div className="flex h-7 w-full cursor-pointer items-center">
-              <span className="block text-15px font-medium">For you</span>
-            </div>
-          </div>
-          <div className="w-full rounded-xl p-3 hover:bg-content-hover">
-            <div className="flex h-7 w-full cursor-pointer items-center">
-              <span className="block text-15px font-medium">Following</span>
-            </div>
-          </div>
-          <div className="w-full rounded-xl p-3 hover:bg-content-hover">
-            <div className="flex h-7 w-full cursor-pointer items-center">
-              <span className="block text-15px font-medium">Liked</span>
-            </div>
-          </div>
-          <div className="w-full rounded-xl p-3 hover:bg-content-hover">
-            <div className="flex h-7 w-full cursor-pointer items-center">
-              <span className="block text-15px font-medium">Saved</span>
-            </div>
-          </div>
-          <div className="w-full rounded-xl p-3 hover:bg-content-hover">
-            <div className="flex h-7 w-full cursor-pointer items-center">
-              <span className="block text-15px font-medium">Search</span>
-            </div>
-          </div>
-          <div className="w-full rounded-xl p-3 hover:bg-content-hover">
-            <div className="flex h-7 w-full cursor-pointer items-center">
-              <span className="block text-15px font-medium">Activity</span>
-            </div>
-          </div>
-          <div className="w-full rounded-xl p-3 hover:bg-content-hover">
-            <div className="flex h-7 w-full cursor-pointer items-center">
-              <span className="block text-15px font-medium">Profile</span>
-            </div>
-          </div>
-        </div>
+        <MenuLinks />
       </div>
     </motion.div>
   )
 }
 
 export default PinMenu
+
+export const MenuLinks = memo(({}) => {
+  return (
+    <div className="h-auto w-full p-2">
+      <div className="w-full rounded-xl p-3 hover:bg-content-hover">
+        <div className="flex h-7 w-full cursor-pointer items-center">
+          <span className="block text-15px font-medium">For you</span>
+        </div>
+      </div>
+      <div className="w-full rounded-xl p-3 hover:bg-content-hover">
+        <div className="flex h-7 w-full cursor-pointer items-center">
+          <span className="block text-15px font-medium">Following</span>
+        </div>
+      </div>
+      <div className="w-full rounded-xl p-3 hover:bg-content-hover">
+        <div className="flex h-7 w-full cursor-pointer items-center">
+          <span className="block text-15px font-medium">Liked</span>
+        </div>
+      </div>
+      <div className="w-full rounded-xl p-3 hover:bg-content-hover">
+        <div className="flex h-7 w-full cursor-pointer items-center">
+          <span className="block text-15px font-medium">Saved</span>
+        </div>
+      </div>
+      <div className="w-full rounded-xl p-3 hover:bg-content-hover">
+        <div className="flex h-7 w-full cursor-pointer items-center">
+          <span className="block text-15px font-medium">Search</span>
+        </div>
+      </div>
+      <div className="w-full rounded-xl p-3 hover:bg-content-hover">
+        <div className="flex h-7 w-full cursor-pointer items-center">
+          <span className="block text-15px font-medium">Activity</span>
+        </div>
+      </div>
+      <div className="w-full rounded-xl p-3 hover:bg-content-hover">
+        <div className="flex h-7 w-full cursor-pointer items-center">
+          <span className="block text-15px font-medium">Profile</span>
+        </div>
+      </div>
+    </div>
+  )
+})
