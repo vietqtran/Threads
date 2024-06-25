@@ -24,6 +24,9 @@ const config = {
       fontSize: {
         '15px': '0.938rem'
       },
+      textColor: {
+        secondary: 'hsl(var(--foreground-secondary))'
+      },
       backgroundColor: {
         content: {
           DEFAULT: 'hsl(var(--background-content))',
