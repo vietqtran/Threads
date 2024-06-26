@@ -7,6 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { isAllNumber, isValidEmail, isValidPhone } from '@/utils/validate'
 import AuthButton from '@/components/Common/Button/AuthButton'
+import Link from 'next/link'
+import Image from 'next/image'
+import Icon from '@/components/Common/Icon'
 
 const loginSchema = z.object({
   loginCredential: z
@@ -82,6 +85,31 @@ const Login = () => {
         type="password"
       />
       <AuthButton onClick={handleBeforeSubmit} disabled={!isDirty || !isValid}>Log in</AuthButton>
+
+      <Link href='/' className='mt-4 block text-center text-secondary' >Forgot password?</Link>
+
+      <div className="w-full flex items-center justify-center my-6">
+        <hr className="flex-1 h-[1px] bg-secondary" />
+        <div className="px-3 text-center text-15px font-medium text-secondary">or</div>
+        <hr className="flex-1 h-[1px] bg-secondary" />
+      </div>
+
+      <div className='p-5 pr-3 border rounded-2xl'>
+        <div className='size-full h-[45px] flex items-center'>
+          <div className='flex-shrink-0'>
+            <Image src='/images/ig-logo.png' className='h-[45px] w-[45px] aspect-square' alt='' priority width={500} height={500} />
+          </div>
+          <div className='flex-1'>
+            <span className='pl-2 break-before-auto leading-[21px] block font-bold text-base'>Continue with Instagram</span>
+          </div>
+          <div className='flex-shrink-0 h-full flex items-center w-6'>
+            <div className='w-6 h-6 grid place-items-center cursor-pointer'> 
+              <Icon name='arrow_auth_with_ig_white' size={16} className='dark:hidden' />
+              <Icon name='arrow_auth_with_ig_black' size={16} className='hidden dark:block' />
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
   )
 }

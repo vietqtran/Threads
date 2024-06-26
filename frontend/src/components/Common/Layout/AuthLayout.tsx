@@ -24,6 +24,14 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="size-full">{children}</div>
         </div>
       </div>
+
+      <div className='absolute inset-x-0 h-[70px] py-3 leading-[21px] bottom-0 flex items-center justify-center gap-x-3 gap-y-0 flex-wrap text-secondary text-xs'>
+        <span className='h-[21px]'>© 2024</span>
+        <span className='h-[21px]'>Threads Terms</span>
+        <span className='h-[21px]'>Privacy Policy</span>
+        <span className='h-[21px]'>Cookies Policy</span>
+        <span className='h-[21px]'>Report a problem</span>
+      </div>
     </div>
   )
 }
