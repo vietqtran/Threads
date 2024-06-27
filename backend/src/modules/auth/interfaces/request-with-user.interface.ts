@@ -1,4 +1,4 @@
-import { User } from '@/resources/users/entities/user.entity'
+import { User } from '@/modules/users/entities/user.entity'
 import { Request } from 'express'
 
 interface RequestWithUser extends Request {

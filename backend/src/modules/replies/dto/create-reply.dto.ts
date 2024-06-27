@@ -1,17 +1,22 @@
-import { User } from '@/resources/users/entities/user.entity'
+import { ThreadContentType, ThreadType } from '@/modules/threads/constants/thread-type.enum'
+import { Media } from '@/modules/threads/dto/create-thread.dto'
+import { User } from '@/modules/users/entities/user.entity'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
-import { MediaType } from '../constants/media-type.enum'
-import { ThreadContentType, ThreadType } from './../constants/thread-type.enum'
 
-export class CreateThreadDto {
+export class CreateReplyDto {
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  repliedTo?: string
+
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   user: string
 
   @ApiProperty({
-    example: 'Thread 1'
+    example: 'Reply 1'
   })
   @IsString()
   content: string
@@ -45,19 +50,4 @@ export class CreateThreadDto {
   @IsArray()
   @IsOptional()
   likedUsers?: User[]
-}
-
-export class Media {
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  url: string
-
-  @ApiProperty({
-    enum: MediaType
-  })
-  @IsString()
-  @IsNotEmpty()
-  @IsEnum(MediaType)
-  type: MediaType
 }

@@ -1,6 +1,6 @@
 import { ConfigModule, ConfigService } from '@nestjs/config'
 
-import { PasswordModule } from '@/resources/password/password.module'
+import { PasswordModule } from '@/modules/password/password.module'
 import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'

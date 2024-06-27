@@ -1,6 +1,6 @@
 import { PasswordNotMatchException } from '@/common/exceptions/PasswordNotMatch.exception'
 import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
-import { PasswordService } from '@/resources/password/password.service'
+import { PasswordService } from '@/modules/password/password.service'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
