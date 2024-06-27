@@ -1,6 +1,14 @@
+'use client'
+
 import Icon from '@/components/Common/Icon'
+import { useUsers } from '@/hooks/useUsers'
+import { useEffect } from 'react'
 
 export default function Home() {
+  const { users } = useUsers()
+  useEffect(() => {
+    console.log(users)
+  })
   return (
     <div className="flex h-full w-full justify-center px-[76px]">
       <div className="h-full w-[640px]">
@@ -12,6 +20,7 @@ export default function Home() {
                 <Icon name="arrow_down_home_section_black" className="dark:hidden" size={12} />
                 <Icon name="arrow_down_home_section_white" className="hidden dark:block" size={12} />
               </div>
+
               <div className="absolute left-1/2 top-[calc(100%+6px)] w-[224px] -translate-x-1/2 rounded-2xl border p-2 shadow">
                 <div className="cursor-pointer rounded-xl p-3 hover:bg-content-hover">
                   <div className="flex h-7 w-full items-center justify-between">
@@ -41,6 +50,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>

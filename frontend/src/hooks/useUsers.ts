@@ -1,17 +1,16 @@
-import ky from 'ky'
+import instance from '@/utils/axios/axios.instance'
 import { useQuery } from '@tanstack/react-query'
 
-const fetchUsers = async () => {
-  const users = await ky('http://localhost:4000/api/v1/users').json()
-  return users
-}
+export const useUsers = () => {
+  const fetchUsers = async () => {
+    const response = await instance.get('https://pokeapi.co/api/v2/pokemon/ditto')
+    return response.data
+  }
 
-const getUsers = () => {
-  const users = useQuery({
+  const { data: users, isLoading, error } = useQuery({
     queryKey: ['users'],
-    queryFn: () => fetchUsers()
+    queryFn: fetchUsers
   })
-  return users
-}
 
-export { getUsers, fetchUsers }
+  return { users, isLoading, error, fetchUsers }
+}
