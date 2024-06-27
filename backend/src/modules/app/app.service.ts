@@ -8,6 +8,7 @@ export class AppService {
     private readonly configService: ConfigService,
     private readonly mailserService: MailerService
   ) {}
+
   async getHello() {
     await this.mailserService.sendMail({
       to: 'viettqhe170367@fpt.edu.vn',

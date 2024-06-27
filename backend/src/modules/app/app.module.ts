@@ -8,10 +8,11 @@ import { ThreadsModule } from '../threads/threads.module'
 import { UsersModule } from '../users/users.module'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { UploadService } from '../common/upload/upload.service'
 
 @Module({
   imports: [ConfigModule, MongooseModule, MailerModule, UsersModule, AuthModule, ThreadsModule, RepliesModule],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService, UploadService]
 })
 export class AppModule {}
