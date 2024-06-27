@@ -12,6 +12,7 @@ import { UsersModule } from '../users/users.module'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { RepliesModule } from '../replies/replies.module'
+import { MailerModule } from '../mailer/mailer.module'
 
 @Module({
   imports: [
@@ -42,7 +43,8 @@ import { RepliesModule } from '../replies/replies.module'
     UsersModule,
     AuthModule,
     ThreadsModule,
-    RepliesModule
+    RepliesModule,
+    MailerModule
   ],
   controllers: [AppController],
   providers: [AppService, PasswordService]
