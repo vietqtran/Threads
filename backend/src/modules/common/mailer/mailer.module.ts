@@ -21,7 +21,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
           from: configService.get<string>('mailer.from')
         },
         template: {
-          dir: join(__dirname, '../../assets/mail/templates'),
+          dir: join(__dirname, '../../../assets/mail/templates'),
           adapter: new HandlebarsAdapter(),
           options: {
             strict: true
