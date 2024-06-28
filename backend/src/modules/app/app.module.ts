@@ -9,9 +9,19 @@ import { UsersModule } from '../users/users.module'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { UploadService } from '../common/upload/upload.service'
+import { BullModule } from '../common/bull/bull.module'
 
 @Module({
-  imports: [ConfigModule, MongooseModule, MailerModule, UsersModule, AuthModule, ThreadsModule, RepliesModule],
+  imports: [
+    ConfigModule,
+    MongooseModule,
+    BullModule,
+    MailerModule,
+    UsersModule,
+    AuthModule,
+    ThreadsModule,
+    RepliesModule
+  ],
   controllers: [AppController],
   providers: [AppService, UploadService]
 })
