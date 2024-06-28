@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
 import * as AWS from 'aws-sdk'
+
+import { ConfigService } from '@nestjs/config'
+import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class UploadService {
@@ -37,7 +38,7 @@ export class UploadService {
     }
     try {
       const s3Response = await this.s3.upload(params).promise()
-      console.log(s3Response)
+      console.log('response: ', s3Response)
       return s3Response
     } catch (e) {
       console.log(e)

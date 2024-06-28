@@ -1,6 +1,6 @@
-import { BullModule as NestBullModule } from '@nestjs/bullmq'
-import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { Module } from '@nestjs/common'
+import { BullModule as NestBullModule } from '@nestjs/bullmq'
 
 @Module({
   imports: [
@@ -10,6 +10,11 @@ import { ConfigService } from '@nestjs/config'
         connection: {
           host: configService.get('redis.host'),
           port: configService.get('redis.port')
+        },
+        defaultJobOptions: {
+          removeOnComplete: 1000,
+          removeOnFail: 5000,
+          attempts: 0
         }
       })
     })

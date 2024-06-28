@@ -1,12 +1,12 @@
 import * as cookieParser from 'cookie-parser'
 
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { NestFactory, Reflector } from '@nestjs/core'
 
 import { AppModule } from '@/modules/app/app.module'
-import { ValidationPipe } from '@nestjs/common'
-import { TransformInterceptor } from './common/interceptors/response.interceptor'
-import { configSwagger } from './configs/swagger'
 import JwtAuthGuard from './modules/auth/guards/jwt.guard'
+import { TransformInterceptor } from './common/interceptors/response.interceptor'
+import { ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -21,7 +21,13 @@ async function bootstrap() {
 
   app.use(cookieParser())
 
-  configSwagger(app)
+  const config = new DocumentBuilder()
+    .setTitle('Threads API')
+    .setDescription('Threads API description')
+    .setVersion('1.0.0')
+    .build()
+  const document = SwaggerModule.createDocument(app, config)
+  SwaggerModule.setup('api', app, document)
 
   app.enableCors({
     origin: '*',

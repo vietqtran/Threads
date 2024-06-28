@@ -1,11 +1,17 @@
-import { BaseEntity } from '@/base/entity.base'
-import { User } from '@/modules/users/entities/user.entity'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
-import { Type } from 'class-transformer'
-import mongoose, { Document, Schema as MongooseSchema } from 'mongoose'
-import { MediaType } from '../constants/media-type.enum'
 import { ThreadContentType, ThreadType } from '../constants/thread-type.enum'
+import mongoose, { Document, Schema as MongooseSchema } from 'mongoose'
+
+import { BaseEntity } from '@/base/entity.base'
+import { MediaType } from '../constants/media-type.enum'
 import { Reply } from '@/modules/replies/entities/reply.entity'
+import { Type } from 'class-transformer'
+import { User } from '@/modules/users/entities/user.entity'
+
+export type Media = {
+  url: string
+  type: MediaType
+}
 
 @Schema({
   timestamps: {
@@ -21,16 +27,9 @@ export class Thread extends BaseEntity {
   @Prop({
     type: MongooseSchema.Types.Array,
     required: false,
-    default: [],
-    items: {
-      url: String,
-      type: MediaType
-    }
+    default: []
   })
-  medias?: {
-    url: string
-    type: MediaType
-  }[]
+  medias?: Media[]
 
   @Prop({ enum: ThreadType, required: true })
   type: ThreadType

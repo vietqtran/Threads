@@ -3,7 +3,7 @@ import { AppService } from './app.service'
 import { Public } from '@/common/decorators/public.decorator'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { ApiBody, ApiConsumes, ApiProperty } from '@nestjs/swagger'
-import { UploadService } from '../common/upload/upload.service'
+import { UploadService } from '../upload/upload.service'
 
 class UploadFileDto {
   @ApiProperty({ type: 'file' })

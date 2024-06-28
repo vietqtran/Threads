@@ -1,12 +1,13 @@
-import { PasswordNotMatchException } from '@/common/exceptions/PasswordNotMatch.exception'
-import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
-import { Injectable } from '@nestjs/common'
+import * as bcrypt from 'bcrypt'
+
 import { ConfigService } from '@nestjs/config'
+import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { UsersService } from '../users/users.service'
+import { PasswordNotMatchException } from '@/common/exceptions/PasswordNotMatch.exception'
 import { RegisterDto } from './dto/register.dto'
 import { TokenPayload } from './interfaces/token-payload'
-import * as bcrypt from 'bcrypt'
+import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
+import { UsersService } from '../users/users.service'
 
 @Injectable()
 export class AuthService {

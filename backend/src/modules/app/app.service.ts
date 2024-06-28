@@ -1,23 +1,19 @@
-import { MailerService } from '@nestjs-modules/mailer'
 import { Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
+import { MailService } from '../mail/mail.service'
 
 @Injectable()
 export class AppService {
-  constructor(
-    private readonly configService: ConfigService,
-    private readonly mailserService: MailerService
-  ) {}
+  constructor(private readonly mailService: MailService) {}
 
   async getHello() {
-    await this.mailserService.sendMail({
-      to: 'viettqhe170367@fpt.edu.vn',
-      from: this.configService.get<string>('mailer.from'),
-      subject: 'Hello',
-      template: './welcome',
+    console.log('controller')
+    await this.mailService.sendMail({
+      to: 'elyssatan2008@gmail.com',
       context: {
-        name: 'Viet'
-      }
+        name: 'Viet dep trai'
+      },
+      subject: 'Welcome to Threads',
+      template: 'welcome'
     })
     return 'Hello World!'
   }

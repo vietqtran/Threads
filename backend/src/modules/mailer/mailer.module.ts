@@ -1,8 +1,9 @@
+import { ConfigModule, ConfigService } from '@nestjs/config'
+
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
 import { Module } from '@nestjs/common'
 import { MailerModule as NestMailer } from '@nestjs-modules/mailer'
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
 import { join } from 'path'
-import { ConfigModule, ConfigService } from '@nestjs/config'
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
           from: configService.get<string>('mailer.from')
         },
         template: {
-          dir: join(__dirname, '../../../assets/mail/templates'),
+          dir: join(__dirname, '../../assets/mail/templates'),
           adapter: new HandlebarsAdapter(),
           options: {
             strict: true
