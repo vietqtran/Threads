@@ -68,7 +68,7 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
 
-    --border: 0 0% 18%;
+    --border: 180 1% 22%;
     --input: 215 27.9% 16.9%;
     --ring: 216 12.2% 83.9%;
   }
@@ -76,14 +76,18 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border leading-[21px] outline-none;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-y-hidden;
     font-size: 15px;
   }
 }
 
 .shadow {
   box-shadow: 0 10.5px 21px rgba(0, 0, 0, 0.08);
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }

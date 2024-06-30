@@ -9,7 +9,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <header className="fixed inset-y-0 left-0 flex h-screen w-19 flex-col bg-background/85 backdrop-blur-lg">
+    <header className="fixed inset-y-0 left-0 z-[999] flex h-screen w-19 flex-col bg-background/85 backdrop-blur-lg">
       <div className="z-0 flex flex-shrink-0 justify-center py-15px">
         <Link href="/" className="block duration-200 ease-linear hover:scale-105 active:scale-90">
           <Icon className="hidden dark:block" size={34} name="threads_white" />
