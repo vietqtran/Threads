@@ -9,7 +9,3 @@ export const isValidPhone = (value: string) => {
 export const isValidEmail = (value: string) => {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
 }
-
-export const isValidUsername = (value: string) => {
-  return /^[a-zA-Z0-9_]+$/.test(value)
-}
