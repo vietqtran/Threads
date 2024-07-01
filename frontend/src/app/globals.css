@@ -91,3 +91,7 @@
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+.simplebar-scrollbar:before {
+  @apply dark:bg-[#777777];
+}
