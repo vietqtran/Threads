@@ -22,7 +22,7 @@ const AuthInput = ({ type, placeholder, name, register, error }: Props) => {
   return (
     <div className="w-full mb-2 flex flex-col">
       <input
-        autoComplete='off'
+        autoComplete="off"
         className="w-full leading-[21px] placeholder:text-[#999999] text-15px focus:outline-none dark:placeholder:text-[#777777] p-4 block rounded-xl bg-[#f5f5f5] dark:bg-content border border-transparent focus:border-border"
         type={type}
         placeholder={placeholder}

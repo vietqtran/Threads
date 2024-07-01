@@ -15,11 +15,11 @@ const registerSchema = z
       .min(1, { message: 'Email or phone number is required' })
       .superRefine((registerCredential, ctx) => {
         if (isAllNumber(registerCredential) && !(registerCredential && isValidPhone(registerCredential))) {
-           ctx.addIssue({
+          ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'Invalid phone number'
           })
-          return 
+          return
         }
         if (!isAllNumber(registerCredential) && !(registerCredential && isValidEmail(registerCredential))) {
           ctx.addIssue({
@@ -59,7 +59,7 @@ const Register = () => {
   }
 
   const handleBeforeSubmit = () => {
-    if(errors) {
+    if (errors) {
       console.log(errors)
       return
     }
@@ -101,7 +101,9 @@ const Register = () => {
         placeholder="Confirm Password"
         type="password"
       />
-      <AuthButton onClick={handleBeforeSubmit} disabled={!isDirty || !isValid}>Register</AuthButton>
+      <AuthButton onClick={handleBeforeSubmit} disabled={!isDirty || !isValid}>
+        Register
+      </AuthButton>
     </form>
   )
 }

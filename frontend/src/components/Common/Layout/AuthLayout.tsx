@@ -16,21 +16,21 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         />
       </div>
       <div className="z-10 absolute mb-14 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[418px] ">
-        <div className='w-full sm:hidden flex justify-center'>
-          <Icon name='logo_transparent_white' size={60} className='dark:block hidden' />
-          <Icon name='logo_transparent_black' size={60} className='dark:hidden' />
+        <div className="w-full sm:hidden flex justify-center">
+          <Icon name="logo_transparent_white" size={60} className="dark:block hidden" />
+          <Icon name="logo_transparent_black" size={60} className="dark:hidden" />
         </div>
-        <div className='size-full md:p-6 p-4'>
+        <div className="size-full md:p-6 p-4">
           <div className="size-full">{children}</div>
         </div>
       </div>
 
-      <div className='absolute inset-x-0 h-[70px] py-3 leading-[21px] bottom-0 flex items-center justify-center gap-x-3 gap-y-0 flex-wrap text-secondary text-xs'>
-        <span className='h-[21px]'>© 2024</span>
-        <span className='h-[21px]'>Threads Terms</span>
-        <span className='h-[21px]'>Privacy Policy</span>
-        <span className='h-[21px]'>Cookies Policy</span>
-        <span className='h-[21px]'>Report a problem</span>
+      <div className="absolute inset-x-0 h-[70px] py-3 leading-[21px] bottom-0 flex items-center justify-center gap-x-3 gap-y-0 flex-wrap text-secondary text-xs">
+        <span className="h-[21px]">© 2024</span>
+        <span className="h-[21px]">Threads Terms</span>
+        <span className="h-[21px]">Privacy Policy</span>
+        <span className="h-[21px]">Cookies Policy</span>
+        <span className="h-[21px]">Report a problem</span>
       </div>
     </div>
   )

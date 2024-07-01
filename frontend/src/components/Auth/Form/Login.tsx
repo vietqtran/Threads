@@ -10,13 +10,15 @@ import AuthButton from '@/components/Common/Button/AuthButton'
 import Link from 'next/link'
 import Image from 'next/image'
 import Icon from '@/components/Common/Icon'
+import { useAuth } from '@/hooks/useAuth'
+import { LoginCredential } from '@/types/auth'
 
 const loginSchema = z.object({
   loginCredential: z
     .string()
     .min(1, { message: 'Username, email or phone number is required' })
     .superRefine((loginCredential, ctx) => {
-      if (isAllNumber(loginCredential) && ! isValidPhone(loginCredential)) {
+      if (isAllNumber(loginCredential) && !isValidPhone(loginCredential)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'Invalid phone number'
@@ -24,14 +26,14 @@ const loginSchema = z.object({
         return
       }
       if (loginCredential.includes('@')) {
-        if(!isValidEmail(loginCredential)) {
+        if (!isValidEmail(loginCredential)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'Invalid email'
           })
           return
         }
-      }else{
+      } else {
         if (!(loginCredential.length >= 6 && loginCredential.length <= 20)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -48,6 +50,7 @@ const loginSchema = z.object({
 })
 
 const Login = () => {
+  const { login } = useAuth()
   const {
     register,
     handleSubmit,
@@ -56,12 +59,16 @@ const Login = () => {
     resolver: zodResolver(loginSchema)
   })
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const onSubmit = async (data: any) => {
+    const loginCredentials: LoginCredential = {
+      credential: data.loginCredential,
+      password: data.password
+    }
+    await login(loginCredentials)
   }
 
   const handleBeforeSubmit = () => {
-    if(errors) {
+    if (errors) {
       console.log(errors)
       return
     }
@@ -89,9 +96,13 @@ const Login = () => {
         placeholder="Password"
         type="password"
       />
-      <AuthButton onClick={handleBeforeSubmit} disabled={!isDirty || !isValid}>Log in</AuthButton>
+      <AuthButton onClick={handleBeforeSubmit} disabled={!isDirty || !isValid}>
+        Log in
+      </AuthButton>
 
-      <Link href='/' className='mt-4 block text-center text-secondary' >Forgot password?</Link>
+      <Link href="/" className="mt-4 block text-center text-secondary">
+        Forgot password?
+      </Link>
 
       <div className="w-full flex items-center justify-center my-6">
         <hr className="flex-1 h-[1px] bg-secondary" />
@@ -99,18 +110,27 @@ const Login = () => {
         <hr className="flex-1 h-[1px] bg-secondary" />
       </div>
 
-      <div className='p-5 pr-3 border rounded-2xl'>
-        <div className='size-full h-[45px] flex items-center'>
-          <div className='flex-shrink-0'>
-            <Image src='/images/ig-logo.png' className='h-[45px] w-[45px] aspect-square' alt='' priority width={500} height={500} />
+      <div className="p-5 pr-3 border rounded-2xl">
+        <div className="size-full h-[45px] flex items-center">
+          <div className="flex-shrink-0">
+            <Image
+              src="/images/ig-logo.png"
+              className="h-[45px] w-[45px] aspect-square"
+              alt=""
+              priority
+              width={500}
+              height={500}
+            />
           </div>
-          <div className='flex-1 text-center'>
-            <span className='pl-2 break-before-auto leading-[21px] block font-bold text-base'>Continue with Instagram</span>
+          <div className="flex-1 text-center">
+            <span className="pl-2 break-before-auto leading-[21px] block font-bold text-base">
+              Continue with Instagram
+            </span>
           </div>
-          <div className='flex-shrink-0 h-full flex items-center w-6'>
-            <div className='w-6 h-6 grid place-items-center cursor-pointer'> 
-              <Icon name='arrow_auth_with_ig_white' size={16} className='dark:hidden' />
-              <Icon name='arrow_auth_with_ig_black' size={16} className='hidden dark:block' />
+          <div className="flex-shrink-0 h-full flex items-center w-6">
+            <div className="w-6 h-6 grid place-items-center cursor-pointer">
+              <Icon name="arrow_auth_with_ig_white" size={16} className="dark:hidden" />
+              <Icon name="arrow_auth_with_ig_black" size={16} className="hidden dark:block" />
             </div>
           </div>
         </div>

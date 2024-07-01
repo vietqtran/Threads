@@ -4,18 +4,18 @@ const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 30000,
   headers: {
-    'Content-Type': 'application/json',
-  },
+    'Content-Type': 'application/json'
+  }
 })
 
 instance.interceptors.response.use(
-  (response) => {
+  response => {
     return {
       isError: false,
       ...response
     }
   },
-  (error) => {
+  error => {
     return {
       isError: true,
       ...error

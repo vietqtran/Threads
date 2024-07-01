@@ -9,7 +9,7 @@ import { TransformInterceptor } from './common/interceptors/response.interceptor
 import { ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create(AppModule, { cors: true })
 
   app.setGlobalPrefix('api/v1/')
 
@@ -29,12 +29,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)
 
-  app.enableCors({
-    origin: '*',
-    methods: 'GET,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    allowedHeaders: 'Content-Type, Authorization, Refresh'
-  })
+  app.enableCors()
 
   const port = process.env.PORT || 4000
   await app.listen(port)

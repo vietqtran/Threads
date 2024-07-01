@@ -7,7 +7,11 @@ export const useUsers = () => {
     return response.data
   }
 
-  const { data: users, isLoading, error } = useQuery({
+  const {
+    data: users,
+    isLoading,
+    error
+  } = useQuery({
     queryKey: ['users'],
     queryFn: fetchUsers
   })
