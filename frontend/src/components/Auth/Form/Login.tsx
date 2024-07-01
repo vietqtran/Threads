@@ -16,26 +16,29 @@ const loginSchema = z.object({
     .string()
     .min(1, { message: 'Username, email or phone number is required' })
     .superRefine((loginCredential, ctx) => {
-      if (isAllNumber(loginCredential) && !(loginCredential && isValidPhone(loginCredential))) {
+      if (isAllNumber(loginCredential) && ! isValidPhone(loginCredential)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'Invalid phone number'
         })
         return
       }
-      if (loginCredential.includes('@') && !(loginCredential && isValidEmail(loginCredential))) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Invalid email'
-        })
-        return
-      }
-      if (!(loginCredential && loginCredential.length >= 6 && loginCredential.length <= 20)) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Invalid username'
-        })
-        return
+      if (loginCredential.includes('@')) {
+        if(!isValidEmail(loginCredential)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Invalid email'
+          })
+          return
+        }
+      }else{
+        if (!(loginCredential.length >= 6 && loginCredential.length <= 20)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: 'Invalid username'
+          })
+          return
+        }
       }
     }),
   password: z
@@ -64,6 +67,8 @@ const Login = () => {
     }
     handleSubmit(onSubmit)
   }
+
+  console.log(errors)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full">
@@ -99,7 +104,7 @@ const Login = () => {
           <div className='flex-shrink-0'>
             <Image src='/images/ig-logo.png' className='h-[45px] w-[45px] aspect-square' alt='' priority width={500} height={500} />
           </div>
-          <div className='flex-1'>
+          <div className='flex-1 text-center'>
             <span className='pl-2 break-before-auto leading-[21px] block font-bold text-base'>Continue with Instagram</span>
           </div>
           <div className='flex-shrink-0 h-full flex items-center w-6'>
