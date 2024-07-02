@@ -17,10 +17,12 @@ export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>> 
       map((data) => {
         const statusCode = context.switchToHttp().getResponse().statusCode
         const status = statusCode >= 400 ? 0 : 1
+        const isError = statusCode >= 400
         return {
-          statusCode: statusCode,
-          status: status,
-          data: data,
+          isError,
+          statusCode,
+          status,
+          data,
           message: data?.message || null,
           errors: data?.errors || null
         }
