@@ -23,6 +23,7 @@ export class AuthService {
     if (!isPasswordMatching) {
       throw new PasswordNotMatchException()
     }
+    user.hashedPassword = undefined
     return user
   }
 

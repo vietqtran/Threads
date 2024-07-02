@@ -9,7 +9,6 @@ import { AuthService } from './auth.service'
 import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
 import JwtRefreshGuard from './guards/jwt-refresh-token.guard'
-import JwtAuthGuard from './guards/jwt.guard'
 import LocalAuthGuard from './guards/local.guard'
 import RequestWithUser from './interfaces/request-with-user.interface'
 import { TokenPayload } from './interfaces/token-payload'
@@ -60,7 +59,6 @@ export class AuthController {
     return response.send(user)
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('logout')
   async logOut(@Req() request: RequestWithUser, @Res() response: Response) {
     const { user } = request
@@ -69,7 +67,6 @@ export class AuthController {
     return response.send(user)
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('authenticate')
   currentUser(@Req() request: RequestWithUser) {
     const { user } = request
@@ -90,6 +87,7 @@ export class AuthController {
     const refreshTokenCookie = await this.authService.getCookieWithJwtRefreshToken(payload)
     await this.usersService.setCurrentRefreshToken(refreshTokenCookie.token, user._id + '')
     request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie.cookie])
+    user.hashedRefreshToken = undefined
     return user
   }
 }
