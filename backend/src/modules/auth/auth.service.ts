@@ -31,8 +31,8 @@ export class AuthService {
         phoneNumber: loginCredential
       }
     }
-    if(isRegister) {
-        throw new InvalidFiendException('Invalid email or phone number')
+    if (isRegister) {
+      throw new InvalidFiendException('Invalid email or phone number')
     }
     return {
       username: loginCredential
@@ -52,16 +52,13 @@ export class AuthService {
   async register(registerDto: RegisterDto) {
     const { username, registerCredentical, password } = registerDto
     const credential = this.getAuthCredentialField(registerCredentical, true)
-    const user = await this.usersService.findOneWithoutException(credential)
+    const user = await this.usersService.findOneWithoutException({
+      $or: [{ username }, { ...credential }]
+    })
     if (user) {
       throw new UserExistedException()
     }
     const hashedPassword = await this.hashPassword(password)
-    console.log({
-      username,
-      hashedPassword,
-      ...credential
-    })
     const createdUser = await this.usersService.create({
       username,
       hashedPassword,

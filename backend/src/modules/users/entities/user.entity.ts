@@ -16,39 +16,26 @@ export class User extends BaseEntity {
   @Prop({
     required: false,
     default: null,
-    transform: (email: string) => {
-      email?.trim().toLowerCase()
-    },
-    validate: {
-      validator: (email: string) => {
-        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-        return emailRegex.test(email)
-      },
-      message: 'Invalid email'
-    }
+    transform: (email: string) => email?.trim().toLowerCase()
   })
   email?: string
 
   @Prop({
     required: false,
     default: null,
-    transform: (phone: string) => {
-      phone?.trim()
-    },
-    validate: {
-      validator: (phone: string) => {
-        const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
-        return phoneRegex.test(phone)
-      },
-      message: 'Invalid phone number'
-    }
+    transform: (phone: string) => phone?.trim()
   })
   phoneNumber?: string
 
   @Prop({ required: true, select: false, transform: (password: string) => password.trim() })
   hashedPassword: string
 
-  @Prop({ required: false, default: null, select: false, transform: (hashedRefreshToken: string) => hashedRefreshToken?.trim() })
+  @Prop({
+    required: false,
+    default: null,
+    select: false,
+    transform: (hashedRefreshToken: string) => hashedRefreshToken?.trim()
+  })
   hashedRefreshToken?: string
 
   @Prop({

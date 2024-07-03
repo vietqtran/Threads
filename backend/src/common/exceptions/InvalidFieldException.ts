@@ -1,5 +1,5 @@
-import { ExceptionType } from "@/enums/exception.enum";
-import { HttpException, HttpStatus } from "@nestjs/common";
+import { ExceptionType } from '@/enums/exception.enum'
+import { HttpException, HttpStatus } from '@nestjs/common'
 
 export class InvalidFiendException extends HttpException {
   constructor(message: string) {

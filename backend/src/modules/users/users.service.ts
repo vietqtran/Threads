@@ -7,18 +7,19 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User, UserDocument } from './entities/user.entity'
 import { AcceptFollowDto, FollowUserDto } from './dto/follow-user'
+import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
   getCreateFieldForSearch = (email: string, phone: string) => {
-    if(email) {
+    if (email) {
       return {
         email
       }
     }
-    if(phone) {
+    if (phone) {
       return {
         phoneNumber: phone
       }
@@ -26,14 +27,17 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const existedUser = await this.userModel.findOneAndUpdate(this.getCreateFieldForSearch(createUserDto.email, createUserDto.phoneNumber), createUserDto, {
-      upsert: true,
-      new: true
+    const existedUser = await this.userModel.findOne({
+      $or: [
+        this.getCreateFieldForSearch(createUserDto.email, createUserDto.phoneNumber),
+        { username: createUserDto.username }
+      ]
     })
-    if (!existedUser) {
-      throw new HttpException('Error while creating user', HttpStatus.INTERNAL_SERVER_ERROR)
+    if (existedUser) {
+      throw new UserExistedException()
     }
-    return existedUser
+    const createdUser = await this.userModel.create(createUserDto)
+    return createdUser
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
