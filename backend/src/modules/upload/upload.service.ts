@@ -1,56 +1,62 @@
-import * as AWS from 'aws-sdk'
-
-import { ConfigService } from '@nestjs/config'
 import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import * as AWS from 'aws-sdk'
 
 @Injectable()
 export class UploadService {
-  constructor(private readonly configService: ConfigService) {}
+  private readonly s3: AWS.S3
 
-  s3 = new AWS.S3({
-    accessKeyId: this.configService.get<string>('s3.accessKeyId'),
-    secretAccessKey: this.configService.get<string>('s3.secretAccessKey')
-  })
-
-  async uploadFile(file) {
-    console.log(file)
-    const { originalname } = file
-
-    return await this.s3_upload(
-      file.buffer,
-      this.configService.get<string>('s3.publicBucket'),
-      originalname,
-      file.mimetype
-    )
+  constructor(private readonly configService: ConfigService) {
+    this.s3 = new AWS.S3({
+      accessKeyId: this.configService.get<string>('s3.accessKeyId'),
+      secretAccessKey: this.configService.get<string>('s3.secretAccessKey'),
+      region: this.configService.get<string>('s3.region')
+    })
   }
 
-  async s3_upload(file, bucket, name, mimetype) {
-    const params = {
+  async uploadFile(
+    file: Express.Multer.File
+  ): Promise<AWS.S3.ManagedUpload.SendData> {
+    const { originalname, buffer, mimetype } = file
+    const bucket = this.configService.get<string>('s3.publicBucket')
+
+    return this.s3Upload(buffer, bucket, originalname, mimetype)
+  }
+
+  private async s3Upload(
+    file: Buffer,
+    bucket: string,
+    name: string,
+    mimetype: string
+  ): Promise<AWS.S3.ManagedUpload.SendData> {
+    const params: AWS.S3.PutObjectRequest = {
       Bucket: bucket,
-      Key: String(name),
+      Key: name,
       Body: file,
       ACL: 'public-read',
       ContentType: mimetype,
-      ContentDisposition: 'inline',
-      CreateBucketConfiguration: {
-        LocationConstraint: this.configService.get<string>('s3.region')
-      }
+      ContentDisposition: 'inline'
     }
+
     try {
-      const s3Response = await this.s3.upload(params).promise()
-      console.log('response: ', s3Response)
-      return s3Response
-    } catch (e) {
-      console.log(e)
+      return await this.s3.upload(params).promise()
+    } catch (error) {
+      console.error('S3 upload error:', error)
+      throw error
     }
   }
 
-  async deleteFile(key: string) {
-    const params = {
+  async deleteFile(key: string): Promise<AWS.S3.DeleteObjectOutput> {
+    const params: AWS.S3.DeleteObjectRequest = {
       Bucket: this.configService.get<string>('s3.publicBucket'),
       Key: key
     }
-    const data = await this.s3.deleteObject(params).promise()
-    return data
+
+    try {
+      return await this.s3.deleteObject(params).promise()
+    } catch (error) {
+      console.error('S3 delete error:', error)
+      throw error
+    }
   }
 }

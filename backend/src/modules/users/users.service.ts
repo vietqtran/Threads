@@ -1,4 +1,5 @@
 import { UserNotFoundException } from '@/common/exceptions/UserNotFound.exception'
+import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import * as argon2 from 'argon2'
@@ -7,7 +8,6 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User, UserDocument } from './entities/user.entity'
 import { AcceptFollowDto, FollowUserDto } from './dto/follow-user'
-import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
 
 @Injectable()
 export class UsersService {
@@ -15,17 +15,10 @@ export class UsersService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>
   ) {}
 
-  getCreateFieldForSearch = (email: string, phone: string) => {
-    if (email) {
-      return {
-        email
-      }
-    }
-    if (phone) {
-      return {
-        phoneNumber: phone
-      }
-    }
+  private getCreateFieldForSearch(email: string, phone: string) {
+    if (email) return { email }
+    if (phone) return { phoneNumber: phone }
+    return {}
   }
 
   async create(createUserDto: CreateUserDto) {
@@ -38,11 +31,8 @@ export class UsersService {
         { username: createUserDto.username }
       ]
     })
-    if (existedUser) {
-      throw new UserExistedException()
-    }
-    const createdUser = await this.userModel.create(createUserDto)
-    return createdUser
+    if (existedUser) throw new UserExistedException()
+    return this.userModel.create(createUserDto)
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
@@ -51,9 +41,7 @@ export class UsersService {
       updateUserDto,
       { new: true }
     )
-    if (!updatedUser) {
-      throw new UserNotFoundException()
-    }
+    if (!updatedUser) throw new UserNotFoundException()
     return updatedUser
   }
 
@@ -63,38 +51,30 @@ export class UsersService {
 
   async findOne(queries: FilterQuery<UserDocument>) {
     const user = await this.userModel.findOne(queries)
-    if (!user) {
-      throw new UserNotFoundException()
-    }
+    if (!user) throw new UserNotFoundException()
     return user
   }
 
   async findOneWithoutException(queries: FilterQuery<UserDocument>) {
-    const user = await this.userModel.findOne(queries)
-    return user
+    return this.userModel.findOne(queries)
   }
 
   async getUserForLogin(queries: FilterQuery<UserDocument>) {
     const user = await this.userModel.findOne(queries).select('+hashedPassword')
-    if (!user) {
-      throw new UserNotFoundException()
-    }
+    if (!user) throw new UserNotFoundException()
     return user
   }
 
   async setCurrentRefreshToken(refreshToken: string, userId: string) {
-    await this.userModel.findByIdAndUpdate(userId, {
-      hashedRefreshToken: await argon2.hash(refreshToken)
-    })
+    const hashedRefreshToken = await argon2.hash(refreshToken)
+    await this.userModel.findByIdAndUpdate(userId, { hashedRefreshToken })
   }
 
   async getUserIfRefreshTokenMatches(refreshToken: string, userId: string) {
     const user = await this.userModel
       .findById(userId)
       .select('+hashedRefreshToken')
-    if (!user) {
-      return null
-    }
+    if (!user) return null
     const isRefreshTokenMatching = await argon2.verify(
       user.hashedRefreshToken,
       refreshToken
@@ -112,15 +92,16 @@ export class UsersService {
     const isFollowed = user.following.some(
       (following) => following.user._id.toString() === to
     )
+
     if (isFollowed) {
       user.following = user.following.filter(
         (following) => following.user._id.toString() !== to
       )
-      await user.save()
-      return user
+    } else {
+      const followedUser = await this.findOne({ _id: to })
+      user.following.push({ user: followedUser, isAccepted })
     }
-    const followedUser = await this.findOne({ _id: to })
-    user.following.push({ user: followedUser, isAccepted })
+
     await user.save()
     return user
   }
@@ -128,12 +109,11 @@ export class UsersService {
   async acceptFollow(acceptFollowDto: AcceptFollowDto) {
     const { from, to } = acceptFollowDto
     const user = await this.findOne({ _id: from })
-    user.following = user.following.map((following) => {
-      if (following.user._id.toString() === to) {
-        return { ...following, isAccepted: true }
-      }
-      return following
-    })
+    user.following = user.following.map((following) =>
+      following.user._id.toString() === to
+        ? { ...following, isAccepted: true }
+        : following
+    )
     await user.save()
     return user
   }

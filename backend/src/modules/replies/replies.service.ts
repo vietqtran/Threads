@@ -17,17 +17,10 @@ export class RepliesService {
   ) {}
 
   async create(createReplyDto: CreateReplyDto) {
-    if (!this.threadsService.isValidMedias(createReplyDto.medias)) {
-      throw new HttpException('Invalid media type', 400)
-    }
-    const user = await this.usersService.findOne({ _id: createReplyDto.user })
-    if (!user) {
-      throw new HttpException('User not found', 404)
-    }
+    this.threadsService.validateMedias(createReplyDto.medias)
+    await this.validateUser(createReplyDto.user)
     const thread = await this.threadsService.findOne(createReplyDto.repliedTo)
-    if (!thread) {
-      throw new HttpException('Thread not found', 404)
-    }
+
     const reply = await this.replyModel.create(createReplyDto)
     thread.replies.push(reply)
     await thread.save()
@@ -35,7 +28,7 @@ export class RepliesService {
   }
 
   async findAll() {
-    return await this.replyModel.find().populate('user')
+    return this.replyModel.find().populate('user')
   }
 
   async findOne(id: string) {
@@ -47,50 +40,45 @@ export class RepliesService {
   }
 
   async update(id: string, updateReplyDto: UpdateReplyDto) {
-    if (!this.threadsService.isValidMedias(updateReplyDto.medias)) {
-      throw new HttpException('Invalid media type', 400)
-    }
-    const reply = await this.replyModel.findById(id)
+    this.threadsService.validateMedias(updateReplyDto.medias)
+    const reply = await this.replyModel.findByIdAndUpdate(id, updateReplyDto, {
+      new: true
+    })
     if (!reply) {
       throw new HttpException('Reply not found', 404)
     }
-    return await this.replyModel.findByIdAndUpdate(id, updateReplyDto, {
-      new: true
-    })
+    return reply
   }
 
   async remove(id: string) {
-    const reply = await this.replyModel.findById(id)
-    if (!reply) {
-      throw new HttpException('Reply not found', 404)
-    }
+    const reply = await this.findOne(id)
     const thread = await this.threadsService.findOne(reply.repliedTo)
-    thread.replies = thread.replies.filter(
-      (reply) => reply._id.toString() !== id
-    )
+    thread.replies = thread.replies.filter((r) => r._id.toString() !== id)
     await thread.save()
-    return await this.replyModel.findByIdAndDelete(id)
+    return this.replyModel.findByIdAndDelete(id)
   }
 
   async toggleLikeReply(likeReplyDto: LikeReplyDto) {
-    const reply = await this.replyModel.findById(likeReplyDto.replyId)
-    if (!reply) {
-      throw new HttpException('reply not found', 404)
-    }
-    const isUserLikedReply = reply.likedUsers.some(
+    const reply = await this.findOne(likeReplyDto.replyId)
+    const userIndex = reply.likedUsers.findIndex(
       (user) => user._id.toString() === likeReplyDto.userId
     )
-    if (isUserLikedReply) {
-      reply.likedUsers = reply.likedUsers.filter(
-        (user) => user._id.toString() !== likeReplyDto.userId
-      )
+
+    if (userIndex !== -1) {
+      reply.likedUsers.splice(userIndex, 1)
     } else {
-      const user = await this.usersService.findOne({ _id: likeReplyDto.userId })
-      if (!user) {
-        throw new HttpException('User not found', 404)
-      }
+      const user = await this.validateUser(likeReplyDto.userId)
       reply.likedUsers.push(user)
     }
-    return await reply.save()
+
+    return reply.save()
+  }
+
+  private async validateUser(userId: string) {
+    const user = await this.usersService.findOne({ _id: userId })
+    if (!user) {
+      throw new HttpException('User not found', 404)
+    }
+    return user
   }
 }

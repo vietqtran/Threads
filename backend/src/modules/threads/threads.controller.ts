@@ -35,7 +35,7 @@ export class ThreadsController {
 
   @Get('search/:searchTerm')
   async getBySearchTerm(@Param('searchTerm') searchTerm: string) {
-    return await this.threadsService.findBySeachTerm(searchTerm)
+    return await this.threadsService.findBySearchTerm(searchTerm)
   }
 
   @Get(':id')
