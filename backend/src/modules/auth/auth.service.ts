@@ -8,6 +8,7 @@ import { RegisterDto } from './dto/register.dto'
 import { TokenPayload } from './interfaces/token-payload'
 import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
 import { UsersService } from '../users/users.service'
+import { InvalidFiendException } from '@/common/exceptions/InvalidFieldException'
 
 @Injectable()
 export class AuthService {
@@ -17,8 +18,29 @@ export class AuthService {
     private readonly configService: ConfigService
   ) {}
 
-  async getAuthenticatedUser(email: string, password: string) {
-    const user = await this.usersService.getUserForLogin({ email })
+  getAuthCredentialField = (loginCredential: string, isRegister = false) => {
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    if (emailRegex.test(loginCredential)) {
+      return {
+        email: loginCredential
+      }
+    }
+    const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
+    if (phoneRegex.test(loginCredential)) {
+      return {
+        phoneNumber: loginCredential
+      }
+    }
+    if(isRegister) {
+        throw new InvalidFiendException('Invalid email or phone number')
+    }
+    return {
+      username: loginCredential
+    }
+  }
+
+  async getAuthenticatedUser(loginCredential: string, password: string) {
+    const user = await this.usersService.getUserForLogin(this.getAuthCredentialField(loginCredential))
     const isPasswordMatching = await this.isMatched(password, user.hashedPassword)
     if (!isPasswordMatching) {
       throw new PasswordNotMatchException()
@@ -28,16 +50,22 @@ export class AuthService {
   }
 
   async register(registerDto: RegisterDto) {
-    const { username, email, password } = registerDto
-    const user = await this.usersService.findOneWithoutException({ email })
+    const { username, registerCredentical, password } = registerDto
+    const credential = this.getAuthCredentialField(registerCredentical, true)
+    const user = await this.usersService.findOneWithoutException(credential)
     if (user) {
       throw new UserExistedException()
     }
     const hashedPassword = await this.hashPassword(password)
+    console.log({
+      username,
+      hashedPassword,
+      ...credential
+    })
     const createdUser = await this.usersService.create({
       username,
-      email,
-      hashedPassword
+      hashedPassword,
+      ...credential
     })
     return createdUser
   }

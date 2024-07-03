@@ -6,10 +6,9 @@ export class RegisterDto {
   @ApiProperty({
     example: 'vietqtran@gmail.com'
   })
-  @IsEmail()
   @IsString()
   @IsNotEmpty()
-  email: string
+  registerCredentical: string
 
   @ApiProperty({
     example: '12345678'

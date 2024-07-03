@@ -12,8 +12,21 @@ import { AcceptFollowDto, FollowUserDto } from './dto/follow-user'
 export class UsersService {
   constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
+  getCreateFieldForSearch = (email: string, phone: string) => {
+    if(email) {
+      return {
+        email
+      }
+    }
+    if(phone) {
+      return {
+        phoneNumber: phone
+      }
+    }
+  }
+
   async create(createUserDto: CreateUserDto) {
-    const existedUser = await this.userModel.findOneAndUpdate({ email: createUserDto.email }, createUserDto, {
+    const existedUser = await this.userModel.findOneAndUpdate(this.getCreateFieldForSearch(createUserDto.email, createUserDto.phoneNumber), createUserDto, {
       upsert: true,
       new: true
     })

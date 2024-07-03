@@ -13,12 +13,19 @@ export class CreateUserDto {
   username: string
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @IsEmail()
   @ApiProperty({
     example: 'vietqtran@gmail.com'
   })
-  email: string
+  email?: string
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    example: '0123456789'
+  })
+  phoneNumber?: string
 
   @IsString()
   @IsNotEmpty()

@@ -1,5 +1,4 @@
 import { Public } from '@/common/decorators/public.decorator'
-import MongooseClassSerializerInterceptor from '@/common/interceptors/mongooseClassSerializer.interceptor'
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common'
 import { ApiBody, ApiTags } from '@nestjs/swagger'
 import { Response } from 'express'
@@ -52,7 +51,6 @@ export class AuthController {
   }
 
   @Post('register')
-  @UseInterceptors(MongooseClassSerializerInterceptor(User))
   @Public()
   async register(@Body() registerDto: RegisterDto, @Res() response: Response) {
     const user = await this.authService.register(registerDto)

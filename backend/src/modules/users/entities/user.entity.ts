@@ -14,22 +14,51 @@ export class User extends BaseEntity {
   username: string
 
   @Prop({
-    required: true,
-    unique: true,
-    transform: (email: string) => email.trim().toLowerCase()
+    required: false,
+    default: null,
+    transform: (email: string) => {
+      email?.trim().toLowerCase()
+    },
+    validate: {
+      validator: (email: string) => {
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+        return emailRegex.test(email)
+      },
+      message: 'Invalid email'
+    }
   })
-  email: string
+  email?: string
+
+  @Prop({
+    required: false,
+    default: null,
+    transform: (phone: string) => {
+      phone?.trim()
+    },
+    validate: {
+      validator: (phone: string) => {
+        const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
+        return phoneRegex.test(phone)
+      },
+      message: 'Invalid phone number'
+    }
+  })
+  phoneNumber?: string
 
   @Prop({ required: true, select: false, transform: (password: string) => password.trim() })
   hashedPassword: string
 
-  @Prop({ required: false, select: false, transform: (hashedRefreshToken: string) => hashedRefreshToken.trim() })
+  @Prop({ required: false, default: null, select: false, transform: (hashedRefreshToken: string) => hashedRefreshToken?.trim() })
   hashedRefreshToken?: string
 
-  @Prop({ default: 'email', enum: ['email', 'google', 'facebook'], transform: (provider: string) => provider.trim() })
+  @Prop({
+    default: 'default',
+    enum: ['default', 'google', 'facebook'],
+    transform: (provider: string) => provider.trim()
+  })
   provider?: string
 
-  @Prop({ required: false, transform: (avatar: string) => avatar.trim() })
+  @Prop({ required: false, default: null, transform: (avatar: string) => avatar?.trim() })
   avatar?: string
 
   @Prop({ required: false, default: [] })
