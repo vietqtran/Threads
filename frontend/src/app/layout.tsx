@@ -2,6 +2,7 @@ import './globals.css'
 import 'simplebar-react/dist/simplebar.min.css'
 import 'swiper/css';
 import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
 
 import type { Metadata } from 'next'
 import Modal from '@/components/Common/Modal'

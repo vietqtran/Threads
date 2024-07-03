@@ -27,22 +27,6 @@ const MainContent = () => {
       </div>
 
       <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
-      <Thread />
     </div>
   )
 }

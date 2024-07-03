@@ -2,7 +2,7 @@ import Icon from '@/components/Common/Icon'
 import Image from 'next/image'
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode } from 'swiper/modules';
+import { FreeMode, Pagination } from 'swiper/modules';
 
 type Props = {}
 
@@ -45,6 +45,45 @@ const Thread = (props: Props) => {
 
                 
         </div>
+        {/* 2 landscape */}
+        <Swiper
+            spaceBetween={6}
+            freeMode={true}
+            pagination={{
+                clickable: true,
+            }}
+            modules={[FreeMode, Pagination]}
+            className="mySwiper max-h-[300px] max-w-fit bg-transparent"
+        >   
+            <SwiperSlide className='max-w-[66px] bg-transparent h-full' />
+            <SwiperSlide className='bg-transparent max-w-fit h-full'>
+                <div className='h-full w-auto'>
+                    <div className=' border h-full rounded-lg overflow-hidden cursor-pointer'>
+                        <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
+                    </div>
+                </div>
+            </SwiperSlide>
+            <SwiperSlide className='bg-transparent max-w-fit h-full'>
+                <div className='h-full w-auto'>
+                    <div className=' border h-full rounded-lg overflow-hidden cursor-pointer'>
+                        <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
+                    </div>
+                </div>
+            </SwiperSlide>
+            <SwiperSlide className='bg-transparent max-w-fit h-full'>
+                <div className='h-full w-auto'>
+                    <div className=' border h-full rounded-lg overflow-hidden cursor-pointer'>
+                        <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
+                    </div>
+                </div>
+            </SwiperSlide>
+            <SwiperSlide className='bg-transparent max-w-fit h-full'>
+                <div className=' border h-full rounded-lg overflow-hidden cursor-pointer'>
+                    <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
+                </div>
+            </SwiperSlide>
+            <SwiperSlide className='max-w-6 bg-transparent h-full' />
+        </Swiper>
         <div className='w-full flex'>
             {/* <div className='w-[72px]'></div> */}
             <div className='flex-1'>
@@ -71,43 +110,6 @@ const Thread = (props: Props) => {
                             <Image src={'/images/post_portrait.jpg'} className='size-full object-cover' width={2000} height={2000} alt='' />
                         </div>
                     </div> */}
-
-                    {/* 2 landscape */}
-                    <Swiper
-                        modules={[FreeMode]}
-                        className="thread-images-swiper"
-                    >   
-                        <SwiperSlide className='max-w-[72px] h-full' />
-                        <SwiperSlide className=' max-w-fit max-h-[300px]'>
-                            <div className='h-full w-auto'>
-                                <div className=' border h-full rounded-lg overflow-hidden cursor-pointer active:scale-95 duration-75 ease-linear'>
-                                    <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide className=' max-w-fit max-h-[300px]'>
-                            <div className='h-full w-auto'>
-                                <div className=' border h-full rounded-lg overflow-hidden cursor-pointer active:scale-95 duration-75 ease-linear'>
-                                    <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide className=' max-w-fit max-h-[300px]'>
-                            <div className='h-full w-auto'>
-                                <div className=' border h-full rounded-lg overflow-hidden cursor-pointer active:scale-95 duration-75 ease-linear'>
-                                    <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide className=' max-w-fit max-h-[300px]'>
-                            <div className='h-full w-auto'>
-                                <div className=' border h-full rounded-lg overflow-hidden cursor-pointer active:scale-95 duration-75 ease-linear'>
-                                    <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
-                                </div>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide className='max-w-6 h-full' />
-                    </Swiper>
                 </div>
             </div>
             {/* <div className='w-6'></div> */}
