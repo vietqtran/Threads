@@ -1,8 +1,17 @@
 import { Public } from '@/common/decorators/public.decorator'
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+  UseGuards
+} from '@nestjs/common'
 import { ApiBody, ApiTags } from '@nestjs/swagger'
 import { Response } from 'express'
-import { User } from '../users/entities/user.entity'
 import { UsersService } from '../users/users.service'
 import { AuthService } from './auth.service'
 import { LoginDto } from './dto/login.dto'
@@ -25,7 +34,7 @@ export class AuthController {
     examples: {
       user1: {
         value: {
-          email: 'vietqtran@gmail.com',
+          loginCredential: 'vietqtran@gmail.com',
           password: '12345678'
         }
       }
@@ -43,10 +52,18 @@ export class AuthController {
       provider: user.provider,
       sub: user._id + ''
     }
-    const accessTokenCookie = await this.authService.getCookieWithJwtAccessToken(payload)
-    const refreshTokenCookie = await this.authService.getCookieWithJwtRefreshToken(payload)
-    await this.usersService.setCurrentRefreshToken(refreshTokenCookie.token, user._id + '')
-    request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie.cookie])
+    const accessTokenCookie =
+      await this.authService.getCookieWithJwtAccessToken(payload)
+    const refreshTokenCookie =
+      await this.authService.getCookieWithJwtRefreshToken(payload)
+    await this.usersService.setCurrentRefreshToken(
+      refreshTokenCookie.token,
+      user._id + ''
+    )
+    request.res.setHeader('Set-Cookie', [
+      accessTokenCookie,
+      refreshTokenCookie.cookie
+    ])
     return user
   }
 
@@ -81,10 +98,18 @@ export class AuthController {
       provider: user.provider,
       sub: user._id + ''
     }
-    const accessTokenCookie = await this.authService.getCookieWithJwtAccessToken(payload)
-    const refreshTokenCookie = await this.authService.getCookieWithJwtRefreshToken(payload)
-    await this.usersService.setCurrentRefreshToken(refreshTokenCookie.token, user._id + '')
-    request.res.setHeader('Set-Cookie', [accessTokenCookie, refreshTokenCookie.cookie])
+    const accessTokenCookie =
+      await this.authService.getCookieWithJwtAccessToken(payload)
+    const refreshTokenCookie =
+      await this.authService.getCookieWithJwtRefreshToken(payload)
+    await this.usersService.setCurrentRefreshToken(
+      refreshTokenCookie.token,
+      user._id + ''
+    )
+    request.res.setHeader('Set-Cookie', [
+      accessTokenCookie,
+      refreshTokenCookie.cookie
+    ])
     user.hashedRefreshToken = undefined
     return user
   }

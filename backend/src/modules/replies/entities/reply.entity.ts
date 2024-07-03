@@ -1,7 +1,9 @@
 import { BaseEntity } from '@/base/entity.base'
 import { MediaType } from '@/modules/threads/constants/media-type.enum'
-import { ThreadContentType, ThreadType } from '@/modules/threads/constants/thread-type.enum'
-import { Thread } from '@/modules/threads/entities/thread.entity'
+import {
+  ThreadContentType,
+  ThreadType
+} from '@/modules/threads/constants/thread-type.enum'
 import { User } from '@/modules/users/entities/user.entity'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Type } from 'class-transformer'
@@ -45,7 +47,13 @@ export class Reply extends BaseEntity {
   @Type(() => User)
   user: User
 
-  @Prop({ type: MongooseSchema.Types.Array, required: false, ref: User.name, default: [], items: User })
+  @Prop({
+    type: MongooseSchema.Types.Array,
+    required: false,
+    ref: User.name,
+    default: [],
+    items: User
+  })
   @Type(() => User)
   likedUsers?: User[]
 }

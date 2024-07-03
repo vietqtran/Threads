@@ -10,7 +10,11 @@ import { BaseEntity } from '@/base/entity.base'
   versionKey: false
 })
 export class User extends BaseEntity {
-  @Prop({ required: true, unique: true, transform: (username: string) => username.trim() })
+  @Prop({
+    required: true,
+    unique: true,
+    transform: (username: string) => username.trim()
+  })
   username: string
 
   @Prop({
@@ -27,7 +31,11 @@ export class User extends BaseEntity {
   })
   phoneNumber?: string
 
-  @Prop({ required: true, select: false, transform: (password: string) => password.trim() })
+  @Prop({
+    required: true,
+    select: false,
+    transform: (password: string) => password.trim()
+  })
   hashedPassword: string
 
   @Prop({
@@ -45,7 +53,11 @@ export class User extends BaseEntity {
   })
   provider?: string
 
-  @Prop({ required: false, default: null, transform: (avatar: string) => avatar?.trim() })
+  @Prop({
+    required: false,
+    default: null,
+    transform: (avatar: string) => avatar?.trim()
+  })
   avatar?: string
 
   @Prop({ required: false, default: [] })

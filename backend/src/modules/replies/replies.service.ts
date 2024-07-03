@@ -54,7 +54,9 @@ export class RepliesService {
     if (!reply) {
       throw new HttpException('Reply not found', 404)
     }
-    return await this.replyModel.findByIdAndUpdate(id, updateReplyDto, { new: true })
+    return await this.replyModel.findByIdAndUpdate(id, updateReplyDto, {
+      new: true
+    })
   }
 
   async remove(id: string) {
@@ -63,7 +65,9 @@ export class RepliesService {
       throw new HttpException('Reply not found', 404)
     }
     const thread = await this.threadsService.findOne(reply.repliedTo)
-    thread.replies = thread.replies.filter((reply) => reply._id.toString() !== id)
+    thread.replies = thread.replies.filter(
+      (reply) => reply._id.toString() !== id
+    )
     await thread.save()
     return await this.replyModel.findByIdAndDelete(id)
   }
@@ -73,9 +77,13 @@ export class RepliesService {
     if (!reply) {
       throw new HttpException('reply not found', 404)
     }
-    const isUserLikedReply = reply.likedUsers.some((user) => user._id.toString() === likeReplyDto.userId)
+    const isUserLikedReply = reply.likedUsers.some(
+      (user) => user._id.toString() === likeReplyDto.userId
+    )
     if (isUserLikedReply) {
-      reply.likedUsers = reply.likedUsers.filter((user) => user._id.toString() !== likeReplyDto.userId)
+      reply.likedUsers = reply.likedUsers.filter(
+        (user) => user._id.toString() !== likeReplyDto.userId
+      )
     } else {
       const user = await this.usersService.findOne({ _id: likeReplyDto.userId })
       if (!user) {

@@ -10,7 +10,8 @@ import { Thread, ThreadDocument } from './entities/thread.entity'
 @Injectable()
 export class ThreadsService {
   constructor(
-    @InjectModel(Thread.name) private readonly threadModel: Model<ThreadDocument>,
+    @InjectModel(Thread.name)
+    private readonly threadModel: Model<ThreadDocument>,
     private readonly usersService: UsersService
   ) {}
 
@@ -30,7 +31,9 @@ export class ThreadsService {
   }
 
   async findBySeachTerm(searchTerm: string) {
-    return await this.threadModel.find({ content: { $regex: searchTerm, $options: 'i' } })
+    return await this.threadModel.find({
+      content: { $regex: searchTerm, $options: 'i' }
+    })
   }
 
   async findOne(id: string) {
@@ -61,11 +64,17 @@ export class ThreadsService {
     if (!thread) {
       throw new HttpException('Thread not found', 404)
     }
-    const isUserLikedThread = thread.likedUsers.some((user) => user._id.toString() === likeThreadDto.userId)
+    const isUserLikedThread = thread.likedUsers.some(
+      (user) => user._id.toString() === likeThreadDto.userId
+    )
     if (isUserLikedThread) {
-      thread.likedUsers = thread.likedUsers.filter((user) => user._id.toString() !== likeThreadDto.userId)
+      thread.likedUsers = thread.likedUsers.filter(
+        (user) => user._id.toString() !== likeThreadDto.userId
+      )
     } else {
-      const user = await this.usersService.findOne({ _id: likeThreadDto.userId })
+      const user = await this.usersService.findOne({
+        _id: likeThreadDto.userId
+      })
       if (!user) {
         throw new HttpException('User not found', 404)
       }

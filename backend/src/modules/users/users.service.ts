@@ -1,5 +1,5 @@
 import { UserNotFoundException } from '@/common/exceptions/UserNotFound.exception'
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import * as argon2 from 'argon2'
 import { FilterQuery, Model } from 'mongoose'
@@ -11,7 +11,9 @@ import { UserExistedException } from '@/common/exceptions/UserExisted.exception'
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>
+  ) {}
 
   getCreateFieldForSearch = (email: string, phone: string) => {
     if (email) {
@@ -29,7 +31,10 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const existedUser = await this.userModel.findOne({
       $or: [
-        this.getCreateFieldForSearch(createUserDto.email, createUserDto.phoneNumber),
+        this.getCreateFieldForSearch(
+          createUserDto.email,
+          createUserDto.phoneNumber
+        ),
         { username: createUserDto.username }
       ]
     })
@@ -41,7 +46,11 @@ export class UsersService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    const updatedUser = await this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true })
+    const updatedUser = await this.userModel.findByIdAndUpdate(
+      id,
+      updateUserDto,
+      { new: true }
+    )
     if (!updatedUser) {
       throw new UserNotFoundException()
     }
@@ -80,11 +89,16 @@ export class UsersService {
   }
 
   async getUserIfRefreshTokenMatches(refreshToken: string, userId: string) {
-    const user = await this.userModel.findById(userId).select('+hashedRefreshToken')
+    const user = await this.userModel
+      .findById(userId)
+      .select('+hashedRefreshToken')
     if (!user) {
       return null
     }
-    const isRefreshTokenMatching = await argon2.verify(user.hashedRefreshToken, refreshToken)
+    const isRefreshTokenMatching = await argon2.verify(
+      user.hashedRefreshToken,
+      refreshToken
+    )
     return isRefreshTokenMatching ? user : null
   }
 
@@ -95,9 +109,13 @@ export class UsersService {
   async toggleFollowUser(followUserDto: FollowUserDto) {
     const { from, to, isAccepted } = followUserDto
     const user = await this.findOne({ _id: from })
-    const isFollowed = user.following.some((following) => following.user._id.toString() === to)
+    const isFollowed = user.following.some(
+      (following) => following.user._id.toString() === to
+    )
     if (isFollowed) {
-      user.following = user.following.filter((following) => following.user._id.toString() !== to)
+      user.following = user.following.filter(
+        (following) => following.user._id.toString() !== to
+      )
       await user.save()
       return user
     }
@@ -122,6 +140,8 @@ export class UsersService {
 
   async getFollowingUsers(id: string) {
     const user = await this.findOne({ _id: id })
-    return user.following.filter((following) => following.isAccepted).map((following) => following.user)
+    return user.following
+      .filter((following) => following.isAccepted)
+      .map((following) => following.user)
   }
 }

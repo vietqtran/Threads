@@ -2,7 +2,7 @@ import { registerAs } from '@nestjs/config'
 
 export default registerAs(
   's3',
-  (): Record<string, any> => ({
+  (): Record<string, string> => ({
     publicBucket: process.env.AWS_S3_PUBLIC_BUCKET,
     region: process.env.AWS_S3_REGION,
     accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,

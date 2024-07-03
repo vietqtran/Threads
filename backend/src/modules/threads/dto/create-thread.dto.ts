@@ -1,6 +1,12 @@
 import { User } from '@/modules/users/entities/user.entity'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import {
+  IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString
+} from 'class-validator'
 import { MediaType } from '../constants/media-type.enum'
 import { ThreadContentType, ThreadType } from '../constants/thread-type.enum'
 

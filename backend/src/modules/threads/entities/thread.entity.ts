@@ -41,11 +41,23 @@ export class Thread extends BaseEntity {
   @Type(() => User)
   user: User
 
-  @Prop({ type: MongooseSchema.Types.Array, required: false, ref: User.name, default: [], items: User })
+  @Prop({
+    type: MongooseSchema.Types.Array,
+    required: false,
+    ref: User.name,
+    default: [],
+    items: User
+  })
   @Type(() => User)
   likedUsers?: User[]
 
-  @Prop({ type: MongooseSchema.Types.Array, required: false, ref: Reply.name, default: [], items: Reply })
+  @Prop({
+    type: MongooseSchema.Types.Array,
+    required: false,
+    ref: Reply.name,
+    default: [],
+    items: Reply
+  })
   @Type(() => Reply)
   replies?: Reply[]
 }

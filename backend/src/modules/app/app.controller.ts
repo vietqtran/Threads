@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UploadedFile,
+  UseInterceptors
+} from '@nestjs/common'
 import { AppService } from './app.service'
 import { Public } from '@/common/decorators/public.decorator'
 import { FileInterceptor } from '@nestjs/platform-express'
@@ -7,7 +14,7 @@ import { UploadService } from '../upload/upload.service'
 
 class UploadFileDto {
   @ApiProperty({ type: 'file' })
-  file: any
+  file: Express.Multer.File
 }
 
 @Controller()
@@ -27,7 +34,10 @@ export class AppController {
   @Public()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.Multer.File, @Body() fileInfo: UploadFileDto) {
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Body() fileInfo: UploadFileDto
+  ) {
     console.log(fileInfo)
     return await this.uploadService.uploadFile(file)
   }

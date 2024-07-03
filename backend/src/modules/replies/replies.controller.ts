@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post
+} from '@nestjs/common'
 import { CreateReplyDto } from './dto/create-reply.dto'
 import { UpdateReplyDto } from './dto/update-reply.dto'
 import { RepliesService } from './replies.service'
@@ -26,7 +34,10 @@ export class RepliesController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateReplyDto: UpdateReplyDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateReplyDto: UpdateReplyDto
+  ) {
     return await this.repliesService.update(id, updateReplyDto)
   }
 

@@ -1,8 +1,17 @@
-import { ThreadContentType, ThreadType } from '@/modules/threads/constants/thread-type.enum'
+import {
+  ThreadContentType,
+  ThreadType
+} from '@/modules/threads/constants/thread-type.enum'
 import { Media } from '@/modules/threads/dto/create-thread.dto'
 import { User } from '@/modules/users/entities/user.entity'
 import { ApiProperty } from '@nestjs/swagger'
-import { IsArray, IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import {
+  IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString
+} from 'class-validator'
 
 export class CreateReplyDto {
   @ApiProperty()
