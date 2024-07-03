@@ -1,5 +1,7 @@
 import './globals.css'
 import 'simplebar-react/dist/simplebar.min.css'
+import 'swiper/css';
+import 'swiper/css/free-mode';
 
 import type { Metadata } from 'next'
 import Modal from '@/components/Common/Modal'

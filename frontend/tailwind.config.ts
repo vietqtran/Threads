@@ -66,6 +66,10 @@ const config = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))'
+        },
+        'same-bg-content': {
+          DEFAULT: 'hsl(var(--background-content))',
+          hover: 'hsl(var(--background-content-hover))'
         }
       },
       borderRadius: {

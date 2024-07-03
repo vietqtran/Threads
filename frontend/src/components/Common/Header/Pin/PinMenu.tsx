@@ -73,7 +73,7 @@ const PinMenu = ({ setIsOpen }: Props) => {
                 </div>
                 <div className="flex-1 truncate">
                   <span className="block w-full truncate text-15px font-medium leading-[21px]">search content</span>
-                  <span className="block truncate text-15px font-light leading-[21px] text-secondary">
+                  <span className="block truncate text-15px  leading-[21px] text-secondary">
                     search content
                   </span>
                 </div>

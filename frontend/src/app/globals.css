@@ -6,7 +6,7 @@
   :root {
     --background: 0 0% 98%;
     --background-content: 0, 0%, 100%;
-    --background-content-hover: 0, 0%, 96%;
+    --background-content-hover: 0, 0%, 95%;
 
     --foreground: 0 0% 0%;
     --foreground-secondary: 0, 0%, 60%;
@@ -42,7 +42,7 @@
   .dark {
     --background: 0 0% 4%;
     --background-content: 0, 0%, 9%;
-    --background-content-hover: 0, 0%, 13%;
+    --background-content-hover: 0, 0%, 15%;
 
     --foreground: 210 20% 96% 1;
     --foreground-secondary: 0, 0%, 46.67%;
@@ -94,4 +94,15 @@
 
 .simplebar-scrollbar:before {
   @apply dark:bg-[#777777];
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

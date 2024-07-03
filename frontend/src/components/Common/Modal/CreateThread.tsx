@@ -74,7 +74,7 @@ const CreateThread = () => {
                       />
                     </div>
                   </div>
-                  <span className="mb-0.5 block cursor-not-allowed font-light">Add to thread</span>
+                  <span className="mb-0.5 block cursor-not-allowed ">Add to thread</span>
                 </div>
               </div>
             </div>
