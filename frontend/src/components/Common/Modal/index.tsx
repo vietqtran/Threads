@@ -6,9 +6,10 @@ import { MODAL } from '@/enums/modal'
 import { AnimatePresence, motion } from 'framer-motion'
 import CreateThread from './CreateThread'
 import ViewThreadMedias from './ViewThreadMedias'
+import DragToCloseDrawer from '../Drawer/DragToCloseDrawer'
 
 const Modal = () => {
-  const { modal, setModal } = useModalStore(state => state)
+  const { modal, setModal, closeViewThreadMedias } = useModalStore(state => state)
 
   return modal === MODAL.DEFAULT ? null : (
     <AnimatePresence>
@@ -19,7 +20,11 @@ const Modal = () => {
         className="fixed inset-0 z-[999999] grid size-full place-items-center bg-black/80"
       >
         {modal === MODAL.CREATE_THREAD && <CreateThread />}
-        {modal === MODAL.VIEW_THREAD_IMAGES && <ViewThreadMedias />}
+        {modal === MODAL.VIEW_THREAD_IMAGES && (
+          <DragToCloseDrawer>
+            <ViewThreadMedias />
+          </DragToCloseDrawer>
+        )}
       </motion.div>
     </AnimatePresence>
   )
