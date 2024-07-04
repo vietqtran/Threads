@@ -7,7 +7,5 @@ export const isValidPhone = (value: string) => {
 }
 
 export const isValidEmail = (value: string) => {
-  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-    value
-  )
+  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)
 }
