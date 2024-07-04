@@ -45,45 +45,93 @@ const Thread = (props: Props) => {
 
                 
         </div>
-        {/* 2 landscape */}
-        <Swiper
-            spaceBetween={6}
-            freeMode={true}
-            pagination={{
-                clickable: true,
-            }}
+        {/* > 2 landscape */}
+        {/* <Swiper
             modules={[FreeMode, Pagination]}
-            className="mySwiper max-h-[300px] max-w-fit bg-transparent"
-        >   
-            <SwiperSlide className='max-w-[66px] bg-transparent h-full' />
-            <SwiperSlide className='bg-transparent max-w-fit h-full'>
-                <div className='h-full w-auto'>
-                    <div className=' border h-full rounded-lg overflow-hidden cursor-pointer'>
-                        <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
-                    </div>
+            spaceBetween={0}
+            slidesPerView={'auto'}
+            freeMode={true}
+            className='h-[184px]'
+        >
+            <SwiperSlide className='max-w-[72px]'>
+                <div className='max-w-[72px]'></div>
+            </SwiperSlide>
+            <SwiperSlide className='mr-1.5 max-w-[245px] h-full'>
+                <div className='border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear'>
+                    <Image src={'/images/post_landscape.png'} className='w-full h-full object-cover' width={2000} height={2000} alt='' />
                 </div>
             </SwiperSlide>
-            <SwiperSlide className='bg-transparent max-w-fit h-full'>
-                <div className='h-full w-auto'>
-                    <div className=' border h-full rounded-lg overflow-hidden cursor-pointer'>
-                        <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
-                    </div>
+            <SwiperSlide className='mr-1.5 max-w-[245px] h-full'>
+                <div className='border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear'>
+                    <Image src={'/images/post_landscape.png'} className='w-full h-full object-cover' width={2000} height={2000} alt='' />
                 </div>
             </SwiperSlide>
-            <SwiperSlide className='bg-transparent max-w-fit h-full'>
-                <div className='h-full w-auto'>
-                    <div className=' border h-full rounded-lg overflow-hidden cursor-pointer'>
-                        <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
-                    </div>
+            <SwiperSlide className='mr-1.5 max-w-[245px] h-full'>
+                <div className='border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear'>
+                    <Image src={'/images/post_landscape.png'} className='w-full h-full object-cover' width={2000} height={2000} alt='' />
                 </div>
             </SwiperSlide>
-            <SwiperSlide className='bg-transparent max-w-fit h-full'>
-                <div className=' border h-full rounded-lg overflow-hidden cursor-pointer'>
-                    <Image src={'/images/post_landscape.png'} className='size-full object-cover' width={2000} height={2000} alt='' />
+            <SwiperSlide className='mr-1.5 max-w-[245px] h-full'>
+                <div className='border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear'>
+                    <Image src={'/images/post_landscape.png'} className='w-full h-full object-cover' width={2000} height={2000} alt='' />
                 </div>
             </SwiperSlide>
-            <SwiperSlide className='max-w-6 bg-transparent h-full' />
+            <SwiperSlide className='mr-1.5 max-w-[245px] h-full'>
+                <div className='border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear'>
+                    <Image src={'/images/post_landscape.png'} className='w-full h-full object-cover' width={2000} height={2000} alt='' />
+                </div>
+            </SwiperSlide>
+            <SwiperSlide className='max-w-6'>
+                <div className='max-w-6'></div>
+            </SwiperSlide>
+        </Swiper> */}
+
+        {/* > 2 portrait */}
+        <Swiper
+            modules={[FreeMode, Pagination]}
+            spaceBetween={0}
+            slidesPerView={'auto'}
+            freeMode={true}
+            className='h-[280px]'
+        >
+            <SwiperSlide className='max-w-[72px]'>
+                <div className='max-w-[72px]'></div>
+            </SwiperSlide>
+            <SwiperSlide className='mr-1.5 max-w-[210px] h-full'>
+                <div className='border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear'>
+                    <Image src={'/images/post_portrait.jpg'} className='w-full h-full object-cover' width={2000} height={2000} alt='' />
+                </div>
+            </SwiperSlide>
+            <SwiperSlide className='mr-1.5 max-w-[210px] h-full'>
+                <div className='border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear'>
+                    <Image src={'/images/post_portrait.jpg'} className='w-full h-full object-cover' width={2000} height={2000} alt='' />
+                </div>
+            </SwiperSlide>
+            <SwiperSlide className='mr-1.5 max-w-[210px] h-full'>
+                <div className='border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear'>
+                    <Image src={'/images/post_portrait.jpg'} className='w-full h-full object-cover' width={2000} height={2000} alt='' />
+                </div>
+            </SwiperSlide>
+            <SwiperSlide className='mr-1.5 max-w-[210px] h-full'>
+                <div className='border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear'>
+                    <Image src={'/images/post_portrait.jpg'} className='w-full h-full object-cover' width={2000} height={2000} alt='' />
+                </div>
+            </SwiperSlide>
+            <SwiperSlide className='mr-1.5 max-w-[210px] h-full'>
+                <div className='border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear'>
+                    <Image src={'/images/post_portrait.jpg'} className='w-full h-full object-cover' width={2000} height={2000} alt='' />
+                </div>
+            </SwiperSlide>
+            <SwiperSlide className='max-w-6'>
+                <div className='max-w-6'></div>
+            </SwiperSlide>
         </Swiper>
+
+        {/* 
+            TODO 
+            Mix Landscape & portrait
+        */}
+        
         <div className='w-full flex'>
             {/* <div className='w-[72px]'></div> */}
             <div className='flex-1'>
