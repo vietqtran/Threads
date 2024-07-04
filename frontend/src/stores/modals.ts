@@ -3,6 +3,7 @@ import { createStore } from 'zustand/vanilla'
 
 export type ModalState = {
   modal: MODAL
+  threadImages: string[]
 }
 
 export type ModalActions = {
@@ -12,7 +13,8 @@ export type ModalActions = {
 export type ModalStore = ModalState & ModalActions
 
 export const defaultInitState: ModalState = {
-  modal: MODAL.DEFAULT
+  modal: MODAL.DEFAULT,
+  threadImages: []
 }
 
 export const createModalStore = (initState: ModalState = defaultInitState) => {

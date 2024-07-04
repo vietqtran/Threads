@@ -206,6 +206,31 @@ const Thread = (props: Props) => {
           {/* <div className='w-6'></div> */}
         </div>
       </div>
+
+      <div className="w-full flex gap-2 pl-[64px]">
+        <div className="h-9 px-2 active:scale-90 ease-linear duration-75 relative min-w-9 flex items-center justify-center gap-1 group cursor-pointer">
+          <div className="absolute inset-0 size-full group-hover:bg-content-hover duration-75 ease-linear z-[-1] rounded-full opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100"></div>
+          <Icon name="thread_footer_heart_white" className="dark:block hidden" size={20} />
+          <Icon name="thread_footer_heart_black" className="dark:hidden" size={20} />
+          <span className="leading-[18px] text-[13px] mt-1 block">999</span>
+        </div>
+        <div className="h-9 px-2 active:scale-90 ease-linear duration-75 relative min-w-9 flex items-center justify-center gap-1 group cursor-pointer">
+          <div className="absolute inset-0 size-full group-hover:bg-content-hover duration-75 ease-linear z-[-1] rounded-full opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100"></div>
+          <Icon name="thread_footer_comment_white" className="dark:block hidden" size={20} />
+          <Icon name="thread_footer_comment_black" className="dark:hidden" size={20} />
+          <span className="leading-[18px] text-[13px] mt-1 block">999</span>
+        </div>
+        <div className="h-9 px-2 active:scale-90 ease-linear duration-75 relative min-w-9 flex items-center justify-center gap-1 group cursor-pointer">
+          <div className="absolute inset-0 size-full group-hover:bg-content-hover duration-75 ease-linear z-[-1] rounded-full opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100"></div>
+          <Icon name="thread_footer_repost_white" className="dark:block hidden" size={20} />
+          <Icon name="thread_footer_repost_black" className="dark:hidden" size={20} />
+        </div>
+        <div className="h-9 px-2 active:scale-90 ease-linear duration-75 relative min-w-9 flex items-center justify-center gap-1 group cursor-pointer">
+          <div className="absolute inset-0 size-full group-hover:bg-content-hover duration-75 ease-linear z-[-1] rounded-full opacity-0 scale-50 group-hover:opacity-100 group-hover:scale-100"></div>
+          <Icon name="thread_footer_share_white" className="dark:block hidden" size={20} />
+          <Icon name="thread_footer_share_black" className="dark:hidden" size={20} />
+        </div>
+      </div>
     </div>
   )
 }
