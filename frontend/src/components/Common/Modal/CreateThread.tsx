@@ -2,6 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import SimpleBar from 'simplebar-react'
 import Icon from '../Icon'
+import Editor from '../Editor'
 
 const CreateThread = () => {
   return (
@@ -30,11 +31,7 @@ const CreateThread = () => {
                 </div>
                 <div className="flex flex-1 flex-col">
                   <span className="font-medium">vietqtran</span>
-                  <input
-                    type="text"
-                    className="w-full bg-transparent placeholder:text-secondary focus:outline-none"
-                    placeholder="Start a thread..."
-                  />
+                  <Editor placeholder="Start a thread..." autoFocus={true} />
                   <div className="mt-1 w-full">
                     <div className="relative -left-2 flex w-full">
                       <div className="group relative grid size-9 cursor-pointer place-items-center duration-75 ease-linear active:scale-90">
@@ -61,7 +58,7 @@ const CreateThread = () => {
                   </div>
                 </div>
               </div>
-              <div className="w-full pt-2 opacity-20">
+              <div className="w-full pt-2 opacity-50">
                 <div className="flex h-[21px] w-full items-center gap-3">
                   <div className="flex h-full w-9 justify-center">
                     <div className="size-4 overflow-hidden rounded-full border">
