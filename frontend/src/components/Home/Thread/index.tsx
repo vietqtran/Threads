@@ -3,11 +3,27 @@ import Image from 'next/image'
 import React, { useId } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { FreeMode } from 'swiper/modules'
+import { useModalStore } from '@/providers/StoresProvider'
 
 type Props = {}
 
-const Thread = (props: Props) => {
+const Thread = ({}: Props) => {
   const swiperId = useId()
+  const images = [
+    '/images/post_portrait.jpg',
+    '/images/post_landscape.png',
+    '/images/post_portrait.jpg',
+    '/images/post_landscape.png',
+    '/images/post_portrait.jpg',
+    '/images/post_portrait.jpg',
+    '/images/post_landscape.png',
+    '/images/post_portrait.jpg'
+  ]
+  const { setViewThreadMedias } = useModalStore(state => state)
+
+  const hanldeViewMedia = (index: number) => {
+    setViewThreadMedias(index, images)
+  }
 
   return (
     <div className="w-full border-b pt-3 pb-2">
@@ -110,61 +126,16 @@ const Thread = (props: Props) => {
           <SwiperSlide className="max-w-[72px]">
             <div className="max-w-[72px]"></div>
           </SwiperSlide>
-          <SwiperSlide className="mr-1.5 max-w-[210px] h-full">
-            <div className="border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear">
-              <Image
-                src={'/images/post_portrait.jpg'}
-                className="w-full h-full object-cover"
-                width={2000}
-                height={2000}
-                alt=""
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="mr-1.5 max-w-[210px] h-full">
-            <div className="border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear">
-              <Image
-                src={'/images/post_portrait.jpg'}
-                className="w-full h-full object-cover"
-                width={2000}
-                height={2000}
-                alt=""
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="mr-1.5 max-w-[210px] h-full">
-            <div className="border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear">
-              <Image
-                src={'/images/post_portrait.jpg'}
-                className="w-full h-full object-cover"
-                width={2000}
-                height={2000}
-                alt=""
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="mr-1.5 max-w-[210px] h-full">
-            <div className="border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear">
-              <Image
-                src={'/images/post_portrait.jpg'}
-                className="w-full h-full object-cover"
-                width={2000}
-                height={2000}
-                alt=""
-              />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide className="mr-1.5 max-w-[210px] h-full">
-            <div className="border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear">
-              <Image
-                src={'/images/post_portrait.jpg'}
-                className="w-full h-full object-cover"
-                width={2000}
-                height={2000}
-                alt=""
-              />
-            </div>
-          </SwiperSlide>
+          {images.map((image, index) => (
+            <SwiperSlide key={`thread-medias-${swiperId}-${index}`} className="mr-1.5 max-w-[210px] h-full">
+              <div
+                onClick={() => hanldeViewMedia(index)}
+                className="border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear"
+              >
+                <Image src={image} className="w-full h-full object-cover" width={2000} height={2000} alt="" />
+              </div>
+            </SwiperSlide>
+          ))}
           <SwiperSlide className="max-w-6">
             <div className="max-w-6"></div>
           </SwiperSlide>
