@@ -3,10 +3,12 @@ import React, { memo } from 'react'
 import Icon from '../../Icon'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import SimpleBar from 'simplebar-react'
 import { motion } from 'framer-motion'
 import { useClickOutside } from '@/hooks/useClickOutside'
+import { v4 as uuidv4 } from 'uuid'
+import { useHomeStore } from '@/providers/StoresProvider'
+import { HOME_SECTION } from '@/enums/home'
 
 type Props = {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -52,7 +54,7 @@ const PinMenu = ({ setIsOpen }: Props) => {
             )}
           </div>
         </div>
-        <SimpleBar className="h-full flex-1 overflow-auto">
+       {searchValue &&  <SimpleBar className="h-full flex-1 overflow-auto">
           <div className="mx-2 h-[1000px]">
             <div className="cursor-pointer rounded-2xl p-4 hover:bg-content-hover">
               <div className="flex min-h-9 items-center gap-3">
@@ -78,8 +80,8 @@ const PinMenu = ({ setIsOpen }: Props) => {
               </div>
             </div>
           </div>
-        </SimpleBar>
-        {/* <MenuLinks /> */}
+        </SimpleBar>}
+        {!searchValue && <MenuLinks />}
       </div>
     </motion.div>
   )
@@ -89,43 +91,108 @@ export default PinMenu
 
 // eslint-disable-next-line react/display-name
 export const MenuLinks = memo(({}) => {
+  const { pinSection, setMainSection } = useHomeStore(state => state)
+
   return (
     <div className="h-auto w-full p-2">
-      <Link href={'/'} className="block w-full rounded-xl p-3 hover:bg-content-hover">
+      <div
+        onClick={() => {
+          pinSection({
+            id: uuidv4(),
+            title: 'For you',
+            section: HOME_SECTION.FOR_YOU
+          })
+        }}
+        className="block w-full rounded-xl p-3 hover:bg-content-hover"
+      >
         <div className="flex h-7 w-full cursor-pointer items-center">
           <span className="block text-15px font-medium">For you</span>
         </div>
-      </Link>
-      <Link href={'/'} className="block w-full rounded-xl p-3 hover:bg-content-hover">
+      </div>
+      <div
+        onClick={() => {
+          pinSection({
+            id: uuidv4(),
+            title: 'Following',
+            section: HOME_SECTION.FOLLOWING
+          })
+        }}
+        className="block w-full rounded-xl p-3 hover:bg-content-hover"
+      >
         <div className="flex h-7 w-full cursor-pointer items-center">
           <span className="block text-15px font-medium">Following</span>
         </div>
-      </Link>
-      <Link href={'/'} className="block w-full rounded-xl p-3 hover:bg-content-hover">
+      </div>
+      <div
+        onClick={() =>
+          pinSection({
+            id: uuidv4(),
+            title: 'Liked',
+            section: HOME_SECTION.LIKED
+          })
+        }
+        className="block w-full rounded-xl p-3 hover:bg-content-hover"
+      >
         <div className="flex h-7 w-full cursor-pointer items-center">
           <span className="block text-15px font-medium">Liked</span>
         </div>
-      </Link>
-      <Link href={'/'} className="block w-full rounded-xl p-3 hover:bg-content-hover">
+      </div>
+      <div
+        onClick={() =>
+          pinSection({
+            id: uuidv4(),
+            title: 'Saved',
+            section: HOME_SECTION.SAVED
+          })
+        }
+        className="block w-full rounded-xl p-3 hover:bg-content-hover"
+      >
         <div className="flex h-7 w-full cursor-pointer items-center">
           <span className="block text-15px font-medium">Saved</span>
         </div>
-      </Link>
-      <Link href={'/'} className="block w-full rounded-xl p-3 hover:bg-content-hover">
+      </div>
+      <div
+        onClick={() =>
+          pinSection({
+            id: uuidv4(),
+            title: 'Search',
+            section: HOME_SECTION.SEARCH
+          })
+        }
+        className="block w-full rounded-xl p-3 hover:bg-content-hover"
+      >
         <div className="flex h-7 w-full cursor-pointer items-center">
           <span className="block text-15px font-medium">Search</span>
         </div>
-      </Link>
-      <Link href={'/'} className="block w-full rounded-xl p-3 hover:bg-content-hover">
+      </div>
+      <div
+        onClick={() =>
+          pinSection({
+            id: uuidv4(),
+            title: 'Activity',
+            section: HOME_SECTION.ACTIVITY
+          })
+        }
+        className="block w-full rounded-xl p-3 hover:bg-content-hover"
+      >
         <div className="flex h-7 w-full cursor-pointer items-center">
           <span className="block text-15px font-medium">Activity</span>
         </div>
-      </Link>
-      <Link href={'/'} className="block w-full rounded-xl p-3 hover:bg-content-hover">
+      </div>
+      <div
+        onClick={() =>
+          pinSection({
+            id: uuidv4(),
+            title: 'Profile',
+            section: HOME_SECTION.PROFILE
+          })
+        }
+        className="block w-full rounded-xl p-3 hover:bg-content-hover"
+      >
         <div className="flex h-7 w-full cursor-pointer items-center">
           <span className="block text-15px font-medium">Profile</span>
         </div>
-      </Link>
+      </div>
     </div>
   )
 })

@@ -1,17 +1,20 @@
 'use client'
 
-import Image from 'next/image'
-import { MODAL } from '@/enums/modal'
 import React, { useMemo } from 'react'
 import SimpleBar from 'simplebar-react'
-import { useHomeStore, useModalStore } from '@/providers/StoresProvider'
-import { HOME_MAIN_SECTION } from '@/enums/home'
+import { useHomeStore } from '@/providers/StoresProvider'
+import { HOME_SECTION, HOME_MAIN_SECTION } from '@/enums/home'
 import SectionHeader from './Header'
 import MainContent from './Content/MainContent'
 
 interface Props {
   isMainSection?: boolean
   title?: string
+  section?: {
+    id: string
+    title: string
+    section: HOME_SECTION
+  }
 }
 
 const Section = ({ isMainSection = false, title }: Props) => {

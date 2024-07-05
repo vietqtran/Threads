@@ -2,7 +2,7 @@
 
 import { useModalStore } from '@/providers/StoresProvider'
 import Image from 'next/image'
-import React, { useEffect, useId } from 'react'
+import React, { useEffect, useId, useMemo } from 'react'
 import { Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -78,7 +78,7 @@ const ViewThreadMedias = () => {
             </svg>
           </span>
         </button>
-        <div className="size-full relative container mx-auto p-0">
+        <div id="container" className="size-full relative container mx-auto p-0 max-w-full">
           <Swiper
             slidesPerView={1}
             centeredSlides={true}
@@ -105,8 +105,15 @@ const ViewThreadMedias = () => {
           >
             {threadMedias.medias.map((item, index) => (
               <SwiperSlide key={`view-thread-media-${index}`} className="h-full w-full">
-                <div className="w-full h-full duration-100 ease-linear">
-                  <Image width={5000} height={5000} className="size-full object-contain" src={item} alt="" />
+                <div className="w-full grid place-items-center h-full duration-100 ease-linear">
+                  <Image
+                    id={`thread-media-${index}`}
+                    width={5000}
+                    height={5000}
+                    className="h-full w-auto object-contain"
+                    src={item}
+                    alt=""
+                  />
                 </div>
               </SwiperSlide>
             ))}
