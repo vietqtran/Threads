@@ -1,20 +1,14 @@
 'use client'
 
-import { useModalStore } from '@/providers/StoresProvider'
-import Image from 'next/image'
 import React, { useEffect, useId, useMemo } from 'react'
-import { Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+
+import Image from 'next/image'
+import { Navigation } from 'swiper/modules'
+import { useModalStore } from '@/providers/StoresProvider'
 
 const ViewThreadMedias = () => {
   const postId = 'postid'
-  useEffect(() => {
-    document.body.style.overflowX = 'hidden'
-    return () => {
-      document.body.style.overflowY = 'hidden'
-      document.body.style.overflowX = 'auto'
-    }
-  }, [])
 
   const { threadMedias, closeViewThreadMedias } = useModalStore(state => state)
 
@@ -22,8 +16,8 @@ const ViewThreadMedias = () => {
   const [isStart, setIsStart] = React.useState(false)
 
   return (
-    <div onClick={e => e.stopPropagation()} className="fixed bg-[#181818] z-[999999] inset-0">
-      <div className="size-full bg-transparent relative">
+    <div onClick={e => e.stopPropagation()} className="fixed inset-0 z-[999999] bg-[#181818]">
+      <div className="relative size-full bg-transparent">
         <div className="absolute left-0 top-0 z-10 p-5">
           <div
             onClick={closeViewThreadMedias}
@@ -50,7 +44,7 @@ const ViewThreadMedias = () => {
         >
           <span className="relative">
             <svg
-              className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute h-[25px] w-[25px] -rotate-90"
+              className="absolute left-1/2 top-1/2 h-[25px] w-[25px] -translate-x-1/2 -translate-y-1/2 -rotate-90"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 25 25"
             >
@@ -67,7 +61,7 @@ const ViewThreadMedias = () => {
         >
           <span className="relative">
             <svg
-              className="top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute h-[25px] w-[25px] rotate-90"
+              className="absolute left-1/2 top-1/2 h-[25px] w-[25px] -translate-x-1/2 -translate-y-1/2 rotate-90"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 25 25"
             >
@@ -78,7 +72,7 @@ const ViewThreadMedias = () => {
             </svg>
           </span>
         </button>
-        <div id="container" className="size-full relative container mx-auto p-0 max-w-full">
+        <div id="container" className="container relative mx-auto size-full max-w-full p-0">
           <Swiper
             slidesPerView={1}
             centeredSlides={true}
@@ -105,7 +99,7 @@ const ViewThreadMedias = () => {
           >
             {threadMedias.medias.map((item, index) => (
               <SwiperSlide key={`view-thread-media-${index}`} className="h-full w-full">
-                <div className="w-full grid place-items-center h-full duration-100 ease-linear">
+                <div className="grid h-full w-full place-items-center duration-100 ease-linear">
                   <Image
                     id={`thread-media-${index}`}
                     width={5000}
