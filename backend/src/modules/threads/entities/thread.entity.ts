@@ -13,6 +13,15 @@ export type Media = {
   type: MediaType
 }
 
+export type Poll = {
+  title: string
+  options: {
+    id: string
+    title: string
+    rates: number
+  }[]
+} 
+
 @Schema({
   timestamps: {
     createdAt: 'createdAt',
@@ -30,6 +39,15 @@ export class Thread extends BaseEntity {
     default: []
   })
   medias?: Media[]
+
+  @Prop({
+    type: Object,
+    required: function() {
+      return this.type === ThreadType.POLL
+    } ,
+    default: null
+  })
+  poll?: Poll
 
   @Prop({ enum: ThreadType, required: true })
   type: ThreadType

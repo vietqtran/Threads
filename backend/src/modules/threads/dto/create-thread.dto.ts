@@ -4,11 +4,13 @@ import {
   IsArray,
   IsEnum,
   IsNotEmpty,
+  IsObject,
   IsOptional,
   IsString
 } from 'class-validator'
 import { MediaType } from '../constants/media-type.enum'
 import { ThreadContentType, ThreadType } from '../constants/thread-type.enum'
+import { Poll } from '../entities/thread.entity'
 
 export class CreateThreadDto {
   @ApiProperty()
@@ -44,6 +46,21 @@ export class CreateThreadDto {
   @IsArray()
   @IsOptional()
   medias?: Media[]
+
+  @ApiProperty({
+    example: {
+      id: 'id',
+      title: 'title',
+      options: [{
+        id: 'id',
+        title: 'title',
+        rates: 0
+      }]
+    }
+  })
+  @IsObject()
+  @IsOptional()
+  poll?: Poll
 
   @ApiProperty({
     example: []
