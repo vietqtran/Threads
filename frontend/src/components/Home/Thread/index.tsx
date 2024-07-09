@@ -27,6 +27,11 @@ const Thread = ({}: Props) => {
 
   return (
     <div className="w-full border-b pt-3 pb-2">
+      <div className='flex gap-2 px-12 mb-2'>
+        <Icon name='thread_star_white' size={16} className='dark:block hidden' />
+        <Icon name='thread_star_black' size={16} className='dark:hidden' />
+        <span className='text-sm text-[#999999] dark:text-[#777777]'>First thread</span>
+      </div>
       <div className="size-full mb-2 px-6 flex items-start gap-3">
         <div className="w-[38px] flex-shrink-0 h-[38px] mt-1 relative rounded-full border">
           <Image

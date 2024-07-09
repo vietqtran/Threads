@@ -2,7 +2,6 @@ import Image from 'next/image'
 import React, { useEffect } from 'react'
 import Icon from '../../Icon'
 import Editor from '../../Editor'
-import { THREAD_TYPE } from '@/enums/thread-type'
 import ViewImages from './ViewImages'
 import { v4 as uuidv4 } from 'uuid'
 
