@@ -54,33 +54,35 @@ const PinMenu = ({ setIsOpen }: Props) => {
             )}
           </div>
         </div>
-       {searchValue &&  <SimpleBar className="h-full flex-1 overflow-auto">
-          <div className="mx-2 h-[1000px]">
-            <div className="cursor-pointer rounded-2xl p-4 hover:bg-content-hover">
-              <div className="flex min-h-9 items-center gap-3">
-                {/* <div className="grid h-9 w-9 flex-shrink-0 place-items-center">
+        {searchValue && (
+          <SimpleBar className="h-full flex-1 overflow-auto">
+            <div className="mx-2 h-[1000px]">
+              <div className="cursor-pointer rounded-2xl p-4 hover:bg-content-hover">
+                <div className="flex min-h-9 items-center gap-3">
+                  {/* <div className="grid h-9 w-9 flex-shrink-0 place-items-center">
                   <Icon className="hidden dark:block" name="search_white" size={16} />
                   <Icon className="dark:hidden" name="search_black" size={16} />
                 </div>
                 <span className="block flex-1 truncate text-15px font-medium">search content</span> */}
-                <div className="grid h-9 w-9 flex-shrink-0 place-items-center">
-                  <Image
-                    src={'/images/user.jpg'}
-                    className="h-full w-full rounded-full border object-cover"
-                    alt=""
-                    width={500}
-                    height={500}
-                    priority
-                  />
-                </div>
-                <div className="flex-1 truncate">
-                  <span className="block w-full truncate text-15px font-medium leading-[21px]">search content</span>
-                  <span className="block truncate text-15px  leading-[21px] text-secondary">search content</span>
+                  <div className="grid h-9 w-9 flex-shrink-0 place-items-center">
+                    <Image
+                      src={'/images/user.jpg'}
+                      className="h-full w-full rounded-full border object-cover"
+                      alt=""
+                      width={500}
+                      height={500}
+                      priority
+                    />
+                  </div>
+                  <div className="flex-1 truncate">
+                    <span className="block w-full truncate text-15px font-medium leading-[21px]">search content</span>
+                    <span className="block truncate text-15px  leading-[21px] text-secondary">search content</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </SimpleBar>}
+          </SimpleBar>
+        )}
         {!searchValue && <MenuLinks />}
       </div>
     </motion.div>

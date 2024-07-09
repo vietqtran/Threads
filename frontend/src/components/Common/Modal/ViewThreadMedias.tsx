@@ -15,7 +15,7 @@ const ViewThreadMedias = () => {
       document.body.style.overflowX = 'auto'
     }
   }, [])
-  
+
   const postId = 'postid'
 
   const { threadMedias, closeViewThreadMedias } = useModalStore(state => state)
