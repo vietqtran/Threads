@@ -100,10 +100,6 @@ const CreatePoll = (props: Props) => {
           </div>
         )}
       </div>
-      <div className="flex items-center mt-2 justify-between">
-        <span className="text-xs text-description">Ends in 24h</span>
-        <span className="text-xs cursor-pointer text-description font-semibold">Remove poll</span>
-      </div>
     </>
   )
 }
