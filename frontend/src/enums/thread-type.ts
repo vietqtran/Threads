@@ -1,6 +1,5 @@
 export enum THREAD_TYPE {
-  TEXT = 'text',
-  IMAGES = 'images',
+  DEFAULT = 'default',
   POLL = 'poll',
   GIF = 'gif'
 }

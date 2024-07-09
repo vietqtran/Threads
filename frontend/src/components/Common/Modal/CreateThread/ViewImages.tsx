@@ -14,7 +14,7 @@ interface Props {
 
 const ViewImages = ({ images, handleRemoveImage }: Props) => {
   return (
-    <div className="mt-3 w-full">
+    <div className={`mt-3 w-full ${images && images.length > 0 ? '' : 'hidden'}`}>
       <Swiper
         id={'create-thread-image-swiper'}
         modules={[FreeMode]}

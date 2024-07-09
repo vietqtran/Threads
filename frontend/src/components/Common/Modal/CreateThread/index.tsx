@@ -1,10 +1,11 @@
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Icon from '../../Icon'
 import Editor from '../../Editor'
 import ViewImages from './ViewImages'
 import { v4 as uuidv4 } from 'uuid'
 import CreatePoll from './CreatePoll'
+import { THREAD_TYPE } from '@/enums/thread-type'
 
 const CreateThread = () => {
   useEffect(() => {
@@ -14,6 +15,8 @@ const CreateThread = () => {
       document.body.style.overflowX = 'auto'
     }
   }, [])
+
+  const [threadType, setThreadType] = React.useState<THREAD_TYPE>(THREAD_TYPE.DEFAULT)
 
   const fileInputRef = React.useRef<HTMLInputElement>(null)
 
@@ -33,12 +36,17 @@ const CreateThread = () => {
           return { id: uuidv4(), file }
         })
       ])
+      // clear input file
+      setTimeout(() => (e.target.value = ''), 0)
     }
   }
 
-  const handleRemoveImage = (id: string) => {
-    setImages(images.filter(image => image.id !== id))
-  }
+  const handleRemoveImage = useCallback(
+    (id: string) => {
+      setImages(images.filter(image => image.id !== id))
+    },
+    [images]
+  )
 
   return (
     <div onClick={e => e.stopPropagation()} className="w-full max-w-[668px]">
@@ -74,7 +82,7 @@ const CreateThread = () => {
                     placeholder="Start a thread..."
                     autoFocus={true}
                   />
-                  <CreatePoll />
+                  {threadType === THREAD_TYPE.POLL && <CreatePoll />}
                   <input
                     key={'create-thread-file-input'}
                     ref={fileInputRef}
@@ -103,7 +111,10 @@ const CreateThread = () => {
                         <Icon name="create_thread_modal_add_image_black" className="dark:hidden" size={20} />
                         <Icon name="create_thread_modal_add_image_white" className="hidden dark:block" size={20} />
                       </div>
-                      <div className="group relative grid size-9 cursor-pointer place-items-center duration-75 ease-linear active:scale-90">
+                      <div
+                        onClick={() => setThreadType(THREAD_TYPE.GIF)}
+                        className="group relative grid size-9 cursor-pointer place-items-center duration-75 ease-linear active:scale-90"
+                      >
                         <div className="absolute z-[-1] size-full scale-75 rounded-full bg-content-hover opacity-0 duration-75 ease-linear group-hover:scale-100 group-hover:opacity-100"></div>
                         <Icon name="create_thread_modal_add_gif_black" className="dark:hidden" size={20} />
                         <Icon name="create_thread_modal_add_gif_white" className="hidden dark:block" size={20} />
@@ -113,7 +124,10 @@ const CreateThread = () => {
                         <Icon name="create_thread_modal_add_tag_black" className="dark:hidden" size={24} />
                         <Icon name="create_thread_modal_add_tag_white" className="hidden dark:block" size={24} />
                       </div>
-                      <div className="group relative grid size-9 cursor-pointer place-items-center duration-75 ease-linear active:scale-90">
+                      <div
+                        onClick={() => setThreadType(THREAD_TYPE.POLL)}
+                        className="group relative grid size-9 cursor-pointer place-items-center duration-75 ease-linear active:scale-90"
+                      >
                         <div className="absolute z-[-1] size-full scale-75 rounded-full bg-content-hover opacity-0 duration-75 ease-linear group-hover:scale-100 group-hover:opacity-100"></div>
                         <Icon name="create_thread_modal_add_poll_black" className="dark:hidden" size={24} />
                         <Icon name="create_thread_modal_add_poll_white" className="hidden dark:block" size={24} />

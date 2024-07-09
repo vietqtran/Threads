@@ -1,5 +1,4 @@
 import React from 'react'
-import { ReadableStreamDefaultController } from 'stream/web'
 
 type Props = {}
 

@@ -27,6 +27,8 @@ const MainContent = () => {
       </div>
 
       <Thread />
+      <Thread />
+      <Thread />
     </div>
   )
 }
