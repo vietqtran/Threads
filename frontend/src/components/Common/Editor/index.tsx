@@ -10,7 +10,7 @@ interface Props {
   placeholder?: string
   autoFocus?: boolean
   content: string
-  setContent: React.Dispatch<React.SetStateAction<string>>
+  setContent: (content: string) => void
 }
 
 const Editor = ({ placeholder, autoFocus, content, setContent }: Props) => {

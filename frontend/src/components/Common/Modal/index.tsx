@@ -8,6 +8,7 @@ import DragToCloseDrawer from '../Drawer/DragToCloseDrawer'
 import { MODAL } from '@/enums/modal'
 import ViewThreadMedias from './ViewThreadMedias'
 import { useModalStore } from '@/providers/StoresProvider'
+import { CreateThreadProvider } from '@/providers/CreateThreadProvider'
 
 const Modal = () => {
   const { modal, setModal, closeViewThreadMedias } = useModalStore(state => state)
@@ -20,7 +21,11 @@ const Modal = () => {
         onClick={() => setModal(MODAL.DEFAULT)}
         className="fixed inset-0 z-[999999] grid size-full place-items-center bg-black/80"
       >
-        {modal === MODAL.CREATE_THREAD && <CreateThread />}
+        {modal === MODAL.CREATE_THREAD && (
+          <CreateThreadProvider>
+            <CreateThread />
+          </CreateThreadProvider>
+        )}
         {modal === MODAL.VIEW_THREAD_IMAGES && (
           <DragToCloseDrawer>
             <ViewThreadMedias />

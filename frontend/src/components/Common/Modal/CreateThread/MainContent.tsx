@@ -6,51 +6,58 @@ import { v4 as uuidv4 } from 'uuid'
 import CreatePoll from './CreatePoll'
 import { THREAD_TYPE } from '@/enums/thread-type'
 import Image from 'next/image'
+import { Thread, useThread } from '@/providers/CreateThreadProvider'
 
 interface Props {
-  id: string
-  addSubThread: () => void
-  removeSubThread: (id: string) => void
+  thread: Thread
+  addSubThread: (parentId: string) => void
+  removeSubThread: (id: string, parentId?: string) => void
   isFirst: boolean
   isLast: boolean
 }
 
-const MainContent = ({ id, addSubThread, removeSubThread, isFirst, isLast }: Props) => {
-  const [threadType, setThreadType] = React.useState<THREAD_TYPE>(THREAD_TYPE.DEFAULT)
+const MainContent = ({ thread, addSubThread, removeSubThread, isFirst, isLast }: Props) => {
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const { dispatch } = useThread()
 
-  const fileInputRef = React.useRef<HTMLInputElement>(null)
-
-  const [content, setContent] = React.useState<string>('')
-  const [images, setImages] = React.useState<{ id: string; file: File }[]>([])
-
-  const handleSelectImages = () => {
-    fileInputRef.current?.click()
-  }
-
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (files) {
-      setImages([
-        ...images,
-        ...Array.from(files).map(file => {
-          return { id: uuidv4(), file }
-        })
-      ])
-      // clear input file
-      setTimeout(() => (e.target.value = ''), 0)
-    }
-  }
-
-  const handleRemoveImage = useCallback(
-    (id: string) => {
-      setImages(images.filter(image => image.id !== id))
+  const handleContentChange = useCallback(
+    (content: string) => {
+      dispatch({ type: 'UPDATE_CONTENT', payload: { id: thread.id, content } })
     },
-    [images]
+    [dispatch, thread.id]
   )
 
-  const isCanAddSubThread = useMemo(() => {
-    return images.length > 0 || content
-  }, [images, content])
+  const handleSelectImages = useCallback(
+    (images: { id: string; file: File }[]) => {
+      images.forEach(image => {
+        dispatch({ type: 'ADD_IMAGE', payload: { id: thread.id, image } })
+      })
+    },
+    [dispatch, thread.id]
+  )
+
+  const handleRemoveImage = useCallback(
+    (imageId: string) => {
+      dispatch({ type: 'REMOVE_IMAGE', payload: { threadId: thread.id, imageId } })
+    },
+    [dispatch, thread.id]
+  )
+
+  const handleSetPoll = useCallback(
+    (poll: any) => {
+      dispatch({ type: 'SET_POLL', payload: { id: thread.id, poll } })
+    },
+    [dispatch, thread.id]
+  )
+
+  const handleSetThreadType = useCallback(
+    (threadType: THREAD_TYPE) => {
+      dispatch({ type: 'SET_THREAD_TYPE', payload: { id: thread.id, threadType } })
+    },
+    [dispatch, thread.id]
+  )
+
+  const isCanAddSubThread = thread.content.length > 0 || thread.images.length > 0 || thread.poll
 
   return (
     <>
@@ -68,7 +75,7 @@ const MainContent = ({ id, addSubThread, removeSubThread, isFirst, isLast }: Pro
             <div className="font-medium flex-1 mr-2">vietqtran</div>
             {!isFirst && (
               <div
-                onClick={() => removeSubThread(id)}
+                onClick={() => removeSubThread(thread.id)}
                 className="flex-shrink-0 cursor-pointer active:scale-90 duration-75 ease-linear"
               >
                 <Icon name="create_thread_close_sub_thread_white" size={12} className="dark:block hidden" />
@@ -79,53 +86,45 @@ const MainContent = ({ id, addSubThread, removeSubThread, isFirst, isLast }: Pro
 
           <Editor
             key={'create-thread-editor'}
-            content={content}
-            setContent={setContent}
+            content={thread.content}
+            setContent={handleContentChange}
             placeholder="Start a thread..."
             autoFocus={true}
           />
-          {threadType === THREAD_TYPE.POLL && (
-            <>
-              <CreatePoll />
-              <div className="flex items-center mt-2 justify-between">
-                <span className="text-xs text-description">Ends in 24h</span>
-                <span
-                  onClick={() => setThreadType(THREAD_TYPE.DEFAULT)}
-                  className="text-xs cursor-pointer text-description font-semibold"
-                >
-                  Remove poll
-                </span>
-              </div>
-            </>
-          )}
+          {thread.threadType === THREAD_TYPE.POLL && <CreatePoll threadId={thread.id} />}
           <input
             key={'create-thread-file-input'}
             ref={fileInputRef}
-            onChange={handleFileInputChange}
+            onChange={e => {
+              handleSelectImages(
+                e.target.files ? [...Array.from(e.target.files)].map(file => ({ id: uuidv4(), file })) : []
+              )
+            }}
             type="file"
             className="hidden"
             accept="image/*"
             multiple
           />
 
-          {images && images.length > 0 && (
-            <ViewImages handleRemoveImage={handleRemoveImage} images={images} key={'create-thread-view-images'} />
+          {thread.images && thread.images.length > 0 && (
+            <ViewImages
+              handleRemoveImage={handleRemoveImage}
+              images={thread.images}
+              key={`create-thread-view-images-${thread.id}`}
+            />
           )}
 
           <div className="mt-1 w-full">
             <div className="relative -left-2 flex w-full">
               <div
-                onClick={handleSelectImages}
+                onClick={() => fileInputRef.current?.click()}
                 className="group relative grid size-9 cursor-pointer place-items-center duration-75 ease-linear active:scale-90"
               >
                 <div className="absolute z-[-1] size-full scale-75 rounded-full bg-content-hover opacity-0 duration-75 ease-linear group-hover:scale-100 group-hover:opacity-100"></div>
                 <Icon name="create_thread_modal_add_image_black" className="dark:hidden" size={20} />
                 <Icon name="create_thread_modal_add_image_white" className="hidden dark:block" size={20} />
               </div>
-              <div
-                onClick={() => setThreadType(THREAD_TYPE.GIF)}
-                className="group relative grid size-9 cursor-pointer place-items-center duration-75 ease-linear active:scale-90"
-              >
+              <div className="group relative grid size-9 cursor-pointer place-items-center duration-75 ease-linear active:scale-90">
                 <div className="absolute z-[-1] size-full scale-75 rounded-full bg-content-hover opacity-0 duration-75 ease-linear group-hover:scale-100 group-hover:opacity-100"></div>
                 <Icon name="create_thread_modal_add_gif_black" className="dark:hidden" size={20} />
                 <Icon name="create_thread_modal_add_gif_white" className="hidden dark:block" size={20} />
@@ -136,7 +135,7 @@ const MainContent = ({ id, addSubThread, removeSubThread, isFirst, isLast }: Pro
                 <Icon name="create_thread_modal_add_tag_white" className="hidden dark:block" size={24} />
               </div>
               <div
-                onClick={() => setThreadType(THREAD_TYPE.POLL)}
+                onClick={() => handleSetThreadType(THREAD_TYPE.POLL)}
                 className="group relative grid size-9 cursor-pointer place-items-center duration-75 ease-linear active:scale-90"
               >
                 <div className="absolute z-[-1] size-full scale-75 rounded-full bg-content-hover opacity-0 duration-75 ease-linear group-hover:scale-100 group-hover:opacity-100"></div>
@@ -157,7 +156,7 @@ const MainContent = ({ id, addSubThread, removeSubThread, isFirst, isLast }: Pro
             </div>
             <span
               onClick={() => {
-                isLast && isCanAddSubThread && addSubThread()
+                isLast && isCanAddSubThread && addSubThread(thread.id)
               }}
               className={`mb-0.5 block  ${isCanAddSubThread ? 'cursor-pointer active:scale-95 duration-75 ease-linear' : 'cursor-not-allowed'}`}
             >

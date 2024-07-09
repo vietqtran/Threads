@@ -1,8 +1,10 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { Fragment, useCallback, useEffect } from 'react'
 import MainContent from './MainContent'
 import { v4 as uuidv4 } from 'uuid'
+import { CreateThreadProvider, useThread } from '@/providers/CreateThreadProvider'
 
 const CreateThread = () => {
+  const { state, dispatch } = useThread()
   useEffect(() => {
     document.body.style.overflowX = 'hidden'
     return () => {
@@ -10,18 +12,15 @@ const CreateThread = () => {
       document.body.style.overflowX = 'auto'
     }
   }, [])
+  const addThread = useCallback(() => {
+    dispatch({ type: 'ADD_THREAD' })
+  }, [dispatch])
 
-  const [threads, setThreads] = React.useState<{ id: string }[]>([{ id: uuidv4() }])
-
-  const addSubThread = useCallback(() => {
-    setThreads(prev => [...prev, { id: uuidv4() }])
-  }, [uuidv4, threads])
-
-  const removeSubThread = useCallback(
+  const removeThread = useCallback(
     (id: string) => {
-      setThreads(threads.filter(thread => thread.id !== id))
+      dispatch({ type: 'REMOVE_THREAD', payload: { id } })
     },
-    [threads]
+    [dispatch]
   )
 
   return (
@@ -33,14 +32,14 @@ const CreateThread = () => {
         <div className="flex size-full max-h-[calc(100vh-100px)] flex-col overflow-hidden rounded-2xl bg-content dark:border">
           <div className="hide-scrollbar w-full overflow-auto">
             <div className="size-full flex flex-col gap-2 p-6 pb-4">
-              {threads.map((thread, index) => (
+              {state.threads.map((thread, index) => (
                 <MainContent
-                  id={thread.id}
-                  addSubThread={addSubThread}
-                  isLast={threads.length === index + 1}
-                  isFirst={index === 0}
                   key={thread.id}
-                  removeSubThread={removeSubThread}
+                  thread={thread}
+                  addSubThread={addThread}
+                  isLast={state.threads.length === index + 1}
+                  isFirst={index === 0}
+                  removeSubThread={removeThread}
                 />
               ))}
             </div>

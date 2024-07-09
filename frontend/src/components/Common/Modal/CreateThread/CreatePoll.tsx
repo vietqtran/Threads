@@ -1,14 +1,21 @@
-import React from 'react'
+import { useThread } from '@/providers/CreateThreadProvider'
+import React, { memo } from 'react'
 
-type Props = {}
+type Props = {
+  threadId: string
+}
 
-const CreatePoll = (props: Props) => {
+const CreatePoll = ({ threadId }: Props) => {
+  const { dispatch } = useThread()
+
   const option1 = React.useRef<HTMLInputElement>(null)
   const option2 = React.useRef<HTMLInputElement>(null)
   const option3 = React.useRef<HTMLInputElement>(null)
   const option4 = React.useRef<HTMLInputElement>(null)
   const addOption = React.useRef<HTMLInputElement>(null)
+
   const [optionQuantity, setOptionQuantity] = React.useState(2)
+
   return (
     <>
       <div className="w-full mt-2 flex flex-col gap-2 mb-1">
@@ -100,8 +107,17 @@ const CreatePoll = (props: Props) => {
           </div>
         )}
       </div>
+      <div className="flex items-center mt-2 justify-between">
+        <span className="text-xs text-description">Ends in 24h</span>
+        <span
+          onClick={() => dispatch({ type: 'REMOVE_POLL', payload: { id: threadId } })}
+          className="text-xs cursor-pointer text-description font-semibold"
+        >
+          Remove poll
+        </span>
+      </div>
     </>
   )
 }
 
-export default CreatePoll
+export default memo(CreatePoll)
