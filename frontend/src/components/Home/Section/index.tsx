@@ -43,7 +43,7 @@ const Section = ({ isMainSection = false, title }: Props) => {
         onClick: () => setMainSection(HOME_MAIN_SECTION.SAVED)
       }
     ]
-  }, [mainSection])
+  }, [mainSection, setMainSection])
 
   const activeTitle = useMemo(() => {
     switch (mainSection) {
