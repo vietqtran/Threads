@@ -4,6 +4,7 @@ import Icon from '../../Icon'
 import Editor from '../../Editor'
 import ViewImages from './ViewImages'
 import { v4 as uuidv4 } from 'uuid'
+import CreatePoll from './CreatePoll'
 
 const CreateThread = () => {
   useEffect(() => {
@@ -73,6 +74,7 @@ const CreateThread = () => {
                     placeholder="Start a thread..."
                     autoFocus={true}
                   />
+                  <CreatePoll />
                   <input
                     key={'create-thread-file-input'}
                     ref={fileInputRef}

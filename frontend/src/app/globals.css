@@ -104,3 +104,7 @@
   height: 0;
   pointer-events: none;
 }
+
+.text-description {
+  @apply text-[#999999] dark:text-[#777777];
+}

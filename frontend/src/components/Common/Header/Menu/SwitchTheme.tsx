@@ -66,7 +66,7 @@ const SwitchTheme = ({ setTab }: Props) => {
             className="relative z-10 grid h-full w-1/3 cursor-pointer place-items-center"
           >
             <span
-              className={`block text-15px font-medium ${theme === 'system' ? 'text-black dark:text-[#f3f5f7]' : 'text-[#999999] dark:text-[#777777]'}`}
+              className={`block text-15px font-medium ${theme === 'system' ? 'text-black dark:text-[#f3f5f7]' : 'text-description'}`}
             >
               Auto
             </span>

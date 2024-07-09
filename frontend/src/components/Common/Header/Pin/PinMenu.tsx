@@ -41,7 +41,7 @@ const PinMenu = ({ setIsOpen }: Props) => {
               type="text"
               value={searchValue}
               onChange={e => setSearchValue(e.target.value)}
-              className="h-full flex-1 bg-background pt-0.5 text-15px placeholder:font-normal placeholder:text-[#999999] focus:outline-none dark:placeholder:text-[#777777]"
+              className="h-full flex-1 bg-background pt-0.5 text-15px placeholder:font-normal placeholder:text-description focus:outline-none"
               placeholder="Search keywords and profiles"
             />
             {searchValue && (
