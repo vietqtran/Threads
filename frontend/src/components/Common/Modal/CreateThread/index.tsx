@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Icon from '../../Icon'
 import Editor from '../../Editor'
 import { THREAD_TYPE } from '@/enums/thread-type'
@@ -7,6 +7,14 @@ import ViewImages from './ViewImages'
 import { v4 as uuidv4 } from 'uuid'
 
 const CreateThread = () => {
+  useEffect(() => {
+    document.body.style.overflowX = 'hidden'
+    return () => {
+      document.body.style.overflowY = 'hidden'
+      document.body.style.overflowX = 'auto'
+    }
+  }, [])
+
   const fileInputRef = React.useRef<HTMLInputElement>(null)
 
   const [content, setContent] = React.useState<string>('')

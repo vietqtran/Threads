@@ -8,6 +8,14 @@ import { Navigation } from 'swiper/modules'
 import { useModalStore } from '@/providers/StoresProvider'
 
 const ViewThreadMedias = () => {
+  useEffect(() => {
+    document.body.style.overflowX = 'hidden'
+    return () => {
+      document.body.style.overflowY = 'hidden'
+      document.body.style.overflowX = 'auto'
+    }
+  }, [])
+  
   const postId = 'postid'
 
   const { threadMedias, closeViewThreadMedias } = useModalStore(state => state)

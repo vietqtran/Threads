@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import CreateThread from './CreateThread'
 import DragToCloseDrawer from '../Drawer/DragToCloseDrawer'
@@ -10,14 +10,6 @@ import ViewThreadMedias from './ViewThreadMedias'
 import { useModalStore } from '@/providers/StoresProvider'
 
 const Modal = () => {
-  useEffect(() => {
-    document.body.style.overflowX = 'hidden'
-    return () => {
-      document.body.style.overflowY = 'hidden'
-      document.body.style.overflowX = 'auto'
-    }
-  }, [])
-
   const { modal, setModal, closeViewThreadMedias } = useModalStore(state => state)
 
   return modal === MODAL.DEFAULT ? null : (
