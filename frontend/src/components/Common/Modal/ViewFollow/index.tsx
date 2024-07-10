@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Item from './Item'
 import SimpleBar from 'simplebar-react'
 
@@ -6,6 +6,14 @@ type Props = {}
 
 const ViewFollow = (props: Props) => {
   const [tab, setTab] = useState('followers')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  useEffect(() => {
+    setIsLoading(true)
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 2000)
+  }, [tab])
+
   return (
     <div className="size-full p-6 flex items-center justify-center">
       <div
@@ -36,51 +44,58 @@ const ViewFollow = (props: Props) => {
             </div>
           </div>
 
-          <SimpleBar className="w-full max-h-[calc(100%-60px)]">
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-            <Item />
-          </SimpleBar>
+          {isLoading && (
+            <div className="size-full grid place-items-center">
+              <div className="loader"></div>
+            </div>
+          )}
+          {!isLoading && (
+            <SimpleBar className="w-full max-h-[calc(100%-60px)]">
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+              <Item />
+            </SimpleBar>
+          )}
         </div>
       </div>
     </div>

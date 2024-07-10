@@ -9,10 +9,10 @@ import { MODAL } from '@/enums/modal'
 import ViewThreadMedias from './ViewThreadMedias'
 import { useModalStore } from '@/providers/StoresProvider'
 import { CreateThreadProvider } from '@/providers/CreateThreadProvider'
-import ViewFollow from './CreateThread/ViewFollow'
+import ViewFollow from './ViewFollow'
 
 const Modal = () => {
-  const { modal, setModal, closeViewThreadMedias } = useModalStore(state => state)
+  const { modal, setModal } = useModalStore(state => state)
 
   return modal === MODAL.DEFAULT ? null : (
     <AnimatePresence>

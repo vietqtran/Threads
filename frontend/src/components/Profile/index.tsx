@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import PageSectionWrapper from '../Common/Wrapper/PageSectionWrapper'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,10 +9,17 @@ import CommonButton from '../Common/Button'
 import Thread from './Thread'
 import { useModalStore } from '@/providers/StoresProvider'
 import { MODAL } from '@/enums/modal'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useClickOutside } from '@/hooks/useClickOutside'
 
 const Profile = () => {
+  const [openOptions, setOpenOptions] = useState(false)
   const [tab, setTab] = React.useState<string>('threads')
   const { setModal } = useModalStore(state => state)
+  const optionsRef = useClickOutside(() => {
+    setOpenOptions(false)
+  })
+
   return (
     <PageSectionWrapper title="Profile">
       <div className="size-full">
@@ -74,9 +81,38 @@ const Profile = () => {
                 <Icon name="profile_header_insta_white" size={24} className="dark:block hidden" />
                 <Icon name="profile_header_insta_black" size={24} className="dark:hidden" />
               </Link>
-              <div className="cursor-pointer active:scale-90 duration-75 ease-linear size-9 grid place-items-center">
-                <Icon name="profile_header_options_white" size={24} className="dark:block hidden" />
-                <Icon name="profile_header_options_black" size={24} className="dark:hidden" />
+              <div ref={optionsRef} className="relative">
+                <div
+                  onClick={() => setOpenOptions(!openOptions)}
+                  className="cursor-pointer active:scale-90 duration-75 ease-linear size-9 grid place-items-center"
+                >
+                  <Icon name="profile_header_options_white" size={24} className="dark:block hidden" />
+                  <Icon name="profile_header_options_black" size={24} className="dark:hidden" />
+                </div>
+                <AnimatePresence>
+                  {openOptions && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      onClick={e => e.stopPropagation()}
+                      className="absolute right-0 top-[calc(100%+6px)] z-[999] w-[224px] origin-top-right rounded-2xl border bg-content p-2 shadow"
+                    >
+                      <div
+                        onClick={() => {
+                          setOpenOptions(false)
+                        }}
+                        className="cursor-pointer rounded-xl p-3 hover:bg-content-hover"
+                      >
+                        <div className="flex h-5 w-full items-center justify-between gap-2">
+                          <span className="font-medium text-[#FF3040]">Report</span>
+                          <div>
+                            <Icon name="profile_header_options_report_red" className="dark:hidden" size={20} />
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </div>

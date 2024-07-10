@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { FreeMode } from 'swiper/modules'
 import { useModalStore } from '@/providers/StoresProvider'
 import Link from 'next/link'
+import CommonAvatar from '@/components/Common/Avatar'
 
 type Props = {}
 
@@ -22,7 +23,7 @@ const Thread = ({}: Props) => {
   ]
   const { setViewThreadMedias } = useModalStore(state => state)
 
-  const hanldeViewMedia = (index: number) => {
+  const handleViewMedia = (index: number) => {
     setViewThreadMedias(index, images)
   }
 
@@ -52,11 +53,7 @@ const Thread = ({}: Props) => {
         <div className="flex flex-col flex-1">
           <div className="w-full flex mb-1 items-center justify-between">
             <div className="flex-1 gap-1.5 flex items-center">
-              <div>
-                <Link href={'/@username'} className="font-semibold">
-                  vietqtran
-                </Link>
-              </div>
+              <CommonAvatar />
               <div>
                 <span className="text-secondary text-sm">23h</span>
               </div>
@@ -137,7 +134,7 @@ const Thread = ({}: Props) => {
           {images.map((image, index) => (
             <SwiperSlide key={`thread-medias-${swiperId}-${index}`} className="mr-1.5 max-w-[210px] h-full">
               <div
-                onClick={() => hanldeViewMedia(index)}
+                onClick={() => handleViewMedia(index)}
                 className="border rounded-lg overflow-hidden h-full cursor-pointer active:scale-95 duration-75 ease-linear"
               >
                 <Image src={image} className="w-full h-full object-cover" width={2000} height={2000} alt="" />

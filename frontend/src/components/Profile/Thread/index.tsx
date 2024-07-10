@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { FreeMode } from 'swiper/modules'
 import { useModalStore } from '@/providers/StoresProvider'
 import Link from 'next/link'
+import CommonAvatar from '@/components/Common/Avatar'
 
 type Props = {
   withPath?: boolean
@@ -49,11 +50,7 @@ const Thread = ({ withPath = false }: Props) => {
         <div className="flex flex-col flex-1">
           <div className="w-full flex mb-1 items-center justify-between">
             <div className="flex-1 gap-1.5 flex items-center">
-              <div>
-                <Link href={'/@username'} className="font-semibold">
-                  vietqtran
-                </Link>
-              </div>
+              <CommonAvatar />
               <div>
                 <span className="text-secondary text-sm">23h</span>
               </div>
