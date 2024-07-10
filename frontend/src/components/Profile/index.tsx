@@ -7,9 +7,12 @@ import Link from 'next/link'
 import Icon from '../Common/Icon'
 import CommonButton from '../Common/Button'
 import Thread from './Thread'
+import { useModalStore } from '@/providers/StoresProvider'
+import { MODAL } from '@/enums/modal'
 
 const Profile = () => {
   const [tab, setTab] = React.useState<string>('threads')
+  const { setModal } = useModalStore(state => state)
   return (
     <PageSectionWrapper title="Profile">
       <div className="size-full">
@@ -34,7 +37,7 @@ const Profile = () => {
 
           <div className="h-9 w-full mb-[22px] flex items-center justify-between">
             <div className="text-description flex items-center gap-1">
-              <div className="flex items-center cursor-pointer">
+              <div onClick={() => setModal(MODAL.VIEW_FOLLOW)} className="flex items-center cursor-pointer">
                 <div className="relative w-8">
                   <div className="size-4 top-1/2 ring-1 ring-background -translate-y-1/2 absolute left-0 border rounded-full overflow-hidden">
                     <Image

@@ -20,7 +20,7 @@ const CommonButton = ({ title, variant, className }: Props) => {
   }
   return (
     <button
-      className={`${cn(`${variant} max-w-full font-medium text-sm active:scale-95 ease-linear duration-75 grid place-items-center border h-[34px] rounded-[10px]`, className)}`}
+      className={`${cn(`${variant} max-w-full font-semibold text-sm active:scale-95 ease-linear duration-75 grid place-items-center border h-[32px] rounded-[10px]`, className)}`}
     >
       {title}
     </button>

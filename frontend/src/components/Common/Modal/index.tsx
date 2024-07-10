@@ -9,6 +9,7 @@ import { MODAL } from '@/enums/modal'
 import ViewThreadMedias from './ViewThreadMedias'
 import { useModalStore } from '@/providers/StoresProvider'
 import { CreateThreadProvider } from '@/providers/CreateThreadProvider'
+import ViewFollow from './CreateThread/ViewFollow'
 
 const Modal = () => {
   const { modal, setModal, closeViewThreadMedias } = useModalStore(state => state)
@@ -31,6 +32,7 @@ const Modal = () => {
             <ViewThreadMedias />
           </DragToCloseDrawer>
         )}
+        {modal === MODAL.VIEW_FOLLOW && <ViewFollow />}
       </motion.div>
     </AnimatePresence>
   )
