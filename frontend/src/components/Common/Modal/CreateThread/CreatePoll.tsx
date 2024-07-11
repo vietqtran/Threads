@@ -12,7 +12,6 @@ const CreatePoll = ({ threadId }: Props) => {
   const option2 = React.useRef<HTMLInputElement>(null)
   const option3 = React.useRef<HTMLInputElement>(null)
   const option4 = React.useRef<HTMLInputElement>(null)
-  const addOption = React.useRef<HTMLInputElement>(null)
 
   const [optionQuantity, setOptionQuantity] = React.useState(2)
 
@@ -84,26 +83,23 @@ const CreatePoll = ({ threadId }: Props) => {
           />
         </div>
         {!(optionQuantity === 4) && (
-          <div className="rounded-xl p-3 flex items-center justify-start h-10 w-full border border-dashed">
-            <div
-              ref={addOption}
-              onClick={() => {
-                if (optionQuantity === 2) {
-                  setOptionQuantity(3)
-                  setTimeout(() => option3.current?.focus(), 0)
-                  return
-                }
-                if (optionQuantity === 3 && option3.current?.value) {
-                  setOptionQuantity(4)
-                  setTimeout(() => option4.current?.focus(), 0)
-                } else {
-                  optionQuantity === 3 && option3.current?.focus()
-                }
-              }}
-              className="text-sm leading-0 font-semibold w-full cursor-text text-description"
-            >
-              Add another option
-            </div>
+          <div
+            onClick={() => {
+              if (optionQuantity === 2) {
+                setOptionQuantity(3)
+                setTimeout(() => option3.current?.focus(), 0)
+                return
+              }
+              if (optionQuantity === 3 && option3.current?.value) {
+                setOptionQuantity(4)
+                setTimeout(() => option4.current?.focus(), 0)
+              } else {
+                optionQuantity === 3 && option3.current?.focus()
+              }
+            }}
+            className="rounded-xl cursor-text p-3 flex items-center justify-start h-10 w-full border border-dashed"
+          >
+            <div className="text-sm leading-0 font-semibold w-full  text-description">Add another option</div>
           </div>
         )}
       </div>
