@@ -1,6 +1,6 @@
 import { HOME_MAIN_SECTION, HOME_SECTION } from '@/enums/home'
-
-import { createStore } from 'zustand/vanilla'
+import { createStore, StateCreator } from 'zustand'
+import { createJSONStorage, persist, PersistOptions } from 'zustand/middleware'
 
 export type HomeState = {
   sections: {
@@ -24,13 +24,26 @@ export const defaultInitState: HomeState = {
   mainSection: HOME_MAIN_SECTION.FOR_YOU
 }
 
+type HomePersist = (
+  config: StateCreator<HomeStore>,
+  options: PersistOptions<HomeStore>
+) => StateCreator<HomeStore>
+
 export const createHomeStore = (initState: HomeState = defaultInitState) => {
-  return createStore<HomeStore>()(set => ({
-    ...initState,
-    setMainSection: (section: HOME_MAIN_SECTION) => set(state => ({ ...state, mainSection: section })),
-    pinSection: (section: { id: string; title: string; section: HOME_SECTION }) =>
-      set(state => ({ ...state, sections: [...state.sections, section] })),
-    unPinSection: (sectionId: string) =>
-      set(state => ({ ...state, section: state.sections.filter(x => x.id !== sectionId) }))
-  }))
+  return createStore<HomeStore>(
+    (persist as HomePersist)(
+      (set) => ({
+        ...initState,
+        setMainSection: (section: HOME_MAIN_SECTION) => set(state => ({ ...state, mainSection: section })),
+        pinSection: (section: { id: string; title: string; section: HOME_SECTION }) =>
+          set(state => ({ ...state, sections: [...state.sections, section] })),
+        unPinSection: (sectionId: string) =>
+          set(state => ({ ...state, sections: state.sections.filter(x => x.id !== sectionId) }))
+      }),
+      {
+        name: 'home-sections-storage',
+        storage: createJSONStorage(() => localStorage),
+      }
+    )
+  )
 }
