@@ -24,7 +24,7 @@ const CreatePoll = ({ threadId }: Props) => {
             ref={option1}
             type="text"
             onKeyDown={e => e.key === 'Enter' && option2.current?.focus()}
-            className="text-sm font-semibold w-full placeholder:text-description"
+            className="text-sm font-semibold w-full placeholder:text-[#999999] dark:placeholder:text-[#777777]"
             placeholder="Yes"
           />
         </div>
@@ -33,7 +33,7 @@ const CreatePoll = ({ threadId }: Props) => {
             ref={option2}
             type="text"
             onKeyDown={e => e.key === 'Enter' && option3.current?.focus()}
-            className="text-sm font-semibold w-full placeholder:text-description"
+            className="text-sm font-semibold w-full placeholder:text-[#999999] dark:placeholder:text-[#777777]"
             placeholder="No"
           />
         </div>
@@ -63,7 +63,7 @@ const CreatePoll = ({ threadId }: Props) => {
                 }
               }
             }}
-            className="text-sm font-semibold w-full placeholder:text-description"
+            className="text-sm font-semibold w-full placeholder:text-[#999999] dark:placeholder:text-[#777777]"
             placeholder="No"
           />
         </div>
@@ -79,7 +79,7 @@ const CreatePoll = ({ threadId }: Props) => {
                 setTimeout(() => option3.current?.focus(), 0)
               }
             }}
-            className="text-sm font-semibold w-full placeholder:text-description"
+            className="text-sm font-semibold w-full placeholder:text-[#999999] dark:placeholder:text-[#777777]"
             placeholder="No"
           />
         </div>
