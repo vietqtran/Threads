@@ -3,7 +3,7 @@ import React from 'react'
 
 type Props = {
   title: string
-  variant: 'white' | 'black' | 'white-disable' | 'reverse'
+  variant: 'white' | 'black' | 'white-disable' | 'reverse' | 'transparent'
   className?: string
 }
 
@@ -18,6 +18,8 @@ const CommonButton = ({ title, variant, className }: Props) => {
         return 'bg-inherit'
       case 'reverse':
         return 'bg-black dark:bg-[#f3f5f7] text-[#f3f5f7] dark:text-black'
+      case 'transparent':
+        return 'bg-transparent'
       default:
         return ''
     }

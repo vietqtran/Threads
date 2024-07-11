@@ -12,13 +12,13 @@ const Activity = (props: Props) => {
     <PageSectionWrapper title="Activity">
       <SimpleBar className="size-full">
         <Item />
+        <Item type="follow" />
         <Item />
         <Item />
+        <Item type="like" />
         <Item />
         <Item />
-        <Item />
-        <Item />
-        <Item />
+        <Item type="reply" />
         <Item />
         <Item />
         <Item />

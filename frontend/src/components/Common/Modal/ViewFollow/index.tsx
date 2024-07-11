@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Item from './Item'
 import SimpleBar from 'simplebar-react'
+import Loading from '../../Loading'
 
 type Props = {}
 
@@ -46,7 +47,8 @@ const ViewFollow = (props: Props) => {
 
           {isLoading && (
             <div className="size-full grid place-items-center">
-              <div className="loader"></div>
+              {/* <div className="loader"></div> */}
+              <Loading />
             </div>
           )}
           {!isLoading && (

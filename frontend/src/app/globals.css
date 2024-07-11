@@ -112,31 +112,5 @@
 }
 
 .text-description {
-  @apply text-[#999999] dark:text-[#777777];
-}
-
-.loader {
-  width: 20px;
-  aspect-ratio: 1;
-  display: grid;
-  border-radius: 50%;
-  background: var(--linear-gradient-spinner1), var(--linear-gradient-spinner2);
-  background-repeat: no-repeat;
-  animation: l23 1s infinite steps(12);
-}
-.loader::before,
-.loader::after {
-   content: "";
-   grid-area: 1/1;
-   border-radius: 50%;
-   background: inherit;
-   opacity: 0.915;
-   transform: rotate(30deg);
-}
-.loader::after {
-   opacity: 0.83;
-   transform: rotate(60deg);
-}
-@keyframes l23 {
-  100% {transform: rotate(1turn)}
+  @apply text-[#999999] dark:text-[#777777] text-[14.6px];
 }
