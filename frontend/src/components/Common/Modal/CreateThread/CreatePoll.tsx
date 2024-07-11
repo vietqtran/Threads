@@ -19,26 +19,26 @@ const CreatePoll = ({ threadId }: Props) => {
   return (
     <>
       <div className="w-full mt-2 flex flex-col gap-2 mb-1">
-        <div className="rounded-xl p-3 flex items-center justify-start h-10 w-full border">
+        <div className="rounded-xl flex items-center justify-start h-10 w-full border">
           <input
             ref={option1}
             type="text"
             onKeyDown={e => e.key === 'Enter' && option2.current?.focus()}
-            className="text-sm bg-transparent h-full font-semibold w-full placeholder:text-[#999999] dark:placeholder:text-[#777777]"
+            className="text-sm bg-transparent size-full p-3 font-semibold placeholder:text-[#999999] dark:placeholder:text-[#777777]"
             placeholder="Yes"
           />
         </div>
-        <div className="rounded-xl p-3 flex items-center justify-start h-10 w-full border">
+        <div className="rounded-xl flex items-center justify-start h-10 w-full border">
           <input
             ref={option2}
             type="text"
             onKeyDown={e => e.key === 'Enter' && option3.current?.focus()}
-            className="text-sm bg-transparent h-full font-semibold w-full placeholder:text-[#999999] dark:placeholder:text-[#777777]"
+            className="text-sm bg-transparent font-semibold p-3 size-full placeholder:text-[#999999] dark:placeholder:text-[#777777]"
             placeholder="No"
           />
         </div>
         <div
-          className={`rounded-xl p-3 flex items-center justify-start h-10 w-full border ${optionQuantity >= 3 ? '' : 'hidden'}`}
+          className={`rounded-xl flex items-center justify-start h-10 w-full border ${optionQuantity >= 3 ? '' : 'hidden'}`}
         >
           <input
             ref={option3}
@@ -63,12 +63,12 @@ const CreatePoll = ({ threadId }: Props) => {
                 }
               }
             }}
-            className="text-sm bg-transparent h-full font-semibold w-full placeholder:text-[#999999] dark:placeholder:text-[#777777]"
+            className="text-sm bg-transparent size-full font-semibold p-3 placeholder:text-[#999999] dark:placeholder:text-[#777777]"
             placeholder="No"
           />
         </div>
         <div
-          className={`rounded-xl p-3 flex items-center justify-start h-10 w-full border ${optionQuantity === 4 ? '' : 'hidden'}`}
+          className={`rounded-xl flex items-center justify-start h-10 w-full border ${optionQuantity === 4 ? '' : 'hidden'}`}
         >
           <input
             ref={option4}
@@ -79,7 +79,7 @@ const CreatePoll = ({ threadId }: Props) => {
                 setTimeout(() => option3.current?.focus(), 0)
               }
             }}
-            className="text-sm bg-transparent h-full font-semibold w-full placeholder:text-[#999999] dark:placeholder:text-[#777777]"
+            className="text-sm bg-transparent size-full font-semibold p-3 placeholder:text-[#999999] dark:placeholder:text-[#777777]"
             placeholder="No"
           />
         </div>
