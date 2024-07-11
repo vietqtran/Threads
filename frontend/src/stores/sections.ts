@@ -24,15 +24,12 @@ export const defaultInitState: HomeState = {
   mainSection: HOME_MAIN_SECTION.FOR_YOU
 }
 
-type HomePersist = (
-  config: StateCreator<HomeStore>,
-  options: PersistOptions<HomeStore>
-) => StateCreator<HomeStore>
+type HomePersist = (config: StateCreator<HomeStore>, options: PersistOptions<HomeStore>) => StateCreator<HomeStore>
 
 export const createHomeStore = (initState: HomeState = defaultInitState) => {
   return createStore<HomeStore>(
     (persist as HomePersist)(
-      (set) => ({
+      set => ({
         ...initState,
         setMainSection: (section: HOME_MAIN_SECTION) => set(state => ({ ...state, mainSection: section })),
         pinSection: (section: { id: string; title: string; sectionType: HOME_SECTION }) =>
@@ -42,7 +39,7 @@ export const createHomeStore = (initState: HomeState = defaultInitState) => {
       }),
       {
         name: 'home-sections-storage',
-        storage: createJSONStorage(() => localStorage),
+        storage: createJSONStorage(() => localStorage)
       }
     )
   )
