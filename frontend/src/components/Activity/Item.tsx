@@ -48,8 +48,8 @@ const Item = ({ type }: Props) => {
           <div className="text-description">Follow suggestion</div>
           <div className="w-full">
             <p>
-              Fake plants, pretty books, Swipies, and some of my current jams—things you'll find in my Lover's Magazine
-              interview. Thank you Spaces team for the feature! …
+              Fake plants, pretty books, Swipies, and some of my current jams—things you&apos;ll find in my Lover&apos;s
+              Magazine interview. Thank you Spaces team for the feature! …
             </p>
           </div>
         </div>
