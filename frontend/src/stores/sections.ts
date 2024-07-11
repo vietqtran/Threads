@@ -6,14 +6,14 @@ export type HomeState = {
   sections: {
     id: string
     title: string
-    section: HOME_SECTION
+    sectionType: HOME_SECTION
   }[]
   mainSection: HOME_MAIN_SECTION
 }
 
 export type HomeActions = {
   setMainSection: (section: HOME_MAIN_SECTION) => void
-  pinSection: (section: { id: string; title: string; section: HOME_SECTION }) => void
+  pinSection: (section: { id: string; title: string; sectionType: HOME_SECTION }) => void
   unPinSection: (sectionId: string) => void
 }
 
@@ -35,7 +35,7 @@ export const createHomeStore = (initState: HomeState = defaultInitState) => {
       (set) => ({
         ...initState,
         setMainSection: (section: HOME_MAIN_SECTION) => set(state => ({ ...state, mainSection: section })),
-        pinSection: (section: { id: string; title: string; section: HOME_SECTION }) =>
+        pinSection: (section: { id: string; title: string; sectionType: HOME_SECTION }) =>
           set(state => ({ ...state, sections: [...state.sections, section] })),
         unPinSection: (sectionId: string) =>
           set(state => ({ ...state, sections: state.sections.filter(x => x.id !== sectionId) }))

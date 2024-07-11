@@ -102,7 +102,7 @@ export const MenuLinks = memo(({}) => {
           pinSection({
             id: uuidv4(),
             title: 'For you',
-            section: HOME_SECTION.FOR_YOU
+            sectionType: HOME_SECTION.FOR_YOU
           })
         }}
         className="block w-full rounded-xl p-3 hover:bg-content-hover"
@@ -116,7 +116,7 @@ export const MenuLinks = memo(({}) => {
           pinSection({
             id: uuidv4(),
             title: 'Following',
-            section: HOME_SECTION.FOLLOWING
+            sectionType: HOME_SECTION.FOLLOWING
           })
         }}
         className="block w-full rounded-xl p-3 hover:bg-content-hover"
@@ -130,7 +130,7 @@ export const MenuLinks = memo(({}) => {
           pinSection({
             id: uuidv4(),
             title: 'Liked',
-            section: HOME_SECTION.LIKED
+            sectionType: HOME_SECTION.LIKED
           })
         }
         className="block w-full rounded-xl p-3 hover:bg-content-hover"
@@ -144,7 +144,7 @@ export const MenuLinks = memo(({}) => {
           pinSection({
             id: uuidv4(),
             title: 'Saved',
-            section: HOME_SECTION.SAVED
+            sectionType: HOME_SECTION.SAVED
           })
         }
         className="block w-full rounded-xl p-3 hover:bg-content-hover"
@@ -158,7 +158,7 @@ export const MenuLinks = memo(({}) => {
           pinSection({
             id: uuidv4(),
             title: 'Search',
-            section: HOME_SECTION.SEARCH
+            sectionType: HOME_SECTION.SEARCH
           })
         }
         className="block w-full rounded-xl p-3 hover:bg-content-hover"
@@ -172,7 +172,7 @@ export const MenuLinks = memo(({}) => {
           pinSection({
             id: uuidv4(),
             title: 'Activity',
-            section: HOME_SECTION.ACTIVITY
+            sectionType: HOME_SECTION.ACTIVITY
           })
         }
         className="block w-full rounded-xl p-3 hover:bg-content-hover"
@@ -186,7 +186,7 @@ export const MenuLinks = memo(({}) => {
           pinSection({
             id: uuidv4(),
             title: 'Profile',
-            section: HOME_SECTION.PROFILE
+            sectionType: HOME_SECTION.PROFILE
           })
         }
         className="block w-full rounded-xl p-3 hover:bg-content-hover"

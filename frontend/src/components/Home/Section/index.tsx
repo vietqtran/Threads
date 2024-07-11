@@ -6,6 +6,8 @@ import { useHomeStore } from '@/providers/StoresProvider'
 import { HOME_SECTION, HOME_MAIN_SECTION } from '@/enums/home'
 import SectionHeader from './Header'
 import MainContent from './Content/MainContent'
+import ActivityContent from '@/components/Activity/ActivityContent'
+import ProfileContent from '@/components/Profile/ProfileContent'
 
 interface Props {
   isMainSection?: boolean
@@ -13,11 +15,11 @@ interface Props {
   section?: {
     id: string
     title: string
-    section: HOME_SECTION
+    sectionType: HOME_SECTION
   }
 }
 
-const Section = ({ isMainSection = false, title }: Props) => {
+const Section = ({ isMainSection = false, title, section }: Props) => {
   const { setMainSection, mainSection } = useHomeStore(state => state)
 
   const headerDropdownItems = useMemo(() => {
@@ -62,6 +64,7 @@ const Section = ({ isMainSection = false, title }: Props) => {
     <div className="flex h-full w-full min-w-[418px] max-w-[640px] justify-center">
       <div className="h-full w-full">
         <SectionHeader
+          id={isMainSection ? 'main-section' : section?.id ?? ''}
           title={isMainSection ? activeTitle : title || ''}
           isMain={isMainSection}
           items={isMainSection ? headerDropdownItems : []}
@@ -69,6 +72,8 @@ const Section = ({ isMainSection = false, title }: Props) => {
 
         <SimpleBar className="!z-0 h-full max-h-[calc(100%-60px)] w-full overflow-auto rounded-t-3xl border border-b-0 bg-content shadow">
           {isMainSection && <MainContent />}
+          {!isMainSection && section?.sectionType === HOME_SECTION.ACTIVITY && <ActivityContent />}
+          {!isMainSection && section?.sectionType === HOME_SECTION.PROFILE && <ProfileContent />}
         </SimpleBar>
       </div>
     </div>

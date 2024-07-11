@@ -1,11 +1,13 @@
 import Icon from '@/components/Common/Icon'
 import { Switch } from '@/components/ui/switch'
 import { useClickOutside } from '@/hooks/useClickOutside'
+import { useHomeStore } from '@/providers/StoresProvider'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 interface Props {
+  id: string
   title: string
   items?: {
     title: string
@@ -15,7 +17,8 @@ interface Props {
   isMain: boolean
 }
 
-const SectionHeader = ({ title, items, isMain }: Props) => {
+const SectionHeader = ({ id, title, items, isMain }: Props) => {
+  const { unPinSection } = useHomeStore(state => state)
   const [openDropdown, setOpenDropdown] = React.useState<boolean>(false)
   const [openOptions, setOpenOptions] = React.useState<boolean>(false)
   const dropdownRef = useClickOutside(() => {
@@ -113,7 +116,12 @@ const SectionHeader = ({ title, items, isMain }: Props) => {
                       </div>
                     </div>
                   </div>
-                  <div onClick={() => {}} className="cursor-pointer rounded-xl p-3 hover:bg-content-hover">
+                  <div
+                    onClick={() => {
+                      unPinSection(id)
+                    }}
+                    className="cursor-pointer rounded-xl p-3 hover:bg-content-hover"
+                  >
                     <div className="flex h-7 w-full items-center justify-between gap-2">
                       <span className="font-medium">Unpin</span>
                       <div>
