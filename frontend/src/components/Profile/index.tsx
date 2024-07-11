@@ -126,19 +126,19 @@ const Profile = () => {
         <div className="size-full grid grid-cols-3">
           <div
             onClick={() => setTab('threads')}
-            className={`col-span-1 cursor-pointer h-12 grid place-items-center font-semibold relative before:absolute before:w-full before:h-[1px] before:bottom-0 ${tab === 'threads' ? 'before:bg-black' : 'before:bg-border text-description  dark:before:bg-[#f3f5f7'}`}
+            className={`col-span-1 cursor-pointer h-12 grid place-items-center font-semibold relative before:absolute before:w-full before:h-[1px] before:bottom-0 ${tab === 'threads' ? 'before:bg-black dark:before:bg-[#f3f5f7]' : 'before:bg-border text-description  dark:before:bg-[#f3f5f7'}`}
           >
             Threads
           </div>
           <div
             onClick={() => setTab('replies')}
-            className={`col-span-1 cursor-pointer h-12 grid place-items-center font-semibold relative before:absolute before:w-full before:h-[1px] before:bottom-0 ${tab === 'replies' ? 'before:bg-black' : 'before:bg-border text-description  dark:before:bg-[#f3f5f7'}`}
+            className={`col-span-1 cursor-pointer h-12 grid place-items-center font-semibold relative before:absolute before:w-full before:h-[1px] before:bottom-0 ${tab === 'replies' ? 'before:bg-black dark:before:bg-[#f3f5f7]' : 'before:bg-border text-description  dark:before:bg-[#f3f5f7'}`}
           >
             Replies
           </div>
           <div
             onClick={() => setTab('reposts')}
-            className={`col-span-1 cursor-pointer h-12 grid place-items-center font-semibold relative before:absolute before:w-full before:h-[1px] before:bottom-0 ${tab === 'reposts' ? 'before:bg-black' : 'before:bg-border text-description  dark:before:bg-[#f3f5f7'}`}
+            className={`col-span-1 cursor-pointer h-12 grid place-items-center font-semibold relative before:absolute before:w-full before:h-[1px] before:bottom-0 ${tab === 'reposts' ? 'before:bg-black dark:before:bg-[#f3f5f7]' : 'before:bg-border text-description  dark:before:bg-[#f3f5f7'}`}
           >
             Reposts
           </div>
