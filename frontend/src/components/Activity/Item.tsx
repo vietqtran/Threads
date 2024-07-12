@@ -4,7 +4,7 @@ import CommonButton from '../Common/Button'
 import Icon from '../Common/Icon'
 
 type Props = {
-  type?: 'like' | 'reply' | 'follow'
+  type?: 'like' | 'reply' | 'follow' | 'poll'
 }
 
 const Item = ({ type }: Props) => {
@@ -35,6 +35,12 @@ const Item = ({ type }: Props) => {
             <>
               <Icon name="activity_type_follow_white" size={22} className="dark:hidden" />
               <Icon name="activity_type_follow_black" size={22} className="hidden dark:block" />
+            </>
+          )}
+          {type === 'poll' && (
+            <>
+              <Icon name="activity_type_poll_white" size={22} className="dark:hidden" />
+              <Icon name="activity_type_poll_black" size={22} className="hidden dark:block" />
             </>
           )}
         </div>

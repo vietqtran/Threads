@@ -1,5 +1,6 @@
 import Header from '../Header'
 import React from 'react'
+import AddThreadButton from './AddThreadButton'
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -8,6 +9,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         <Header />
         {children}
       </div>
+      <AddThreadButton />
     </div>
   )
 }

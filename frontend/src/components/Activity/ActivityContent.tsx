@@ -8,7 +8,7 @@ const ActivityContent = (props: Props) => {
     <>
       <Item />
       <Item type="follow" />
-      <Item />
+      <Item type="poll" />
       <Item />
       <Item type="like" />
       <Item />
