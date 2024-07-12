@@ -126,3 +126,7 @@
 .text-description {
   @apply text-[#999999] dark:text-[#777777] text-[14.6px];
 }
+
+input::placeholder {
+  @apply text-[#999999] dark:text-[#777777];
+}
