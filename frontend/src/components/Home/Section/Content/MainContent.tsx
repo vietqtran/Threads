@@ -2,7 +2,7 @@ import { MODAL } from '@/enums/modal'
 import { useModalStore } from '@/providers/StoresProvider'
 import Image from 'next/image'
 import React from 'react'
-import Thread from '../../Thread'
+import Thread from '../../../Common/Thread'
 
 const MainContent = () => {
   const { setModal } = useModalStore(state => state)
@@ -14,7 +14,7 @@ const MainContent = () => {
           <Image src="/images/user.jpg" className="h-full w-full object-cover" width={500} height={500} alt="" />
         </div>
         <div onClick={() => setModal(MODAL.CREATE_THREAD)} className="flex-1 cursor-text">
-          <span className=" text-secondary">Start a thread...</span>
+          <span className="text-secondary">Start a thread...</span>
         </div>
         <div className="flex-shrink-0">
           <button
@@ -26,9 +26,9 @@ const MainContent = () => {
         </div>
       </div>
 
-      <Thread />
-      <Thread />
-      <Thread />
+      <Thread isFeed />
+      <Thread isFeed />
+      <Thread isFeed />
     </div>
   )
 }

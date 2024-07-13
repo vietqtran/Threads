@@ -5,11 +5,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Icon from '../Common/Icon'
 import CommonButton from '../Common/Button'
-import Thread from './Thread'
 import { useModalStore } from '@/providers/StoresProvider'
 import { MODAL } from '@/enums/modal'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useClickOutside } from '@/hooks/useClickOutside'
+import Thread from '../Common/Thread'
 
 type Props = {}
 
@@ -23,17 +23,17 @@ const ProfileContent = (props: Props) => {
 
   return (
     <div className="size-full">
-      <div className="size-full pt-5 px-6 mb-3 flex flex-col">
-        <div className="w-full flex items-center justify-between">
+      <div className="mb-3 flex size-full flex-col px-6 pt-5">
+        <div className="flex w-full items-center justify-between">
           <div className="flex-1">
-            <div className="w-full truncate text-2xl leading-[30px] font-bold">vietqtran</div>
+            <div className="w-full truncate text-2xl font-bold leading-[30px]">vietqtran</div>
             <div className="w-full truncate">Trần Quốc Việt</div>
           </div>
-          <div className="flex-shrink-0 cursor-pointer size-[84px] ring-1 ring-border rounded-full overflow-hidden">
+          <div className="size-[84px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full ring-1 ring-border">
             <Image src={'/images/user.jpg'} width={5000} height={5000} alt="" className="size-full object-cover" />
           </div>
         </div>
-        <div className="w-full pt-4 pb-3">
+        <div className="w-full pb-3 pt-4">
           <div className="size-full">
             | React | React Native
             <br />
@@ -42,14 +42,14 @@ const ProfileContent = (props: Props) => {
           </div>
         </div>
 
-        <div className="h-9 w-full mb-[22px] flex items-center justify-between">
+        <div className="mb-[22px] flex h-9 w-full items-center justify-between">
           <div className="text-description flex items-center gap-1">
-            <div onClick={() => setModal(MODAL.VIEW_FOLLOW)} className="flex items-center cursor-pointer">
+            <div onClick={() => setModal(MODAL.VIEW_FOLLOW)} className="flex cursor-pointer items-center">
               <div className="relative w-8">
-                <div className="size-4 top-1/2 ring-1 ring-background -translate-y-1/2 absolute left-0 border rounded-full overflow-hidden">
+                <div className="absolute left-0 top-1/2 size-4 -translate-y-1/2 overflow-hidden rounded-full border ring-1 ring-background">
                   <Image src={'/images/user.jpg'} width={100} height={100} alt="" className="size-full object-cover" />
                 </div>
-                <div className="size-4 top-1/2 -translate-y-1/2 absolute ring-1 ring-background left-3 border rounded-full overflow-hidden">
+                <div className="absolute left-3 top-1/2 size-4 -translate-y-1/2 overflow-hidden rounded-full border ring-1 ring-background">
                   <Image src={'/images/user.jpg'} width={100} height={100} alt="" className="size-full object-cover" />
                 </div>
               </div>
@@ -63,18 +63,18 @@ const ProfileContent = (props: Props) => {
           <div className="flex items-center gap-1">
             <Link
               target="_blank"
-              className=" active:scale-90 duration-75 ease-linear size-9 grid place-items-center"
+              className="grid size-9 place-items-center duration-75 ease-linear active:scale-90"
               href={'https://instagram.com/@vietq.tran'}
             >
-              <Icon name="profile_header_insta_white" size={24} className="dark:block hidden" />
+              <Icon name="profile_header_insta_white" size={24} className="hidden dark:block" />
               <Icon name="profile_header_insta_black" size={24} className="dark:hidden" />
             </Link>
             <div ref={optionsRef} className="relative">
               <div
                 onClick={() => setOpenOptions(!openOptions)}
-                className="cursor-pointer active:scale-90 duration-75 ease-linear size-9 grid place-items-center"
+                className="grid size-9 cursor-pointer place-items-center duration-75 ease-linear active:scale-90"
               >
-                <Icon name="profile_header_options_white" size={24} className="dark:block hidden" />
+                <Icon name="profile_header_options_white" size={24} className="hidden dark:block" />
                 <Icon name="profile_header_options_black" size={24} className="dark:hidden" />
               </div>
               <AnimatePresence>
@@ -105,13 +105,13 @@ const ProfileContent = (props: Props) => {
           </div>
         </div>
 
-        <div className="w-full flex items-center gap-2.5">
+        <div className="flex w-full items-center gap-2.5">
           <CommonButton variant="white" className="w-full" title="Edit profile" />
           <CommonButton variant="white" className="w-full" title="Edit profile" />
         </div>
       </div>
 
-      <div className="size-full grid grid-cols-3">
+      <div className="grid size-full grid-cols-3">
         <div
           onClick={() => setTab('threads')}
           className={`col-span-1 cursor-pointer h-12 grid place-items-center font-semibold relative before:absolute before:w-full before:h-[1px] before:bottom-0 ${tab === 'threads' ? 'before:bg-black dark:before:bg-[#f3f5f7]' : 'before:bg-border text-description  dark:before:bg-[#f3f5f7'}`}
@@ -134,9 +134,9 @@ const ProfileContent = (props: Props) => {
 
       <div className="w-full">
         <Thread withPath />
-        <Thread />
+        <Thread isReply />
         <Thread withPath />
-        <Thread />
+        <Thread isReply />
       </div>
     </div>
   )
