@@ -30,7 +30,7 @@ const SectionHeader = ({ id, title, items, isMain }: Props) => {
   const switchRef = useRef<HTMLButtonElement>(null)
 
   return (
-    <div className="z-10 relative grid h-15 w-full place-items-center">
+    <div className="relative z-10 grid h-15 w-full place-items-center">
       <div className="flex items-center gap-2">
         <span className="block text-15px font-medium">{title}</span>
         {isMain && (
@@ -52,7 +52,7 @@ const SectionHeader = ({ id, title, items, isMain }: Props) => {
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   onClick={e => e.stopPropagation()}
-                  className="absolute -left-[100px] top-[calc(100%+6px)] z-[999] w-[224px] origin-top rounded-2xl border bg-content p-2 shadow"
+                  className="absolute -left-[110px] top-[calc(100%+6px)] z-[999] w-60 origin-top rounded-2xl border bg-content p-2 shadow"
                 >
                   {items?.map((item, index) => (
                     <div
@@ -82,14 +82,14 @@ const SectionHeader = ({ id, title, items, isMain }: Props) => {
       </div>
 
       {!isMain && (
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 size-12">
-          <div ref={optionsRef} className="size-full relative grid place-items-center">
+        <div className="absolute right-3 top-1/2 size-12 -translate-y-1/2">
+          <div ref={optionsRef} className="relative grid size-full place-items-center">
             <div
               onClick={e => {
                 e.stopPropagation()
                 setOpenOptions(!openOptions)
               }}
-              className="grid place-items-center size-6 border rounded-full bg-content duration-75 ease-linear hover:scale-110 active:scale-95 cursor-pointer"
+              className="grid size-6 cursor-pointer place-items-center rounded-full border bg-content duration-75 ease-linear hover:scale-110 active:scale-95"
             >
               <Icon name="home_section_header_dots_white" size={12} className="hidden dark:block" />
               <Icon name="home_section_header_dots_black" size={12} className="dark:hidden" />
