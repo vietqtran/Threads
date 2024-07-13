@@ -1,7 +1,7 @@
 import Fixed from '@/components/Common/Fixed'
 import ShowPosition from '@/components/Common/Wrapper/ShowPosition'
 import { AnimatePresence } from 'framer-motion'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface Props {}
 
@@ -19,7 +19,7 @@ const Audience = (props: Props) => {
   }
   return (
     <div>
-      <span onClick={handleOpenFixed} className="block cursor-pointer text-secondary">
+      <span onClick={handleOpenFixed} className="block cursor-pointer text-secondary active:opacity-75">
         Anyone can reply & quote
       </span>
       <AnimatePresence>
