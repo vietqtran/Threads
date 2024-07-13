@@ -2,6 +2,7 @@ import React, { Fragment, useCallback, useEffect } from 'react'
 import MainContent from './MainContent'
 import { v4 as uuidv4 } from 'uuid'
 import { CreateThreadProvider, useThread } from '@/providers/CreateThreadProvider'
+import Audience from './Audience'
 
 const CreateThread = () => {
   const { state, dispatch } = useThread()
@@ -31,7 +32,7 @@ const CreateThread = () => {
       <div className="mb-4 mt-2 w-full px-6">
         <div className="flex size-full max-h-[calc(100vh-100px)] flex-col overflow-hidden rounded-2xl bg-content dark:border">
           <div className="hide-scrollbar w-full overflow-auto">
-            <div className="size-full flex flex-col gap-2 p-6 pb-4">
+            <div className="flex size-full flex-col gap-2 p-6 pb-4">
               {state.threads.map((thread, index) => (
                 <MainContent
                   key={thread.id}
@@ -46,7 +47,7 @@ const CreateThread = () => {
           </div>
           <div className="w-full p-6">
             <div className="flex h-9 items-center justify-between">
-              <span className="block cursor-pointer text-secondary">Anyone can reply & quote</span>
+              <Audience />
               <button className="h-9 rounded-lg border px-4 pt-0.5 font-medium duration-75 ease-linear active:scale-95">
                 Post
               </button>

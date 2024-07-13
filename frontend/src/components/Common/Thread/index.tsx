@@ -3,12 +3,13 @@
 import React, { useId } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-import CommonAvatar from '@/components/Common/Avatar'
+import CommonUsername from '@/components/Common/Username'
 import { FreeMode } from 'swiper/modules'
 import Icon from '@/components/Common/Icon'
 import Image from 'next/image'
 import { useModalStore } from '@/providers/StoresProvider'
 import Actions from './Actions'
+import Options from './Options'
 
 type Props = {
   withPath?: boolean
@@ -63,16 +64,12 @@ const Thread = ({ withPath, isFeed, isFirst, isReply }: Props) => {
         <div className="flex flex-1 flex-col">
           <div className="mb-1 flex w-full items-center justify-between">
             <div className="flex flex-1 items-center gap-1.5">
-              <CommonAvatar />
+              <CommonUsername />
               <div>
                 <span className="text-sm text-secondary">23h</span>
               </div>
             </div>
-            <div className="group relative grid size-6 flex-shrink-0 cursor-pointer place-items-center duration-75 ease-linear hover:scale-105 active:scale-95">
-              <Icon name="home_thread_dots_black" size={20} className="dark:hidden" />
-              <Icon name="home_thread_dots_white" size={20} className="hidden dark:block" />
-              <div className="absolute inset-0 z-[-1] size-full scale-75 rounded-full bg-content-hover opacity-0 duration-75 ease-linear group-hover:scale-100 group-hover:opacity-100"></div>
-            </div>
+            <Options threadId="1" />
           </div>
           <div className="w-full">
             <p>

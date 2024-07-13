@@ -2,6 +2,7 @@ import React from 'react'
 import Icon from '../../Icon'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useClickOutside } from '@/hooks/useClickOutside'
+import ShowPosition from '../../Wrapper/ShowPosition'
 
 interface Props {
   threadId: string
@@ -22,11 +23,7 @@ const ShareButton = ({ threadId }: Props) => {
       </div>
       <AnimatePresence>
         {show && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="absolute -left-1 top-full w-60 origin-top-left rounded-2xl border bg-content p-2 shadow"
-          >
+          <ShowPosition className="absolute -left-1 w-60 origin-top-left rounded-2xl border bg-content p-2 shadow">
             <div className="cursor-pointer rounded-xl p-3 hover:bg-content-hover">
               <div className="flex h-5 w-full items-center justify-between gap-2">
                 <span className="font-medium">{'Copy link'}</span>
@@ -45,7 +42,7 @@ const ShareButton = ({ threadId }: Props) => {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </ShowPosition>
         )}
       </AnimatePresence>
     </div>

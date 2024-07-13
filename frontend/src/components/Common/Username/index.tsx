@@ -1,11 +1,12 @@
+import React, { useEffect, useRef, useState } from 'react'
+
+import CommonButton from '../Button'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect, useRef, useState } from 'react'
-import CommonButton from '../Button'
 
 type Props = {}
 
-const CommonAvatar = (props: Props) => {
+const CommonUsername = (props: Props) => {
   const [isHover, setIsHover] = useState(false)
   const [showAbove, setShowAbove] = useState(false)
   const nameRef = useRef<HTMLDivElement>(null)
@@ -47,17 +48,17 @@ const CommonAvatar = (props: Props) => {
         <div
           className={`absolute z-[999999] w-[340px] bg-content border rounded-xl ${showAbove ? 'bottom-full' : 'top-full'} -left-6 p-6 shadow`}
         >
-          <Link href="/@username" className="w-full flex items-center justify-between">
+          <Link href="/@username" className="flex w-full items-center justify-between">
             <div className="flex-1">
-              <div className="w-full truncate text-xl leading-[30px] font-bold">vietqtran</div>
+              <div className="w-full truncate text-xl font-bold leading-[30px]">vietqtran</div>
               <div className="w-full truncate">Trần Quốc Việt</div>
             </div>
-            <div className="flex-shrink-0 cursor-pointer size-16 ring-1 ring-border rounded-full overflow-hidden">
+            <div className="size-16 flex-shrink-0 cursor-pointer overflow-hidden rounded-full ring-1 ring-border">
               <Image src={'/images/user.jpg'} width={5000} height={5000} alt="" className="size-full object-cover" />
             </div>
           </Link>
-          <div className="w-full pt-2 pb-3">
-            <div className="size-full line-clamp-3 truncate">
+          <div className="w-full pb-3 pt-2">
+            <div className="line-clamp-3 size-full truncate">
               | React | React Native
               <br />
               💻 | Web | Mobile
@@ -65,11 +66,11 @@ const CommonAvatar = (props: Props) => {
             </div>
           </div>
           <div className="text-description">999 followers</div>
-          <CommonButton variant="reverse" className="w-full mt-3" title="Follow" />
+          <CommonButton variant="reverse" className="mt-3 w-full" title="Follow" />
         </div>
       )}
     </div>
   )
 }
 
-export default CommonAvatar
+export default CommonUsername

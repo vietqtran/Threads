@@ -70,6 +70,9 @@ const config = {
         'same-bg-content': {
           DEFAULT: 'hsl(var(--background-content))',
           hover: 'hsl(var(--background-content-hover))'
+        },
+        red: {
+          DEFAULT: '#FF0034'
         }
       },
       borderRadius: {
