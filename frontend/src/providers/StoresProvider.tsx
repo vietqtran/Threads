@@ -73,7 +73,7 @@ export const useHomeStore = <T,>(selector: (store: HomeStore) => T): T => {
 export const useUserStore = <T,>(selector: (store: UserStore) => T): T => {
   const userStoreContext = useContext(UserStoreContext)
 
-  if(!userStoreContext){
+  if (!userStoreContext) {
     throw new Error(`useUserStore must be used within UserStoreContext`)
   }
 

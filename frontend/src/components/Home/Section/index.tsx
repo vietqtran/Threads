@@ -2,7 +2,7 @@
 
 import React, { useMemo } from 'react'
 import SimpleBar from 'simplebar-react'
-import { useHomeStore } from '@/providers/StoresProvider'
+import { useHomeStore, useUserStore } from '@/providers/StoresProvider'
 import { HOME_SECTION, HOME_MAIN_SECTION } from '@/enums/home'
 import SectionHeader from './Header'
 import MainContent from './Content/MainContent'
@@ -20,6 +20,7 @@ interface Props {
 }
 
 const Section = ({ isMainSection = false, title, section }: Props) => {
+  const { user } = useUserStore(state => state)
   const { setMainSection, mainSection } = useHomeStore(state => state)
 
   const headerDropdownItems = useMemo(() => {
@@ -64,7 +65,7 @@ const Section = ({ isMainSection = false, title, section }: Props) => {
     <div className="flex h-full w-full min-w-[418px] max-w-[640px] justify-center">
       <div className="h-full w-full">
         <SectionHeader
-          id={isMainSection ? 'main-section' : section?.id ?? ''}
+          id={isMainSection ? 'main-section' : (section?.id ?? '')}
           title={isMainSection ? activeTitle : title || ''}
           isMain={isMainSection}
           items={isMainSection ? headerDropdownItems : []}
@@ -73,7 +74,9 @@ const Section = ({ isMainSection = false, title, section }: Props) => {
         <SimpleBar className="!z-0 h-full max-h-[calc(100%-60px)] w-full overflow-auto rounded-t-3xl border border-b-0 bg-content shadow">
           {isMainSection && <MainContent />}
           {!isMainSection && section?.sectionType === HOME_SECTION.ACTIVITY && <ActivityContent />}
-          {!isMainSection && section?.sectionType === HOME_SECTION.PROFILE && <ProfileContent />}
+          {!isMainSection && section?.sectionType === HOME_SECTION.PROFILE && (
+            <ProfileContent isCurrentUser={false} user={user} />
+          )}
         </SimpleBar>
       </div>
     </div>

@@ -8,7 +8,7 @@ import { useUserStore } from '@/providers/StoresProvider'
 
 export const useAuth = () => {
   const { push } = useRouter()
-  const {setUser} = useUserStore(state => state)
+  const { setUser } = useUserStore(state => state)
   const [isLoading, setIsLoading] = useState(false)
 
   const login = async (loginCredential: LoginCredential) => {

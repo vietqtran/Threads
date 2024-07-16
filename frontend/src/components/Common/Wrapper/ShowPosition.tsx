@@ -41,7 +41,7 @@ const ShowPosition: React.FC<Props> = ({ className = '', children, threshold = 2
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
-      className={cn(className, 'absolute', showAbove ? bottom ?? 'bottom-full' : top ?? 'top-full')}
+      className={cn(className, 'absolute', showAbove ? (bottom ?? 'bottom-full') : (top ?? 'top-full'))}
       ref={ref}
     >
       {children}
