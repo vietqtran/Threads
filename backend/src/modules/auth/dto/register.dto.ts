@@ -8,7 +8,7 @@ export class RegisterDto {
   })
   @IsString()
   @IsNotEmpty()
-  registerCredentical: string
+  credential: string
 
   @ApiProperty({
     example: '12345678'

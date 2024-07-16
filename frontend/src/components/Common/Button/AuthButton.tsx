@@ -14,9 +14,9 @@ const AuthButton = ({ disabled, children, onClick }: Props) => {
         disabled={disabled}
         className="disabled:cursor-not-allowed disabled:opacity-50 w-full rounded-xl p-4"
       >
-        <span className="block h-6 leading-6 mt-0.5 text-15px font-semibold dark:text-[#101010] text-white">
+        <div className="grid place-items-center h-6 leading-6 mt-0.5 text-15px font-semibold dark:text-[#101010] text-white">
           {children}
-        </span>
+        </div>
       </button>
     </div>
   )

@@ -46,17 +46,16 @@ export class AuthService {
   }
 
   async register(registerDto: RegisterDto) {
-    const { username, registerCredentical, password } = registerDto
-    const credential = this.getAuthCredentialField(registerCredentical, true)
+    const credential = this.getAuthCredentialField(registerDto.credential, true)
     const existingUser = await this.usersService.findOneWithoutException({
-      $or: [{ username }, { ...credential }]
+      $or: [{ username: registerDto.username }, { ...credential }]
     })
     if (existingUser) {
       throw new UserExistedException()
     }
-    const hashedPassword = await this.hashPassword(password)
+    const hashedPassword = await this.hashPassword(registerDto.password)
     return this.usersService.create({
-      username,
+      username: registerDto.username,
       hashedPassword,
       ...credential
     })

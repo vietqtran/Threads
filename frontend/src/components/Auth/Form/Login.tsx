@@ -12,21 +12,22 @@ import Image from 'next/image'
 import Icon from '@/components/Common/Icon'
 import { useAuth } from '@/hooks/useAuth'
 import { LoginCredential } from '@/types/auth'
+import Loading from '@/components/Common/Loading'
 
 const loginSchema = z.object({
-  loginCredential: z
+  credential: z
     .string()
     .min(1, { message: 'Username, email or phone number is required' })
-    .superRefine((loginCredential, ctx) => {
-      if (isAllNumber(loginCredential) && !isValidPhone(loginCredential)) {
+    .superRefine((credential, ctx) => {
+      if (isAllNumber(credential) && !isValidPhone(credential)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: 'Invalid phone number'
         })
         return
       }
-      if (loginCredential.includes('@')) {
-        if (!isValidEmail(loginCredential)) {
+      if (credential.includes('@')) {
+        if (!isValidEmail(credential)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'Invalid email'
@@ -34,7 +35,7 @@ const loginSchema = z.object({
           return
         }
       } else {
-        if (!(loginCredential.length >= 6 && loginCredential.length <= 20)) {
+        if (!(credential.length >= 6 && credential.length <= 20)) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'Invalid username'
@@ -50,7 +51,7 @@ const loginSchema = z.object({
 })
 
 const Login = () => {
-  const { login } = useAuth()
+  const { isLoading, login } = useAuth()
   const {
     register,
     handleSubmit,
@@ -61,7 +62,7 @@ const Login = () => {
 
   const onSubmit = async (data: any) => {
     const loginCredentials: LoginCredential = {
-      credential: data.loginCredential,
+      credential: data.credential,
       password: data.password
     }
     await login(loginCredentials)
@@ -75,8 +76,6 @@ const Login = () => {
     handleSubmit(onSubmit)
   }
 
-  console.log(errors)
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full">
       <h1 className="text-base font-bold block mb-4 text-center">Log in with your Threads account</h1>
@@ -84,7 +83,7 @@ const Login = () => {
         error={errors.loginCredential?.message}
         key={'loginCredential'}
         register={register}
-        name="loginCredential"
+        name="credential"
         placeholder="Username, phone or email"
         type="text"
       />
@@ -97,7 +96,7 @@ const Login = () => {
         type="password"
       />
       <AuthButton onClick={handleBeforeSubmit} disabled={!isDirty || !isValid}>
-        Log in
+        {isLoading ? <Loading size={5} /> : <span>Log in</span>}
       </AuthButton>
 
       <Link href="/" className="mt-4 block text-center text-secondary">

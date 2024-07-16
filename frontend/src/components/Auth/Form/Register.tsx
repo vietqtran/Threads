@@ -7,21 +7,24 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { isAllNumber, isValidEmail, isValidPhone } from '@/utils/validate'
 import AuthButton from '@/components/Common/Button/AuthButton'
+import { useAuth } from '@/hooks/useAuth'
+import { SignUpCredential } from '@/types/auth'
+import Loading from '@/components/Common/Loading'
 
 const registerSchema = z
   .object({
-    registerCredential: z
+    credential: z
       .string()
       .min(1, { message: 'Email or phone number is required' })
-      .superRefine((registerCredential, ctx) => {
-        if (isAllNumber(registerCredential) && !(registerCredential && isValidPhone(registerCredential))) {
+      .superRefine((credential, ctx) => {
+        if (isAllNumber(credential) && !(credential && isValidPhone(credential))) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'Invalid phone number'
           })
           return
         }
-        if (!isAllNumber(registerCredential) && !(registerCredential && isValidEmail(registerCredential))) {
+        if (!isAllNumber(credential) && !(credential && isValidEmail(credential))) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: 'Invalid email'
@@ -46,6 +49,8 @@ const registerSchema = z
   })
 
 const Register = () => {
+  const { isLoading, signup } = useAuth()
+
   const {
     register,
     handleSubmit,
@@ -54,8 +59,13 @@ const Register = () => {
     resolver: zodResolver(registerSchema)
   })
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const onSubmit = async (data: any) => {
+    const signUpCredentials: SignUpCredential = {
+      credential: data.credential,
+      password: data.password,
+      username: data.username
+    }
+    await signup(signUpCredentials)
   }
 
   const handleBeforeSubmit = () => {
@@ -70,10 +80,10 @@ const Register = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full">
       <h1 className="text-base font-bold block mb-4 text-center">Create new your Threads account</h1>
       <AuthInput
-        error={errors.registerCredential?.message}
-        key={'registerCredential'}
+        error={errors.credential?.message}
+        key={'credential'}
         register={register}
-        name="registerCredential"
+        name="credential"
         placeholder="Email or phone number"
         type="text"
       />
@@ -102,7 +112,7 @@ const Register = () => {
         type="password"
       />
       <AuthButton onClick={handleBeforeSubmit} disabled={!isDirty || !isValid}>
-        Register
+        {isLoading ? <Loading size={5} /> : <span>Register</span>}
       </AuthButton>
     </form>
   )

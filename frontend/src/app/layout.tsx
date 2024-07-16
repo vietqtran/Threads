@@ -1,15 +1,16 @@
-import './globals.css'
 import 'simplebar-react/dist/simplebar.min.css'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
+import './globals.css'
 
-import type { Metadata } from 'next'
 import Modal from '@/components/Common/Modal'
-import { Roboto_Flex } from 'next/font/google'
 import { StoresProvider } from '@/providers/StoresProvider'
 import TanstackQueryProvider from '@/providers/TanstackQueryProvider'
 import { ThemeProvider } from '@/providers/ThemeProvider'
+import type { Metadata } from 'next'
+import { Roboto_Flex } from 'next/font/google'
+import { Toaster } from 'sonner'
 
 const robotoFlex = Roboto_Flex({ subsets: ['latin'] })
 
@@ -33,6 +34,7 @@ export default function RootLayout({
           <StoresProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem storageKey="theme" key={'theme'}>
               {children}
+              <Toaster position="bottom-center" duration={2000} />
               <Modal />
             </ThemeProvider>
           </StoresProvider>

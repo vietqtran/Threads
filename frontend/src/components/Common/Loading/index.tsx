@@ -1,9 +1,20 @@
 import React from 'react'
 
-const Loading = () => {
+interface Props {
+  size?: number
+}
+
+const Loading = ({ size = 6 }: Props) => {
   return (
-    <div className="size-6 grid place-items-center animate-spin">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div className={`size-${size} grid place-items-center animate-spin`}>
+      <svg
+        className={`size-${size}`}
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <path
           opacity="0.125"
           d="M18.4403 4.36337L15.3856 7.41807C14.917 7.8867 14.917 8.6465 15.3856 9.11513C15.8543 9.58376 16.6141 9.58376 17.0827 9.11513L20.1374 6.06043C20.606 5.5918 20.606 4.832 20.1374 4.36337C19.6688 3.89474 18.909 3.89474 18.4403 4.36337Z"

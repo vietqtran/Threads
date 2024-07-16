@@ -1,14 +1,7 @@
 import React from 'react'
 import { FieldError, Merge, UseFormRegister } from 'react-hook-form'
 
-type ValidLoginFieldNames =
-  | 'email'
-  | 'password'
-  | 'confirmPassword'
-  | 'username'
-  | 'name'
-  | 'registerCredential'
-  | 'loginCredential'
+type ValidLoginFieldNames = 'email' | 'password' | 'confirmPassword' | 'username' | 'name' | 'credential'
 
 type Props = {
   type: string
