@@ -8,6 +8,7 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { User, UserDocument } from './entities/user.entity'
 import { AcceptFollowDto, FollowUserDto } from './dto/follow-user'
+import { ConflictException } from '@/common/exceptions/ConflictException'
 
 @Injectable()
 export class UsersService {
@@ -88,34 +89,52 @@ export class UsersService {
 
   async toggleFollowUser(followUserDto: FollowUserDto) {
     const { from, to, isAccepted } = followUserDto
-    const user = await this.findOne({ _id: from })
-    const isFollowed = user.following.some(
-      (following) => following.user._id.toString() === to
+    const fromUser = await this.findOne({ _id: from })
+    const toUser = await this.findOne({ _id: to })
+    
+    const isToUserAccepted = toUser.followers.some(
+      (follower) => follower.user.toString() === from
+    )
+    if (!isToUserAccepted) throw new ConflictException('User is not accepted')
+
+    const isFollowed = fromUser.following.some(
+      (following) => following.user.toString() === to
     )
 
     if (isFollowed) {
-      user.following = user.following.filter(
-        (following) => following.user._id.toString() !== to
+      fromUser.following = fromUser.following.filter(
+        (following) => following.user.toString() !== to
+      )
+      toUser.followers = toUser.followers.filter(
+        (follower) => follower.user.toString() !== from
       )
     } else {
-      const followedUser = await this.findOne({ _id: to })
-      user.following.push({ user: followedUser, isAccepted })
+      fromUser.following.push({ user: toUser.id, isAccepted })
+      toUser.followers.push({ user: fromUser.id })
     }
 
-    await user.save()
-    return user
+    Promise.all([fromUser.save(), toUser.save()]).then(() => {
+      return true
+    }).catch(() => {
+      return false
+    })
   }
 
   async acceptFollow(acceptFollowDto: AcceptFollowDto) {
     const { from, to } = acceptFollowDto
-    const user = await this.findOne({ _id: from })
-    user.following = user.following.map((following) =>
-      following.user._id.toString() === to
+    const fromUser = await this.findOne({ _id: from })
+    fromUser.following = fromUser.following.map((following) =>
+      following.user.toString() === to
         ? { ...following, isAccepted: true }
         : following
     )
-    await user.save()
-    return user
+    const toUser = await this.findOne({ _id: to })
+    toUser.followers.push({ user: fromUser.id })
+    Promise.all([fromUser.save(), toUser.save()]).then(() => {
+      return true
+    }).catch(() => {
+      return false
+    })
   }
 
   async getFollowingUsers(id: string) {
@@ -123,5 +142,10 @@ export class UsersService {
     return user.following
       .filter((following) => following.isAccepted)
       .map((following) => following.user)
+  }
+
+  async getFollowersUsers(id: string) {
+    const user = await this.findOne({ _id: id })
+    return user.followers.map((followers) => followers.user)
   }
 }

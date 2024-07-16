@@ -32,6 +32,10 @@ const registerSchema = z
           return
         }
       }),
+    name: z
+      .string()
+      .min(1, { message: 'Name is required' })
+      .max(50, { message: 'Name must be at most 50 characters' }),
     username: z
       .string()
       .min(1, { message: 'Username is required' })
@@ -62,6 +66,7 @@ const Register = () => {
   const onSubmit = async (data: any) => {
     const signUpCredentials: SignUpCredential = {
       credential: data.credential,
+      name: data.name,
       password: data.password,
       username: data.username
     }
@@ -88,6 +93,14 @@ const Register = () => {
         type="text"
       />
       <AuthInput
+        error={errors.name?.message}
+        key={'name'}
+        register={register}
+        name="name"
+        placeholder="Full Name"
+        type="text"
+      />
+      <AuthInput
         error={errors.username?.message}
         key={'username'}
         register={register}
@@ -111,7 +124,7 @@ const Register = () => {
         placeholder="Confirm Password"
         type="password"
       />
-      <AuthButton onClick={handleBeforeSubmit} disabled={!isDirty || !isValid}>
+      <AuthButton onClick={handleBeforeSubmit} disabled={!isDirty}>
         {isLoading ? <Loading size={5} /> : <span>Register</span>}
       </AuthButton>
     </form>

@@ -20,6 +20,15 @@ export class CreateUserDto {
   username: string
 
   @IsString()
+  @IsNotEmpty()
+  @MaxLength(50)
+  @ApiProperty({
+    description: 'Max length: 50',
+    example: 'Trần Quốc Việt'
+  })
+  name: string
+
+  @IsString()
   @IsOptional()
   @IsEmail()
   @ApiProperty({

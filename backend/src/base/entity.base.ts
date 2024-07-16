@@ -6,6 +6,6 @@ export class BaseEntity {
   @Transform(({ value }) => value.toString())
   _id?: ObjectId
 
-  @Prop({ default: null })
+  @Prop({ default: null, select: false })
   deletedAt: Date
 }

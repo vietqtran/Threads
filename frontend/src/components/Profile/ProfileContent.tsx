@@ -5,15 +5,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Icon from '../Common/Icon'
 import CommonButton from '../Common/Button'
-import { useModalStore } from '@/providers/StoresProvider'
+import { useModalStore, useUserStore } from '@/providers/StoresProvider'
 import { MODAL } from '@/enums/modal'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useClickOutside } from '@/hooks/useClickOutside'
 import Thread from '../Common/Thread'
+import { User } from '@/types/user'
 
-type Props = {}
+type Props = {
+  user: User
+  isCurrentUser: Boolean
+}
 
-const ProfileContent = (props: Props) => {
+const ProfileContent = ({ isCurrentUser, user }: Props) => {
+  const userStore = useUserStore(state => state)
   const [openOptions, setOpenOptions] = useState(false)
   const [tab, setTab] = React.useState<string>('threads')
   const { setModal } = useModalStore(state => state)
@@ -26,11 +31,11 @@ const ProfileContent = (props: Props) => {
       <div className="mb-3 flex size-full flex-col px-6 pt-5">
         <div className="flex w-full items-center justify-between">
           <div className="flex-1">
-            <div className="w-full truncate text-2xl font-bold leading-[30px]">vietqtran</div>
-            <div className="w-full truncate">Trần Quốc Việt</div>
+            <div className="w-full truncate text-2xl font-bold leading-[30px]">{user.username}</div>
+            <div className="w-full truncate">{user.name}</div>
           </div>
           <div className="size-[84px] flex-shrink-0 cursor-pointer overflow-hidden rounded-full ring-1 ring-border">
-            <Image src={'/images/user.jpg'} width={5000} height={5000} alt="" className="size-full object-cover" />
+            <Image src={user.avatar ?? '/images/user.jpg'} width={500} height={500} alt="" className="size-full object-cover" />
           </div>
         </div>
         <div className="w-full pb-3 pt-4">
@@ -47,16 +52,17 @@ const ProfileContent = (props: Props) => {
             <div onClick={() => setModal(MODAL.VIEW_FOLLOW)} className="flex cursor-pointer items-center">
               <div className="relative w-8">
                 <div className="absolute left-0 top-1/2 size-4 -translate-y-1/2 overflow-hidden rounded-full border ring-1 ring-background">
-                  <Image src={'/images/user.jpg'} width={100} height={100} alt="" className="size-full object-cover" />
+                  <Image src={'/images/user.jpg'} width={50} height={50} alt="" className="size-full object-cover" />
                 </div>
                 <div className="absolute left-3 top-1/2 size-4 -translate-y-1/2 overflow-hidden rounded-full border ring-1 ring-background">
-                  <Image src={'/images/user.jpg'} width={100} height={100} alt="" className="size-full object-cover" />
+                  <Image src={'/images/user.jpg'} width={50} height={50} alt="" className="size-full object-cover" />
                 </div>
               </div>
-              <span className="cursor-pointer whitespace-nowrap">999 followers</span>
+              <span className="cursor-pointer whitespace-nowrap">{user.followers.length} followers</span>
             </div>
             <span>·</span>
             <Link target="_blank" className="max-w-40 truncate" href={'https://github.com/vietqtran'}>
+              {/* TODO */}
               github.com/vietqtran
             </Link>
           </div>
@@ -106,8 +112,17 @@ const ProfileContent = (props: Props) => {
         </div>
 
         <div className="flex w-full items-center gap-2.5">
-          <CommonButton variant="white" className="w-full" title="Edit profile" />
-          <CommonButton variant="white" className="w-full" title="Edit profile" />
+          {
+            isCurrentUser ?
+              <CommonButton variant="white" className="w-full" title="Edit profile" />
+              :
+              <>
+                {userStore.user?.following.includes(user._id) ? <CommonButton variant="white" className="w-full" title="Following" />
+                :<CommonButton variant="white" className="w-full" title="Follow" />
+              }
+                <CommonButton variant="white" className="w-full" title="Mention" />
+              </>
+          }
         </div>
       </div>
 

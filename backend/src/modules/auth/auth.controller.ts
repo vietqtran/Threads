@@ -64,6 +64,7 @@ export class AuthController {
       accessTokenCookie,
       refreshTokenCookie.cookie
     ])
+    console.log(accessTokenCookie, refreshTokenCookie)
     return user
   }
 

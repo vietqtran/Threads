@@ -18,6 +18,12 @@ export class User extends BaseEntity {
   username: string
 
   @Prop({
+    required: true,
+    transform: (name: string) => name.trim()
+  })
+  name: string
+
+  @Prop({
     required: false,
     default: null,
     transform: (email: string) => email?.trim().toLowerCase()
@@ -62,8 +68,13 @@ export class User extends BaseEntity {
 
   @Prop({ required: false, default: [] })
   following: {
-    user: User
+    user: string
     isAccepted: boolean
+  }[]
+
+  @Prop({ required: false, default: [] })
+  followers: {
+    user: string
   }[]
 }
 

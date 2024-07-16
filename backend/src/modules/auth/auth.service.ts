@@ -17,26 +17,26 @@ export class AuthService {
     private readonly configService: ConfigService
   ) {}
 
-  private getAuthCredentialField(loginCredential: string, isRegister = false) {
+  private getAuthCredentialField(credential: string, isRegister = false) {
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
     const phoneRegex =
       /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
 
-    if (emailRegex.test(loginCredential)) {
-      return { email: loginCredential }
+    if (emailRegex.test(credential)) {
+      return { email: credential }
     }
-    if (phoneRegex.test(loginCredential)) {
-      return { phoneNumber: loginCredential }
+    if (phoneRegex.test(credential)) {
+      return { phoneNumber: credential }
     }
     if (isRegister) {
       throw new InvalidFieldException('Invalid email or phone number')
     }
-    return { username: loginCredential }
+    return { username: credential }
   }
 
-  async getAuthenticatedUser(loginCredential: string, password: string) {
+  async getAuthenticatedUser(credential: string, password: string) {
     const user = await this.usersService.getUserForLogin(
-      this.getAuthCredentialField(loginCredential)
+      this.getAuthCredentialField(credential)
     )
     if (!(await this.isMatched(password, user.hashedPassword))) {
       throw new PasswordNotMatchException()
@@ -56,6 +56,7 @@ export class AuthService {
     const hashedPassword = await this.hashPassword(registerDto.password)
     return this.usersService.create({
       username: registerDto.username,
+      name: registerDto.name,
       hashedPassword,
       ...credential
     })

@@ -18,6 +18,13 @@ export class UsersController {
     return users
   }
 
+  @Get(':username')
+  @Public()
+  async getProfile(@Param('username') username: string) {
+    const user = await this.usersService.findOne({username})
+    return user
+  }
+
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto)
@@ -31,6 +38,7 @@ export class UsersController {
       user1: {
         value: {
           username: 'vietqtran',
+          name: "Tràn Quoc Viet",
           email: 'vietqtran@gmail.com',
           hashedPassword: '12345678',
           hashedRefreshToken: '',

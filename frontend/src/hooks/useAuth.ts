@@ -4,20 +4,20 @@ import instance from '@/utils/axios/axios.instance'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useUserStore } from '@/providers/StoresProvider'
 
 export const useAuth = () => {
   const { push } = useRouter()
+  const {setUser} = useUserStore(state => state)
   const [isLoading, setIsLoading] = useState(false)
 
-  const login = async ({ credential, password }: LoginCredential) => {
+  const login = async (loginCredential: LoginCredential) => {
     if (isLoading) return
     try {
       setIsLoading(true)
-      const response = (await instance.post('/auth/login', {
-        credential,
-        password
-      })) as Response
+      const response = (await instance.post('/auth/login', loginCredential)) as Response
       if (!response.isError) {
+        setUser(response.data)
         push('/')
       }
     } catch (error: any) {
@@ -30,17 +30,13 @@ export const useAuth = () => {
     }
   }
 
-  const signup = async ({ credential, password, username }: SignUpCredential) => {
+  const signup = async (signUpCredential: SignUpCredential) => {
     if (isLoading) return
     try {
       setIsLoading(true)
-      const response = (await instance.post('/auth/register', {
-        credential,
-        password,
-        username
-      })) as Response
+      const response = (await instance.post('/auth/register', signUpCredential)) as Response
       if (!response.isError) {
-        push('/')
+        push('/login')
       }
     } catch (error: any) {
       console.log(error.response.data)

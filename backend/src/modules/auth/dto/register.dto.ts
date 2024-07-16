@@ -25,4 +25,12 @@ export class RegisterDto {
   @IsString()
   @MaxLength(25)
   username: string
+
+  @ApiProperty({
+    example: 'Tran Quoc Viet'
+  })
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(50)
+  name: string
 }

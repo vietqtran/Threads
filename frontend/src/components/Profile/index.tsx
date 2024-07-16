@@ -1,14 +1,18 @@
 'use client'
 
 import React from 'react'
-import PageSectionWrapper from '../Common/Wrapper/PageSectionWrapper'
 import ProfileContent from './ProfileContent'
+import { User } from '@/types/user'
+import { useUserStore } from '@/providers/StoresProvider'
 
-const Profile = () => {
+interface Props {
+  user: User
+}
+
+const Profile = ({user}: Props) => {
+  const store = useUserStore(state => state)
   return (
-    <PageSectionWrapper title="Profile">
-      <ProfileContent />
-    </PageSectionWrapper>
+    <ProfileContent user={user} isCurrentUser={store.user?.username === user?.username} />
   )
 }
 

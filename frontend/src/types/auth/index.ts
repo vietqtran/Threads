@@ -5,6 +5,7 @@ export type LoginCredential = {
 
 export type SignUpCredential = {
   credential: string
+  name: string
   password: string
   username: string
 }
