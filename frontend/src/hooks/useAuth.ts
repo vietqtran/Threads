@@ -19,7 +19,6 @@ export const useAuth = () => {
       })) as Response
       if (!response.isError) {
         push('/')
-        console.log(response)
       }
     } catch (error: any) {
       console.log(error.response.data)
@@ -41,8 +40,7 @@ export const useAuth = () => {
         username
       })) as Response
       if (!response.isError) {
-        push('/login')
-        console.log(response)
+        push('/')
       }
     } catch (error: any) {
       console.log(error.response.data)
