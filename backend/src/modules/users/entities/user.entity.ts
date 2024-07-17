@@ -76,6 +76,9 @@ export class User extends BaseEntity {
   followers: {
     user: string
   }[]
+
+  @Prop({required: false, default: null, transform: (bio: string) => bio?.trim()})
+  bio: string
 }
 
 export type UserDocument = User & Document

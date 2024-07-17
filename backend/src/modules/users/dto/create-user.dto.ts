@@ -70,4 +70,9 @@ export class CreateUserDto {
     example: 'email'
   })
   provider?: string
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(255)
+  bio?: string
 }

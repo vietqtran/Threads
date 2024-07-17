@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import CreatePoll from './CreatePoll'
 import { THREAD_TYPE } from '@/enums/thread-type'
 import Image from 'next/image'
-import { Thread, useThread } from '@/providers/CreateThreadProvider'
+import { Poll, Thread, useThread } from '@/providers/CreateThreadProvider'
 
 interface Props {
   thread: Thread
@@ -44,7 +44,7 @@ const MainContent = ({ thread, addSubThread, removeSubThread, isFirst, isLast }:
   )
 
   const handleSetPoll = useCallback(
-    (poll: any) => {
+    (poll: Poll) => {
       dispatch({ type: 'SET_POLL', payload: { id: thread.id, poll } })
     },
     [dispatch, thread.id]

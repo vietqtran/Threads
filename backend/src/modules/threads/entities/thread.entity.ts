@@ -14,7 +14,6 @@ export type Media = {
 }
 
 export type Poll = {
-  title: string
   options: {
     id: string
     title: string
