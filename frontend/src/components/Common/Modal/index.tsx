@@ -7,33 +7,49 @@ import CreateThread from './CreateThread'
 import DragToCloseDrawer from '../Drawer/DragToCloseDrawer'
 import { MODAL } from '@/enums/modal'
 import ViewThreadMedias from './ViewThreadMedias'
-import { useModalStore } from '@/providers/StoresProvider'
+import { useModalStore, useUserStore } from '@/providers/StoresProvider'
 import { CreateThreadProvider } from '@/providers/CreateThreadProvider'
 import ViewFollow from './ViewFollow'
 
 const Modal = () => {
   const { modal, setModal } = useModalStore(state => state)
-
+  const { user } = useUserStore(state => state)
   return modal === MODAL.DEFAULT ? null : (
     <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        onClick={() => setModal(MODAL.DEFAULT)}
-        className="fixed inset-0 z-[999999] grid size-full place-items-center bg-black/80"
-      >
-        {modal === MODAL.CREATE_THREAD && (
+      {modal === MODAL.CREATE_THREAD && !!user && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          onClick={() => setModal(MODAL.DEFAULT)}
+          className="fixed inset-0 z-[999999] grid size-full place-items-center bg-black/80"
+        >
           <CreateThreadProvider>
             <CreateThread />
           </CreateThreadProvider>
-        )}
-        {modal === MODAL.VIEW_THREAD_IMAGES && (
+        </motion.div>
+      )}
+      {modal === MODAL.VIEW_THREAD_IMAGES && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          onClick={() => setModal(MODAL.DEFAULT)}
+          className="fixed inset-0 z-[999999] grid size-full place-items-center bg-black/80"
+        >
           <DragToCloseDrawer>
             <ViewThreadMedias />
           </DragToCloseDrawer>
-        )}
-        {modal === MODAL.VIEW_FOLLOW && <ViewFollow />}
-      </motion.div>
+        </motion.div>
+      )}
+      {modal === MODAL.VIEW_FOLLOW && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          onClick={() => setModal(MODAL.DEFAULT)}
+          className="fixed inset-0 z-[999999] grid size-full place-items-center bg-black/80"
+        >
+          <ViewFollow />
+        </motion.div>
+      )}
     </AnimatePresence>
   )
 }

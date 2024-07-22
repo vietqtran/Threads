@@ -14,12 +14,13 @@ export const useAuth = () => {
   const authenticate = async () => {
     try {
       const response = (await instance.get('/auth/authenticate', { withCredentials: true })) as Response
-      if (!response.isError && response.data) {
+      if (response && !!response.data) {
         setUser(response.data)
         return true
       }
       return false
     } catch (error: any) {
+      setUser(null)
       console.log(error)
       return false
     }

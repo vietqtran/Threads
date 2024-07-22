@@ -7,7 +7,7 @@ export type UserState = {
 }
 
 export type UserActions = {
-  setUser: (user: User) => void
+  setUser: (user: User | null) => void
 }
 
 export type UserStore = UserState & UserActions
