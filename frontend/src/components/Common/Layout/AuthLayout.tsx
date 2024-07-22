@@ -1,8 +1,15 @@
+'use client'
+
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Icon from '../Icon'
+import { useModalStore } from '@/providers/StoresProvider'
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+  const { closeModal } = useModalStore(state => state)
+  useEffect(() => {
+    closeModal()
+  })
   return (
     <div className="h-screen relative bg-white dark:bg-black w-screen">
       <div className="h-1/2 sm:block hidden z-0 absolute w-full top-0 inset-x-0">
