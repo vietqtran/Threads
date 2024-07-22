@@ -2,13 +2,15 @@ import React, { createContext, useContext, useReducer, ReactNode } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { THREAD_TYPE } from '@/enums/thread-type'
 
+export type PollOption = {
+  id: string
+  title: string
+  rates?: number
+}
+
 export type Poll = {
-  options: {
-    id: string
-    title: string
-    rates?: number
-  }[]
-} 
+  options: PollOption[]
+}
 
 export interface Thread {
   id: string
@@ -22,7 +24,6 @@ interface ThreadState {
   threads: Thread[]
 }
 
-// Define action types
 type Action =
   | { type: 'ADD_THREAD' }
   | { type: 'REMOVE_THREAD'; payload: { id: string } }
@@ -32,7 +33,10 @@ type Action =
   | { type: 'SET_POLL'; payload: { id: string; poll: any } }
   | { type: 'REMOVE_POLL'; payload: { id: string } }
   | { type: 'SET_THREAD_TYPE'; payload: { id: string; threadType: THREAD_TYPE } }
-  | { type: 'UPDATE_POLL'; payload: {threadId: string, poll: Poll}} 
+  | { type: 'UPDATE_POLL'; payload: { threadId: string; poll: Poll } }
+  | { type: 'ADD_POLL_OPTION'; payload: { threadId: string; optionId: string; value: string } }
+  | { type: 'REMOVE_POLL_OPTION'; payload: { threadId: string; optionId: string } }
+  | { type: 'UPDATE_POLL_OPTION'; payload: { threadId: string; optionId: string; value: string } }
 
 const ThreadContext = createContext<
   | {
@@ -42,7 +46,6 @@ const ThreadContext = createContext<
   | undefined
 >(undefined)
 
-// Reducer function
 const threadReducer = (state: ThreadState, action: Action): ThreadState => {
   switch (action.type) {
     case 'ADD_THREAD':
@@ -63,18 +66,23 @@ const threadReducer = (state: ThreadState, action: Action): ThreadState => {
       return setThreadType(state, action.payload.id, action.payload.threadType)
     case 'UPDATE_POLL':
       return updatePoll(state, action.payload.threadId, action.payload.poll)
+    case 'UPDATE_POLL_OPTION':
+      return updatePollOptions(state, action.payload.threadId, action.payload.optionId, action.payload.value, true)
+    case 'ADD_POLL_OPTION':
+      return updatePollOptions(state, action.payload.threadId, action.payload.optionId, action.payload.value)
+    case 'REMOVE_POLL_OPTION':
+      return removePollOption(state, action.payload.threadId, action.payload.optionId)
     default:
       return state
   }
 }
 
-// Helper functions for the reducer
 const addThread = (state: ThreadState): ThreadState => {
   const newThread: Thread = {
     id: uuidv4(),
     content: '',
     images: [],
-    poll: { 
+    poll: {
       options: [
         {
           id: '1',
@@ -84,7 +92,7 @@ const addThread = (state: ThreadState): ThreadState => {
           id: '2',
           title: ''
         }
-      ],
+      ]
     },
     threadType: THREAD_TYPE.DEFAULT
   }
@@ -108,19 +116,24 @@ const addImage = (state: ThreadState, id: string, image: { id: string; file: Fil
     ...state,
     threads: state.threads.map(thread =>
       thread.id === id
-        ? { ...thread, images: [...thread.images, image], poll: {
-          title: '',
-          options: [
-            {
-              id: '1',
-              title: ''
+        ? {
+            ...thread,
+            images: [...thread.images, image],
+            poll: {
+              title: '',
+              options: [
+                {
+                  id: '1',
+                  title: ''
+                },
+                {
+                  id: '2',
+                  title: ''
+                }
+              ]
             },
-            {
-              id: '2',
-              title: ''
-            }
-          ],
-        }, threadType: THREAD_TYPE.DEFAULT }
+            threadType: THREAD_TYPE.DEFAULT
+          }
         : thread
     )
   }
@@ -148,19 +161,25 @@ const removePoll = (state: ThreadState, threadId: string): ThreadState => {
   return {
     ...state,
     threads: state.threads.map(thread =>
-      thread.id === threadId ? { ...thread, poll: {
-        title: '',
-        options: [
-          {
-            id: '1',
-            title: ''
-          },
-          {
-            id: '2',
-            title: ''
+      thread.id === threadId
+        ? {
+            ...thread,
+            poll: {
+              title: '',
+              options: [
+                {
+                  id: '1',
+                  title: ''
+                },
+                {
+                  id: '2',
+                  title: ''
+                }
+              ]
+            },
+            threadType: THREAD_TYPE.DEFAULT
           }
-        ],
-      }, threadType: THREAD_TYPE.DEFAULT } : thread
+        : thread
     )
   }
 }
@@ -168,7 +187,24 @@ const removePoll = (state: ThreadState, threadId: string): ThreadState => {
 const setThreadType = (state: ThreadState, id: string, threadType: THREAD_TYPE): ThreadState => {
   return {
     ...state,
-    threads: state.threads.map(thread => (thread.id === id ? { ...thread, threadType } : thread))
+    threads: state.threads.map(thread =>
+      thread.id === id
+        ? {
+            ...thread,
+            poll:
+              threadType === THREAD_TYPE.POLL
+                ? {
+                    options: [
+                      { id: '1', title: '' },
+                      { id: '2', title: '' }
+                    ]
+                  }
+                : { options: [] },
+            images: [],
+            threadType
+          }
+        : thread
+    )
   }
 }
 
@@ -176,10 +212,73 @@ const updatePoll = (state: ThreadState, threadId: string, poll: Poll): ThreadSta
   return {
     ...state,
     threads: state.threads.map(thread => {
-      if(thread.id === threadId) {
+      if (thread.id === threadId) {
         return {
           ...thread,
           poll
+        }
+      }
+      return thread
+    })
+  }
+}
+
+const updatePollOptions = (state: ThreadState, threadId: string, optionId: string, value: string, isUpdate = false) => {
+  return {
+    ...state,
+    threads: state.threads.map(thread => {
+      if (thread.id === threadId) {
+        return {
+          ...thread,
+          poll: {
+            ...thread.poll,
+            options: isUpdate
+              ? [
+                  ...thread.poll.options.map(o => {
+                    if (o.id === optionId) {
+                      return {
+                        ...o,
+                        title: value
+                      }
+                    }
+                    return o
+                  })
+                ]
+              : [
+                  ...thread.poll.options,
+                  {
+                    id: optionId,
+                    title: value
+                  }
+                ]
+          }
+        }
+      }
+      return thread
+    })
+  }
+}
+
+const removePollOption = (state: ThreadState, threadId: string, optionId: string) => {
+  return {
+    ...state,
+    threads: state.threads.map(thread => {
+      if (thread.id === threadId && thread.poll) {
+        const optionIndex = thread.poll.options.findIndex(o => o.id === optionId)
+        if (optionIndex !== -1) {
+          const newOptions = [...thread.poll.options]
+          newOptions.splice(optionIndex, 1)
+          const renumberedOptions = newOptions.map((option, index) => ({
+            ...option,
+            id: (index + 1).toString()
+          }))
+          return {
+            ...thread,
+            poll: {
+              ...thread.poll,
+              options: renumberedOptions
+            }
+          }
         }
       }
       return thread
@@ -205,7 +304,7 @@ export const CreateThreadProvider: React.FC<{ children: ReactNode }> = ({ childr
               id: '2',
               title: ''
             }
-          ],
+          ]
         },
         threadType: THREAD_TYPE.DEFAULT
       }
@@ -215,7 +314,6 @@ export const CreateThreadProvider: React.FC<{ children: ReactNode }> = ({ childr
   return <ThreadContext.Provider value={{ state, dispatch }}>{children}</ThreadContext.Provider>
 }
 
-// Custom hook to use the thread context
 export const useThread = () => {
   const context = useContext(ThreadContext)
   if (context === undefined) {

@@ -25,6 +25,7 @@ const Editor = ({ placeholder, autoFocus, content, setContent }: Props) => {
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML())
     },
+    immediatelyRender: false,
     content
   })
 

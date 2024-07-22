@@ -57,7 +57,13 @@ const MainContent = ({ thread, addSubThread, removeSubThread, isFirst, isLast }:
     [dispatch, thread.id]
   )
 
-  const isCanAddSubThread = thread.content.length > 0 || thread.images.length > 0 || thread.poll
+  const isCanAddSubThread =
+    thread.content.length > 0 ||
+    thread.images.length > 0 ||
+    (thread.poll &&
+      thread.threadType === THREAD_TYPE.POLL &&
+      thread.poll.options[0].title &&
+      thread.poll.options[1].title)
 
   return (
     <>
@@ -91,7 +97,7 @@ const MainContent = ({ thread, addSubThread, removeSubThread, isFirst, isLast }:
             placeholder="Start a thread..."
             autoFocus={true}
           />
-          {thread.threadType === THREAD_TYPE.POLL && <CreatePoll threadId={thread.id} />}
+          {thread.threadType === THREAD_TYPE.POLL && <CreatePoll options={thread.poll.options} threadId={thread.id} />}
           <input
             key={'create-thread-file-input'}
             ref={fileInputRef}

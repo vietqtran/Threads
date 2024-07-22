@@ -1,5 +1,5 @@
 import Icon from '../../Icon'
-import React, { useRef } from 'react'
+import React from 'react'
 import DefaultMenu from './DefaultMenu'
 import { AnimatePresence } from 'framer-motion'
 

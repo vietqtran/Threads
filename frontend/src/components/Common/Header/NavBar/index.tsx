@@ -5,7 +5,7 @@ import { useUserStore } from '@/providers/StoresProvider'
 
 const NavBar = () => {
   const pathName = usePathname()
-  const {user} = useUserStore(state => state)
+  const { user } = useUserStore(state => state)
 
   return (
     <ul className="flex flex-1 flex-col items-center justify-center gap-1">
