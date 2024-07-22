@@ -11,6 +11,23 @@ export const useAuth = () => {
   const { setUser } = useUserStore(state => state)
   const [isLoading, setIsLoading] = useState(false)
 
+  const authenticate = async () => {
+    if (isLoading) return
+    try {
+      setIsLoading(true)
+      const response = (await instance.get('/auth/authenticate', { withCredentials: true })) as Response
+      if (!response.isError && response.data) {
+        setUser(response.data)
+        return true
+      }
+      return false
+    } catch (error: any) {
+      return false
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const login = async (loginCredential: LoginCredential) => {
     if (isLoading) return
     try {
@@ -50,6 +67,7 @@ export const useAuth = () => {
 
   return {
     isLoading,
+    authenticate,
     login,
     signup
   }

@@ -6,6 +6,7 @@ import { useClickOutside } from '@/hooks/useClickOutside'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useModalStore } from '@/providers/StoresProvider'
 import { THREAD_TYPE } from '@/enums/thread-type'
+import WithAuth from '@/HOC/withAuth'
 
 const CreateThread = () => {
   const [isConfirm, setIsConfirm] = useState(false)
@@ -44,7 +45,7 @@ const CreateThread = () => {
   }, [state])
 
   const ref = useClickOutside(() => {
-    isCanPost && setIsConfirm(true)
+    isCanPost ? setIsConfirm(true) : closeModal()
   })
 
   const confirmRef = useClickOutside(() => {
@@ -53,7 +54,7 @@ const CreateThread = () => {
 
   return (
     <>
-      <div onClick={e => isCanPost ?? e.stopPropagation()} className="size-full z-0 grid place-items-center">
+      <div onClick={e => e.stopPropagation()} className="size-full z-0 grid place-items-center">
         <div ref={ref} className="w-full max-w-[668px]">
           <div className="flex h-[46px] w-full items-center justify-center">
             <span className="text-base font-bold text-white">New thread</span>
@@ -113,4 +114,4 @@ const CreateThread = () => {
   )
 }
 
-export default CreateThread
+export default WithAuth(CreateThread)

@@ -13,6 +13,7 @@ import Icon from '@/components/Common/Icon'
 import { useAuth } from '@/hooks/useAuth'
 import { LoginCredential } from '@/types/auth'
 import Loading from '@/components/Common/Loading'
+import WithAuth from '@/HOC/withAuth'
 
 const loginSchema = z.object({
   credential: z
@@ -138,4 +139,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default WithAuth(Login, true)

@@ -4,10 +4,10 @@ import { notFound } from 'next/navigation'
 
 async function getUserProfile(username: string) {
   try {
-    const res = await instance.get(`/users/${username}`, { withCredentials: true })
-    if (res.data) {
-      console.log(res.data)
-      return res.data
+    const { data } = await instance.get(`/users/${username}`, { withCredentials: true })
+    if (data) {
+      console.log(data)
+      return data
     }
   } catch (error) {
     console.log(error)

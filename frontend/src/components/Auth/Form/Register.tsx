@@ -10,6 +10,7 @@ import AuthButton from '@/components/Common/Button/AuthButton'
 import { useAuth } from '@/hooks/useAuth'
 import { SignUpCredential } from '@/types/auth'
 import Loading from '@/components/Common/Loading'
+import WithAuth from '@/HOC/withAuth'
 
 const registerSchema = z
   .object({
@@ -128,4 +129,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default WithAuth(Register, true)
