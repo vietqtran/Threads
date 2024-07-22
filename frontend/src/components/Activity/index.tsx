@@ -5,6 +5,7 @@ import React, { useCallback, useMemo } from 'react'
 import ActivityContent from './ActivityContent'
 import PageSectionWrapper from '../Common/Wrapper/PageSectionWrapper'
 import { v4 as uuidv4 } from 'uuid'
+import WithAuth from '@/HOC/withAuth'
 
 type Props = {}
 
@@ -67,4 +68,4 @@ const Activity = (props: Props) => {
   )
 }
 
-export default Activity
+export default WithAuth(Activity)

@@ -13,11 +13,11 @@ const WithAuth = (Component: React.FunctionComponent, isAuthPage = false) => {
         console.log(isAuthenticated)
         if (!isAuthenticated && !isAuthPage) {
           push('/login')
-          return null
+          return
         }
         if (isAuthenticated && isAuthPage) {
           push('/')
-          return null
+          return
         }
       }
       checkUser()

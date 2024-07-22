@@ -12,9 +12,7 @@ export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const authenticate = async () => {
-    if (isLoading) return
     try {
-      setIsLoading(true)
       const response = (await instance.get('/auth/authenticate', { withCredentials: true })) as Response
       if (!response.isError && response.data) {
         setUser(response.data)
@@ -22,9 +20,8 @@ export const useAuth = () => {
       }
       return false
     } catch (error: any) {
+      console.log(error)
       return false
-    } finally {
-      setIsLoading(false)
     }
   }
 
