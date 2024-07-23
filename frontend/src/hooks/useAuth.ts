@@ -36,9 +36,9 @@ export const useAuth = () => {
         push('/')
       }
     } catch (error: any) {
-      console.log(error.response.data)
-      if (error.response.data) {
-        toast(error.response.data.message)
+      console.log(error)
+      if (error) {
+        toast(error.message)
       }
     } finally {
       setIsLoading(false)
@@ -54,12 +54,27 @@ export const useAuth = () => {
         push('/login')
       }
     } catch (error: any) {
-      console.log(error.response.data)
-      if (error.response.data) {
-        toast(error.response.data.message)
+      console.log(error)
+      if (error) {
+        toast(error.message)
       }
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const logout = async () => {
+    try {
+      const response = (await instance.post('/auth/logout', {}, {withCredentials: true}))
+      if(response) {
+        setUser(null)
+        push('/login')
+      }
+    } catch (err: any) {
+      console.log(err)
+      if(err.message) {
+        toast(err.message)
+      }
     }
   }
 
@@ -67,6 +82,7 @@ export const useAuth = () => {
     isLoading,
     authenticate,
     login,
-    signup
+    signup,
+    logout
   }
 }

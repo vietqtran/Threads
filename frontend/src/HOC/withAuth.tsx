@@ -9,23 +9,17 @@ const WithAuth = (Component: React.FunctionComponent, isAuthPage = false) => {
   return function WithAuthComponent(props: any) {
     const { push } = useRouter()
     const { authenticate } = useAuth()
-    const { user, setUser } = useUserStore(state => state)
+    const { user } = useUserStore(state => state)
 
     useEffect(() => {
       const checkUser = async () => {
         const authResponse = await authenticate()
-        if (authResponse) {
-          if (!user && !isAuthPage) {
-            push('/login')
-            return
-          }
-          if (user && isAuthPage) {
-            push('/')
-            return
-          }
-        } else {
+        console.log(authResponse)
+        if(!authResponse || !user) {
           push('/login')
-          return
+        }
+        if(authResponse && isAuthPage) {
+          push('/')
         }
       }
       checkUser()

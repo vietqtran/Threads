@@ -4,16 +4,19 @@ import Icon from '../../Icon'
 import SwitchTheme from './SwitchTheme'
 import { motion } from 'framer-motion'
 import { useClickOutside } from '@/hooks/useClickOutside'
+import { useAuth } from '@/hooks/useAuth'
 
 interface Props {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const DefaultMenu = ({ setIsOpen }: Props) => {
+  const {logout} = useAuth()
   const ref = useClickOutside(() => {
     setIsOpen(false)
   })
   const [tab, setTab] = React.useState<string>('default')
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -48,7 +51,7 @@ const DefaultMenu = ({ setIsOpen }: Props) => {
                 <div className="flex flex-1 text-15px font-medium">Report a problem</div>
               </div>
             </div>
-            <div className="flex w-full cursor-pointer items-center rounded-xl p-3 hover:bg-content-hover">
+            <div onClick={logout} className="flex w-full cursor-pointer items-center rounded-xl p-3 hover:bg-content-hover">
               <div className="flex h-7 w-full items-center justify-between">
                 <div className="flex flex-1 text-15px font-medium">Log out</div>
               </div>
