@@ -28,7 +28,7 @@ export class TransformInterceptor<T>
         const statusCode = context.switchToHttp().getResponse().statusCode
         const status = statusCode >= 400 ? 0 : 1
         const isError = statusCode >= 400
-        const formatResponse =  {
+        const formatResponse = {
           isError,
           statusCode,
           status,

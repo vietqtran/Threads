@@ -77,7 +77,11 @@ export class User extends BaseEntity {
     user: string
   }[]
 
-  @Prop({required: false, default: null, transform: (bio: string) => bio?.trim()})
+  @Prop({
+    required: false,
+    default: null,
+    transform: (bio: string) => bio?.trim()
+  })
   bio: string
 }
 

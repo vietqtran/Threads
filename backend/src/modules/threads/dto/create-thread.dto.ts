@@ -51,11 +51,13 @@ export class CreateThreadDto {
     example: {
       id: 'id',
       title: 'title',
-      options: [{
-        id: 'id',
-        title: 'title',
-        rates: 0
-      }]
+      options: [
+        {
+          id: 'id',
+          title: 'title',
+          rates: 0
+        }
+      ]
     }
   })
   @IsObject()

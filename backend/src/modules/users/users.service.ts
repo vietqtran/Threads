@@ -88,10 +88,12 @@ export class UsersService {
   }
 
   async toggleFollowUser(followUserDto: FollowUserDto) {
+    if (followUserDto.from === followUserDto.to)
+      throw new ConflictException('Cannot follow yourself')
     const { from, to, isAccepted } = followUserDto
     const fromUser = await this.findOne({ _id: from })
     const toUser = await this.findOne({ _id: to })
-    
+
     const isToUserAccepted = toUser.followers.some(
       (follower) => follower.user.toString() === from
     )
@@ -113,14 +115,18 @@ export class UsersService {
       toUser.followers.push({ user: fromUser.id })
     }
 
-    Promise.all([fromUser.save(), toUser.save()]).then(() => {
-      return true
-    }).catch(() => {
-      return false
-    })
+    Promise.all([fromUser.save(), toUser.save()])
+      .then(() => {
+        return true
+      })
+      .catch(() => {
+        return false
+      })
   }
 
   async acceptFollow(acceptFollowDto: AcceptFollowDto) {
+    if (acceptFollowDto.from === acceptFollowDto.to)
+      throw new ConflictException('Cannot follow yourself')
     const { from, to } = acceptFollowDto
     const fromUser = await this.findOne({ _id: from })
     fromUser.following = fromUser.following.map((following) =>
@@ -130,22 +136,34 @@ export class UsersService {
     )
     const toUser = await this.findOne({ _id: to })
     toUser.followers.push({ user: fromUser.id })
-    Promise.all([fromUser.save(), toUser.save()]).then(() => {
-      return true
-    }).catch(() => {
-      return false
-    })
+    Promise.all([fromUser.save(), toUser.save()])
+      .then(() => {
+        return true
+      })
+      .catch(() => {
+        return false
+      })
   }
 
   async getFollowingUsers(id: string) {
     const user = await this.findOne({ _id: id })
-    return user.following
+    const followingIds = user.following
       .filter((following) => following.isAccepted)
       .map((following) => following.user)
+
+    const followingUsers = await this.userModel
+      .find({ _id: { $in: followingIds } })
+      .select('-hashedPassword')
+    return followingUsers
   }
 
   async getFollowersUsers(id: string) {
     const user = await this.findOne({ _id: id })
-    return user.followers.map((followers) => followers.user)
+    const followersIds = user.followers.map((followers) => followers.user)
+
+    const followersUsers = await this.userModel
+      .find({ _id: { $in: followersIds } })
+      .select('-hashedPassword')
+    return followersUsers
   }
 }

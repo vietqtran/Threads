@@ -11,7 +11,7 @@ interface Props {
 }
 
 const DefaultMenu = ({ setIsOpen }: Props) => {
-  const {logout} = useAuth()
+  const { logout } = useAuth()
   const ref = useClickOutside(() => {
     setIsOpen(false)
   })
@@ -51,7 +51,10 @@ const DefaultMenu = ({ setIsOpen }: Props) => {
                 <div className="flex flex-1 text-15px font-medium">Report a problem</div>
               </div>
             </div>
-            <div onClick={logout} className="flex w-full cursor-pointer items-center rounded-xl p-3 hover:bg-content-hover">
+            <div
+              onClick={logout}
+              className="flex w-full cursor-pointer items-center rounded-xl p-3 hover:bg-content-hover"
+            >
               <div className="flex h-7 w-full items-center justify-between">
                 <div className="flex flex-1 text-15px font-medium">Log out</div>
               </div>

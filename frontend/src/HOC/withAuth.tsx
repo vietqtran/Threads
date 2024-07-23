@@ -15,10 +15,10 @@ const WithAuth = (Component: React.FunctionComponent, isAuthPage = false) => {
       const checkUser = async () => {
         const authResponse = await authenticate()
         console.log(authResponse)
-        if(!authResponse || !user) {
+        if (!authResponse || !user) {
           push('/login')
         }
-        if(authResponse && isAuthPage) {
+        if (authResponse && isAuthPage) {
           push('/')
         }
       }

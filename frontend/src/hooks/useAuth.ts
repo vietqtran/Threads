@@ -13,31 +13,31 @@ export const useAuth = () => {
 
   const authenticate = async () => {
     try {
-      const response = (await instance.get('/auth/authenticate', { withCredentials: true })) as Response
-      if (response && !!response.data) {
-        setUser(response.data)
+      const response = await instance.get<Response>('/auth/authenticate', { withCredentials: true })
+      if (response.data) {
+        setUser(response.data.data)
         return true
       }
       return false
-    } catch (error: any) {
+    } catch (error) {
       setUser(null)
-      console.log(error)
+      console.error('Authentication error:', error)
       return false
     }
   }
 
   const login = async (loginCredential: LoginCredential) => {
     if (isLoading) return
+    setIsLoading(true)
     try {
-      setIsLoading(true)
-      const response = (await instance.post('/auth/login', loginCredential)) as Response
-      if (!response.isError) {
-        setUser(response.data)
+      const response = await instance.post<Response>('/auth/login', loginCredential)
+      if (!response.data.isError) {
+        setUser(response.data.data)
         push('/')
       }
-    } catch (error: any) {
-      console.log(error)
-      if (error) {
+    } catch (error) {
+      console.error('Login error:', error)
+      if (error instanceof Error) {
         toast(error.message)
       }
     } finally {
@@ -47,15 +47,15 @@ export const useAuth = () => {
 
   const signup = async (signUpCredential: SignUpCredential) => {
     if (isLoading) return
+    setIsLoading(true)
     try {
-      setIsLoading(true)
-      const response = (await instance.post('/auth/register', signUpCredential)) as Response
-      if (!response.isError) {
+      const response = await instance.post<Response>('/auth/register', signUpCredential)
+      if (!response.data.isError) {
         push('/login')
       }
-    } catch (error: any) {
-      console.log(error)
-      if (error) {
+    } catch (error) {
+      console.error('Signup error:', error)
+      if (error instanceof Error) {
         toast(error.message)
       }
     } finally {
@@ -65,15 +65,15 @@ export const useAuth = () => {
 
   const logout = async () => {
     try {
-      const response = (await instance.post('/auth/logout', {}, {withCredentials: true}))
-      if(response) {
+      const response = await instance.post<Response>('/auth/logout', {}, { withCredentials: true })
+      if (response.data) {
         setUser(null)
         push('/login')
       }
-    } catch (err: any) {
-      console.log(err)
-      if(err.message) {
-        toast(err.message)
+    } catch (error) {
+      console.error('Logout error:', error)
+      if (error instanceof Error) {
+        toast(error.message)
       }
     }
   }

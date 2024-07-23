@@ -21,7 +21,7 @@ export class UsersController {
   @Get(':username')
   @Public()
   async getProfile(@Param('username') username: string) {
-    const user = await this.usersService.findOne({username})
+    const user = await this.usersService.findOne({ username })
     return user
   }
 
@@ -38,7 +38,7 @@ export class UsersController {
       user1: {
         value: {
           username: 'vietqtran',
-          name: "Tràn Quoc Viet",
+          name: 'Tràn Quoc Viet',
           email: 'vietqtran@gmail.com',
           hashedPassword: '12345678',
           hashedRefreshToken: '',
@@ -68,6 +68,12 @@ export class UsersController {
   @Get('/following/:id')
   async getFollowingUsers(@Param('id') id: string) {
     const users = await this.usersService.getFollowingUsers(id)
+    return users
+  }
+
+  @Get('/followers/:id')
+  async getFollowersUsers(@Param('id') id: string) {
+    const users = await this.usersService.getFollowersUsers(id)
     return users
   }
 }

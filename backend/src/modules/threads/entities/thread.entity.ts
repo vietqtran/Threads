@@ -19,7 +19,7 @@ export type Poll = {
     title: string
     rates: number
   }[]
-} 
+}
 
 @Schema({
   timestamps: {
@@ -41,9 +41,9 @@ export class Thread extends BaseEntity {
 
   @Prop({
     type: Object,
-    required: function() {
+    required: function () {
       return this.type === ThreadType.POLL
-    } ,
+    },
     default: null
   })
   poll?: Poll
