@@ -76,7 +76,9 @@ const ProfileContent = ({ isCurrentUser, user }: Props) => {
                                     />
                                 </div>
                             </div>
-                            <span className="cursor-pointer whitespace-nowrap">{user?.followers?.length ?? 0} followers</span>
+                            <span className="cursor-pointer whitespace-nowrap">
+                                {user?.followers?.length ?? 0} followers
+                            </span>
                         </div>
                         <span>·</span>
                         <Link target="_blank" className="max-w-40 truncate" href={'https://github.com/vietqtran'}>

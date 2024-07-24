@@ -4,6 +4,7 @@ import { IsArray, IsEnum, IsNotEmpty, IsObject, IsOptional, IsString } from 'cla
 import { MediaType } from '../constants/media-type.enum'
 import { ThreadContentType, ThreadType } from '../constants/thread-type.enum'
 import { Poll } from '../entities/thread.entity'
+import { ThreadAudience } from '../constants/thread-audience.enum'
 
 export class CreateThreadDto {
     @ApiProperty()
@@ -63,6 +64,13 @@ export class CreateThreadDto {
     @IsArray()
     @IsOptional()
     likedUsers?: User[]
+
+    @ApiProperty({
+        example: ThreadAudience.ANYONE
+    })
+    @IsString()
+    @IsOptional()
+    audidence?: string
 }
 
 export class Media {

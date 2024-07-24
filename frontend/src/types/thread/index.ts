@@ -1,6 +1,7 @@
 import { User } from '../user'
 
 export interface Thread {
+    id: string
     user: string
     content: string
     type: string
@@ -8,6 +9,7 @@ export interface Thread {
     medias: Media[]
     poll: Poll
     likedUsers: User[]
+    audience: ThreadAudience
 }
 
 export interface Media {
@@ -16,15 +18,13 @@ export interface Media {
 }
 
 export interface Poll {
-    id: string
-    title: string
     options: Option[]
 }
 
 export interface Option {
     id: string
     title: string
-    rates: number
+    rates?: number
 }
 
 export interface Reply {
@@ -35,4 +35,10 @@ export interface Reply {
     contentType: string
     medias: Media[]
     likedUsers: User[]
+}
+
+export enum ThreadAudience {
+    ANYONE = 'anyone',
+    MENTIONED = 'mentioned',
+    FOLLOWED = 'followed'
 }

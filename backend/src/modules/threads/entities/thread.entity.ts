@@ -7,6 +7,7 @@ import { MediaType } from '../constants/media-type.enum'
 import { Reply } from '@/modules/replies/entities/reply.entity'
 import { Type } from 'class-transformer'
 import { User } from '@/modules/users/entities/user.entity'
+import { ThreadAudience } from '../constants/thread-audience.enum'
 
 export type Media = {
     url: string
@@ -77,6 +78,9 @@ export class Thread extends BaseEntity {
     })
     @Type(() => Reply)
     replies?: Reply[]
+
+    @Prop({ enum: ThreadAudience, required: false, default: ThreadAudience.ANYONE })
+    audience?: ThreadAudience
 }
 
 export type ThreadDocument = Thread & Document

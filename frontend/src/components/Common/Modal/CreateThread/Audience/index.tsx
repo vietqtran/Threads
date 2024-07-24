@@ -1,7 +1,8 @@
 import Fixed from '@/components/Common/Fixed'
 import ShowPosition from '@/components/Common/Wrapper/ShowPosition'
+import { ThreadAudience } from '@/types/thread'
 import { AnimatePresence } from 'framer-motion'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 interface Props {}
 
@@ -17,10 +18,25 @@ const Audience = (props: Props) => {
         })
         setIsFixedOpen(!isFixedOpen)
     }
+
+    const [audience, setAudience] = useState<ThreadAudience>(ThreadAudience.ANYONE)
+
+    const displayText = useMemo(() => {
+        setIsFixedOpen(false)
+        switch (audience) {
+            case ThreadAudience.ANYONE:
+                return 'Anyone can reply & quote'
+            case ThreadAudience.FOLLOWED:
+                return 'Only people you follow can reply & quote'
+            case ThreadAudience.MENTIONED:
+                return 'Only people you mention can reply & quote'
+        }
+    }, [audience])
+
     return (
         <div>
             <span onClick={handleOpenFixed} className="block cursor-pointer text-secondary active:opacity-75">
-                Anyone can reply & quote
+                {displayText}
             </span>
             <AnimatePresence>
                 {isFixedOpen && (
@@ -36,17 +52,26 @@ const Audience = (props: Props) => {
                                 bottom="bottom-8"
                                 className="w-[200px] origin-top-left rounded-2xl border bg-content p-2 shadow"
                             >
-                                <div className="cursor-pointer rounded-xl p-3 hover:bg-content-hover">
+                                <div
+                                    onClick={() => setAudience(ThreadAudience.ANYONE)}
+                                    className="cursor-pointer rounded-xl p-3 hover:bg-content-hover"
+                                >
                                     <div className="flex h-5 items-center">
                                         <span className="font-medium">Anyone</span>
                                     </div>
                                 </div>
-                                <div className="cursor-pointer rounded-xl p-3 hover:bg-content-hover">
+                                <div
+                                    onClick={() => setAudience(ThreadAudience.FOLLOWED)}
+                                    className="cursor-pointer rounded-xl p-3 hover:bg-content-hover"
+                                >
                                     <div className="flex h-5 items-center">
                                         <span className="font-medium">Profiles you follow</span>
                                     </div>
                                 </div>
-                                <div className="cursor-pointer rounded-xl p-3 hover:bg-content-hover">
+                                <div
+                                    onClick={() => setAudience(ThreadAudience.MENTIONED)}
+                                    className="cursor-pointer rounded-xl p-3 hover:bg-content-hover"
+                                >
                                     <div className="flex h-5 items-center">
                                         <span className="font-medium">Mentioned only</span>
                                     </div>

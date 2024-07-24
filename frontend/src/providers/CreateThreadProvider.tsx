@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer, ReactNode } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { THREAD_TYPE } from '@/enums/thread-type'
+import { ThreadAudience } from '@/types/thread'
 
 export type PollOption = {
     id: string
@@ -18,6 +19,7 @@ export interface Thread {
     images: { id: string; file: File }[]
     poll: Poll
     threadType: THREAD_TYPE
+    audience: ThreadAudience
 }
 
 interface ThreadState {
@@ -30,13 +32,14 @@ type Action =
     | { type: 'UPDATE_CONTENT'; payload: { id: string; content: string } }
     | { type: 'ADD_IMAGE'; payload: { id: string; image: { id: string; file: File } } }
     | { type: 'REMOVE_IMAGE'; payload: { threadId: string; imageId: string } }
-    | { type: 'SET_POLL'; payload: { id: string; poll: Poll } }
+    | { type: 'SET_POLL'; payload: { id: string; poll: any } }
     | { type: 'REMOVE_POLL'; payload: { id: string } }
     | { type: 'SET_THREAD_TYPE'; payload: { id: string; threadType: THREAD_TYPE } }
     | { type: 'UPDATE_POLL'; payload: { threadId: string; poll: Poll } }
     | { type: 'ADD_POLL_OPTION'; payload: { threadId: string; optionId: string; value: string } }
     | { type: 'REMOVE_POLL_OPTION'; payload: { threadId: string; optionId: string } }
     | { type: 'UPDATE_POLL_OPTION'; payload: { threadId: string; optionId: string; value: string } }
+    | { type: 'UPDATE_AUDIENCE'; payload: { threadId: string; audience: ThreadAudience } }
 
 const ThreadContext = createContext<
     | {
@@ -78,6 +81,8 @@ const threadReducer = (state: ThreadState, action: Action): ThreadState => {
             return updatePollOptions(state, action.payload.threadId, action.payload.optionId, action.payload.value)
         case 'REMOVE_POLL_OPTION':
             return removePollOption(state, action.payload.threadId, action.payload.optionId)
+        case 'UPDATE_AUDIENCE':
+            return updateAudience(state, action.payload.audience)
         default:
             return state
     }
@@ -100,7 +105,8 @@ const addThread = (state: ThreadState): ThreadState => {
                 }
             ]
         },
-        threadType: THREAD_TYPE.DEFAULT
+        threadType: THREAD_TYPE.DEFAULT,
+        audience: ThreadAudience.ANYONE
     }
 
     return { ...state, threads: [...state.threads, newThread] }
@@ -292,7 +298,10 @@ const removePollOption = (state: ThreadState, threadId: string, optionId: string
     }
 }
 
-// CreateThreadProvider component
+const updateAudience = (state: ThreadState, audience: ThreadAudience) => {
+    return { ...state, audience }
+}
+
 export const CreateThreadProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [state, dispatch] = useReducer(threadReducer, {
         threads: [
@@ -312,7 +321,8 @@ export const CreateThreadProvider: React.FC<{ children: ReactNode }> = ({ childr
                         }
                     ]
                 },
-                threadType: THREAD_TYPE.DEFAULT
+                threadType: THREAD_TYPE.DEFAULT,
+                audience: ThreadAudience.ANYONE
             }
         ]
     })
