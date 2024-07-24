@@ -23,7 +23,7 @@ const DragToCloseDrawer = ({ children }: Props) => {
         })
     }
     const opacity = useMemo(() => {
-        return 1 - y.get() / height
+        return (1 - y.get() / height) || 0
     }, [y, height])
     return (
         <>

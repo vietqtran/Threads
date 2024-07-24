@@ -11,6 +11,7 @@ interface Props {
 
 const Profile = ({ user }: Props) => {
     const store = useUserStore(state => state)
+    console.log(user)
     return <ProfileContent user={user} isCurrentUser={store.user?.username === user?.username} />
 }
 
