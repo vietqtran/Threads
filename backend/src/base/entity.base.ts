@@ -3,9 +3,9 @@ import { Transform } from 'class-transformer'
 import { ObjectId } from 'mongoose'
 
 export class BaseEntity {
-  @Transform(({ value }) => value.toString())
-  _id?: ObjectId
+    @Transform(({ value }) => value.toString())
+    _id?: ObjectId
 
-  @Prop({ default: null, select: false })
-  deletedAt: Date
+    @Prop({ default: null, select: false })
+    deletedAt: Date
 }

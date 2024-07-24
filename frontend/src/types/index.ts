@@ -1,8 +1,8 @@
-export interface Response {
+export interface Response<T> {
     isError: boolean
     message: string
-    data?: any
-    errors: any[]
+    data?: T
+    errors: string[]
     statusCode: number
     status: number
 }

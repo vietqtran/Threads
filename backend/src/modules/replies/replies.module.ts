@@ -7,13 +7,13 @@ import { RepliesController } from './replies.controller'
 import { RepliesService } from './replies.service'
 
 @Module({
-  imports: [
-    UsersModule,
-    ThreadsModule,
-    MongooseModule.forFeature([{ name: Reply.name, schema: ReplySchema }])
-  ],
-  controllers: [RepliesController],
-  providers: [RepliesService],
-  exports: [RepliesService]
+    imports: [
+        UsersModule,
+        ThreadsModule,
+        MongooseModule.forFeature([{ name: Reply.name, schema: ReplySchema }])
+    ],
+    controllers: [RepliesController],
+    providers: [RepliesService],
+    exports: [RepliesService]
 })
 export class RepliesModule {}

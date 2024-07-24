@@ -1,4 +1,5 @@
 import { Response } from '@/types'
+import { User } from '@/types/user'
 import instance from '@/utils/axios/axios.instance'
 import { useState } from 'react'
 
@@ -8,9 +9,9 @@ export const useUsers = () => {
     const getAllUsers = async () => {
         setIsLoading(true)
         try {
-            const { data } = await instance.get<Response>('/users', { withCredentials: true })
-            if (data) {
-                return data
+            const { data } = await instance.get<Response<User[]>>('/users', { withCredentials: true })
+            if (data.data) {
+                return data.data
             }
             return []
         } catch (err: any) {
@@ -24,8 +25,8 @@ export const useUsers = () => {
     const getUserByUsername = async (username: string) => {
         setIsLoading(true)
         try {
-            const { data } = await instance.get(`/users/${username}`, { withCredentials: true })
-            if (data) {
+            const { data } = await instance.get<Response<User>>(`/users/${username}`, { withCredentials: true })
+            if (data.data) {
                 return data.data
             }
             return null
@@ -37,11 +38,11 @@ export const useUsers = () => {
         }
     }
 
-    const updateUser = async (id: string, updateFields: any) => {
+    const updateUser = async (id: string, updateFields: Partial<User>) => {
         setIsLoading(true)
         try {
-            const { data } = await instance.put(`/users/${id}`, updateFields, { withCredentials: true })
-            if (data) {
+            const { data } = await instance.put<Response<User>>(`/users/${id}`, updateFields, { withCredentials: true })
+            if (data.data) {
                 return data.data
             }
             return null
@@ -56,8 +57,12 @@ export const useUsers = () => {
     const requestFollow = async (from: string, to: string, isAccepted: boolean) => {
         setIsLoading(true)
         try {
-            const { data } = await instance.post(`/users/follow`, { from, to, isAccepted }, { withCredentials: true })
-            if (data) {
+            const { data } = await instance.post<Response<User>>(
+                `/users/follow`,
+                { from, to, isAccepted },
+                { withCredentials: true }
+            )
+            if (data.data) {
                 return data.data
             }
             return null
@@ -72,8 +77,12 @@ export const useUsers = () => {
     const acceptFollow = async (from: string, to: string) => {
         setIsLoading(true)
         try {
-            const { data } = await instance.post(`/users/accept-follow`, { from, to }, { withCredentials: true })
-            if (data) {
+            const { data } = await instance.post<Response<User>>(
+                `/users/accept-follow`,
+                { from, to },
+                { withCredentials: true }
+            )
+            if (data.data) {
                 return data.data
             }
             return null
@@ -88,14 +97,14 @@ export const useUsers = () => {
     const getFollowing = async (id: string) => {
         setIsLoading(true)
         try {
-            const { data } = await instance.get(`/users/${id}/following`, { withCredentials: true })
-            if (data) {
+            const { data } = await instance.get<Response<User[]>>(`/users/${id}/following`, { withCredentials: true })
+            if (data.data) {
                 return data.data
             }
-            return null
+            return []
         } catch (err: any) {
             console.log('Get following error: ', err)
-            return null
+            return []
         } finally {
             setIsLoading(false)
         }
@@ -104,8 +113,8 @@ export const useUsers = () => {
     const getFollowers = async (id: string) => {
         setIsLoading(true)
         try {
-            const { data } = await instance.get(`/users/${id}/followers`, { withCredentials: true })
-            if (data) {
+            const { data } = await instance.get<Response<User[]>>(`/users/${id}/followers`, { withCredentials: true })
+            if (data.data) {
                 return data.data
             }
             return null

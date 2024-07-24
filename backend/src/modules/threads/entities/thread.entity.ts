@@ -9,74 +9,74 @@ import { Type } from 'class-transformer'
 import { User } from '@/modules/users/entities/user.entity'
 
 export type Media = {
-  url: string
-  type: MediaType
+    url: string
+    type: MediaType
 }
 
 export type Poll = {
-  options: {
-    id: string
-    title: string
-    rates: number
-  }[]
+    options: {
+        id: string
+        title: string
+        rates: number
+    }[]
 }
 
 @Schema({
-  timestamps: {
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  },
-  versionKey: false
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
+    },
+    versionKey: false
 })
 export class Thread extends BaseEntity {
-  @Prop({ required: false })
-  content?: string
+    @Prop({ required: false })
+    content?: string
 
-  @Prop({
-    type: MongooseSchema.Types.Array,
-    required: false,
-    default: []
-  })
-  medias?: Media[]
+    @Prop({
+        type: MongooseSchema.Types.Array,
+        required: false,
+        default: []
+    })
+    medias?: Media[]
 
-  @Prop({
-    type: Object,
-    required: function () {
-      return this.type === ThreadType.POLL
-    },
-    default: null
-  })
-  poll?: Poll
+    @Prop({
+        type: Object,
+        required: function () {
+            return this.type === ThreadType.POLL
+        },
+        default: null
+    })
+    poll?: Poll
 
-  @Prop({ enum: ThreadType, required: true })
-  type: ThreadType
+    @Prop({ enum: ThreadType, required: true })
+    type: ThreadType
 
-  @Prop({ enum: ThreadContentType, required: true })
-  contentType: ThreadContentType
+    @Prop({ enum: ThreadContentType, required: true })
+    contentType: ThreadContentType
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
-  @Type(() => User)
-  user: User
+    @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+    @Type(() => User)
+    user: User
 
-  @Prop({
-    type: MongooseSchema.Types.Array,
-    required: false,
-    ref: User.name,
-    default: [],
-    items: User
-  })
-  @Type(() => User)
-  likedUsers?: User[]
+    @Prop({
+        type: MongooseSchema.Types.Array,
+        required: false,
+        ref: User.name,
+        default: [],
+        items: User
+    })
+    @Type(() => User)
+    likedUsers?: User[]
 
-  @Prop({
-    type: MongooseSchema.Types.Array,
-    required: false,
-    ref: Reply.name,
-    default: [],
-    items: Reply
-  })
-  @Type(() => Reply)
-  replies?: Reply[]
+    @Prop({
+        type: MongooseSchema.Types.Array,
+        required: false,
+        ref: Reply.name,
+        default: [],
+        items: Reply
+    })
+    @Type(() => Reply)
+    replies?: Reply[]
 }
 
 export type ThreadDocument = Thread & Document

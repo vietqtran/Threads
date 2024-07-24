@@ -7,21 +7,21 @@ import { SEND_MAIL } from './constants/email.constant'
 
 @Injectable()
 export class MailService {
-  constructor(
-    @InjectSendMailQueue() private readonly mailQueue: Queue,
-    private readonly configService: ConfigService
-  ) {}
+    constructor(
+        @InjectSendMailQueue() private readonly mailQueue: Queue,
+        private readonly configService: ConfigService
+    ) {}
 
-  async sendMail(sendMailDto: SendMailDto) {
-    const { to, context, subject, template } = sendMailDto
-    const sendMailPayload = {
-      to,
-      from: this.configService.get<string>('mailer.from'),
-      subject,
-      template: `./${template}`,
-      context
+    async sendMail(sendMailDto: SendMailDto) {
+        const { to, context, subject, template } = sendMailDto
+        const sendMailPayload = {
+            to,
+            from: this.configService.get<string>('mailer.from'),
+            subject,
+            template: `./${template}`,
+            context
+        }
+        console.log('sendMailPayload', sendMailPayload)
+        await this.mailQueue.add(SEND_MAIL, sendMailPayload)
     }
-    console.log('sendMailPayload', sendMailPayload)
-    await this.mailQueue.add(SEND_MAIL, sendMailPayload)
-  }
 }

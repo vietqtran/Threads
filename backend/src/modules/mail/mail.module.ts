@@ -6,13 +6,13 @@ import { QueueModule } from '../queue/queue.module'
 import { SendMailProcessor } from './processors/send-mail.processor'
 
 @Module({
-  imports: [
-    QueueModule.register({
-      queues: [SEND_MAIL],
-      flows: [MAIL_QUEUE]
-    })
-  ],
-  exports: [MailService],
-  providers: [MailService, SendMailProcessor]
+    imports: [
+        QueueModule.register({
+            queues: [SEND_MAIL],
+            flows: [MAIL_QUEUE]
+        })
+    ],
+    exports: [MailService],
+    providers: [MailService, SendMailProcessor]
 })
 export class MailModule {}

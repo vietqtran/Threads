@@ -1,10 +1,10 @@
 export type WelcomeTemplateParams = {
-  name: string
+    name: string
 }
 
 export class SendMailDto {
-  to: string
-  subject: string
-  template: string
-  context: WelcomeTemplateParams
+    to: string
+    subject: string
+    template: string
+    context: WelcomeTemplateParams
 }

@@ -9,16 +9,16 @@ import { WorkerHostProcessor } from '@/modules/bull/processors/worker-host.proce
 @Processor(SEND_MAIL)
 @Injectable()
 export class SendMailProcessor extends WorkerHostProcessor {
-  constructor(private readonly mailerService: MailerService) {
-    super()
-  }
-
-  async process(job: Job) {
-    console.log('processor', job.data)
-    switch (job.name) {
-      case SEND_MAIL:
-        await this.mailerService.sendMail(job.data)
+    constructor(private readonly mailerService: MailerService) {
+        super()
     }
-    throw new BadRequestException(`Unknown job name: ${job.name}`)
-  }
+
+    async process(job: Job) {
+        console.log('processor', job.data)
+        switch (job.name) {
+            case SEND_MAIL:
+                await this.mailerService.sendMail(job.data)
+        }
+        throw new BadRequestException(`Unknown job name: ${job.name}`)
+    }
 }

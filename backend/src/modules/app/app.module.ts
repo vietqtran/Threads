@@ -14,21 +14,21 @@ import { UploadModule } from '../upload/upload.module'
 import { UsersModule } from '../users/users.module'
 
 @Module({
-  imports: [
-    ConfigModule,
-    MongooseModule,
-    BullModule,
-    QueueModule,
-    MailerModule,
-    MailModule,
-    UploadModule,
-    //
-    AuthModule,
-    ThreadsModule,
-    UsersModule,
-    RepliesModule
-  ],
-  controllers: [AppController],
-  providers: [AppService]
+    imports: [
+        ConfigModule,
+        MongooseModule,
+        BullModule,
+        QueueModule,
+        MailerModule,
+        MailModule,
+        UploadModule,
+        //
+        AuthModule,
+        ThreadsModule,
+        UsersModule,
+        RepliesModule
+    ],
+    controllers: [AppController],
+    providers: [AppService]
 })
 export class AppModule {}

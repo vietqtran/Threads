@@ -1,4 +1,4 @@
 export interface QueueModuleOptions {
-  queues: string[]
-  flows?: string[]
+    queues: string[]
+    flows?: string[]
 }

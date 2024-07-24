@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useUserStore } from '@/providers/StoresProvider'
+import { User } from '@/types/user'
 
 export const useAuth = () => {
     const { push } = useRouter()
@@ -13,9 +14,9 @@ export const useAuth = () => {
 
     const authenticate = async () => {
         try {
-            const response = await instance.get<Response>('/auth/authenticate', { withCredentials: true })
-            if (response.data) {
-                setUser(response.data.data)
+            const { data } = await instance.get<Response<User>>('/auth/authenticate', { withCredentials: true })
+            if (data.data) {
+                setUser(data.data)
                 return true
             }
             return false
@@ -30,9 +31,9 @@ export const useAuth = () => {
         if (isLoading) return
         setIsLoading(true)
         try {
-            const response = await instance.post<Response>('/auth/login', loginCredential)
-            if (!response.data.isError) {
-                setUser(response.data.data)
+            const { data } = await instance.post<Response<User>>('/auth/login', loginCredential)
+            if (data.data) {
+                setUser(data.data)
                 push('/')
             }
         } catch (error) {
@@ -49,8 +50,9 @@ export const useAuth = () => {
         if (isLoading) return
         setIsLoading(true)
         try {
-            const response = await instance.post<Response>('/auth/register', signUpCredential)
-            if (!response.data.isError) {
+            const { data } = await instance.post<User>('/auth/register', signUpCredential)
+            if (data) {
+                toast('Sign up success! Please login.')
                 push('/login')
             }
         } catch (error) {
@@ -65,8 +67,8 @@ export const useAuth = () => {
 
     const logout = async () => {
         try {
-            const response = await instance.post<Response>('/auth/logout', {}, { withCredentials: true })
-            if (response.data) {
+            const { data } = await instance.post<User>('/auth/logout', {}, { withCredentials: true })
+            if (data) {
                 setUser(null)
                 push('/login')
             }

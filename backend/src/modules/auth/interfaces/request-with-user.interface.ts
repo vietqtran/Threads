@@ -2,7 +2,7 @@ import { User } from '@/modules/users/entities/user.entity'
 import { Request } from 'express'
 
 interface RequestWithUser extends Request {
-  user: User
+    user: User
 }
 
 export default RequestWithUser

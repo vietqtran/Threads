@@ -30,7 +30,7 @@ type Action =
     | { type: 'UPDATE_CONTENT'; payload: { id: string; content: string } }
     | { type: 'ADD_IMAGE'; payload: { id: string; image: { id: string; file: File } } }
     | { type: 'REMOVE_IMAGE'; payload: { threadId: string; imageId: string } }
-    | { type: 'SET_POLL'; payload: { id: string; poll: any } }
+    | { type: 'SET_POLL'; payload: { id: string; poll: Poll } }
     | { type: 'REMOVE_POLL'; payload: { id: string } }
     | { type: 'SET_THREAD_TYPE'; payload: { id: string; threadType: THREAD_TYPE } }
     | { type: 'UPDATE_POLL'; payload: { threadId: string; poll: Poll } }

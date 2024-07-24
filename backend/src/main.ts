@@ -7,32 +7,32 @@ import { TransformInterceptor } from './common/interceptors/response.interceptor
 import { ValidationPipe } from '@nestjs/common'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+    const app = await NestFactory.create(AppModule)
 
-  app.setGlobalPrefix('api/v1/')
+    app.setGlobalPrefix('api/v1/')
 
-  app.useGlobalInterceptors(new TransformInterceptor())
+    app.useGlobalInterceptors(new TransformInterceptor())
 
-  app.useGlobalPipes(new ValidationPipe())
+    app.useGlobalPipes(new ValidationPipe())
 
-  app.useGlobalGuards(new JwtAuthGuard(app.get(Reflector)))
+    app.useGlobalGuards(new JwtAuthGuard(app.get(Reflector)))
 
-  app.use(cookieParser())
+    app.use(cookieParser())
 
-  const config = new DocumentBuilder()
-    .setTitle('Threads API')
-    .setDescription('Threads API description')
-    .setVersion('1.0.0')
-    .build()
-  const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('api', app, document)
+    const config = new DocumentBuilder()
+        .setTitle('Threads API')
+        .setDescription('Threads API description')
+        .setVersion('1.0.0')
+        .build()
+    const document = SwaggerModule.createDocument(app, config)
+    SwaggerModule.setup('api', app, document)
 
-  app.enableCors({
-    origin: process.env.CLIENT_URL,
-    credentials: true
-  })
+    app.enableCors({
+        origin: process.env.CLIENT_URL,
+        credentials: true
+    })
 
-  const port = process.env.PORT || 4000
-  await app.listen(port)
+    const port = process.env.PORT || 4000
+    await app.listen(port)
 }
 bootstrap()
