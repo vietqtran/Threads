@@ -19,6 +19,7 @@ export const useAuth = () => {
                 setUser(data.data)
                 return true
             }
+            setUser(null)
             return false
         } catch (error) {
             setUser(null)
