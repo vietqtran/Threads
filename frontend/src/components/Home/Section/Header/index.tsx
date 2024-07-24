@@ -7,137 +7,145 @@ import React, { useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 interface Props {
-  id: string
-  title: string
-  items?: {
+    id: string
     title: string
-    isActive: boolean
-    onClick?: () => void
-  }[]
-  isMain: boolean
+    items?: {
+        title: string
+        isActive: boolean
+        onClick?: () => void
+    }[]
+    isMain: boolean
 }
 
 const SectionHeader = ({ id, title, items, isMain }: Props) => {
-  const { unPinSection } = useHomeStore(state => state)
-  const [openDropdown, setOpenDropdown] = React.useState<boolean>(false)
-  const [openOptions, setOpenOptions] = React.useState<boolean>(false)
-  const dropdownRef = useClickOutside(() => {
-    setOpenDropdown(false)
-  })
-  const optionsRef = useClickOutside(() => {
-    setOpenOptions(false)
-  })
-  const switchRef = useRef<HTMLButtonElement>(null)
+    const { unPinSection } = useHomeStore(state => state)
+    const [openDropdown, setOpenDropdown] = React.useState<boolean>(false)
+    const [openOptions, setOpenOptions] = React.useState<boolean>(false)
+    const dropdownRef = useClickOutside(() => {
+        setOpenDropdown(false)
+    })
+    const optionsRef = useClickOutside(() => {
+        setOpenOptions(false)
+    })
+    const switchRef = useRef<HTMLButtonElement>(null)
 
-  return (
-    <div className="relative z-10 grid h-15 w-full place-items-center">
-      <div className="flex items-center gap-2">
-        <span className="block text-15px font-medium">{title}</span>
-        {isMain && (
-          <div ref={dropdownRef} className="relative">
-            <div
-              onClick={e => {
-                e.stopPropagation()
-                setOpenDropdown(!openDropdown)
-              }}
-              className="grid h-[24px] w-[24px] cursor-pointer place-items-center rounded-full border bg-content shadow duration-75 ease-linear hover:scale-110 active:scale-95"
-            >
-              <Icon name="arrow_down_home_section_black" className="dark:hidden" size={12} />
-              <Icon name="arrow_down_home_section_white" className="hidden dark:block" size={12} />
+    return (
+        <div className="relative z-10 grid h-15 w-full place-items-center">
+            <div className="flex items-center gap-2">
+                <span className="block text-15px font-medium">{title}</span>
+                {isMain && (
+                    <div ref={dropdownRef} className="relative">
+                        <div
+                            onClick={e => {
+                                e.stopPropagation()
+                                setOpenDropdown(!openDropdown)
+                            }}
+                            className="grid h-[24px] w-[24px] cursor-pointer place-items-center rounded-full border bg-content shadow duration-75 ease-linear hover:scale-110 active:scale-95"
+                        >
+                            <Icon name="arrow_down_home_section_black" className="dark:hidden" size={12} />
+                            <Icon name="arrow_down_home_section_white" className="hidden dark:block" size={12} />
+                        </div>
+
+                        <AnimatePresence>
+                            {openDropdown && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    onClick={e => e.stopPropagation()}
+                                    className="absolute -left-[110px] top-[calc(100%+6px)] z-[999] w-60 origin-top rounded-2xl border bg-content p-2 shadow"
+                                >
+                                    {items?.map((item, index) => (
+                                        <div
+                                            key={`home-main-section-${index}`}
+                                            onClick={() => {
+                                                item.onClick?.()
+                                                setOpenDropdown(false)
+                                            }}
+                                            className="cursor-pointer rounded-xl p-3 hover:bg-content-hover"
+                                        >
+                                            <div className="flex h-7 w-full items-center justify-between gap-2">
+                                                <span className="font-medium">{item.title}</span>
+                                                {item.isActive && (
+                                                    <div>
+                                                        <Icon
+                                                            name="check_home_select_section_black"
+                                                            className="dark:hidden"
+                                                            size={16}
+                                                        />
+                                                        <Icon
+                                                            name="check_home_select_section_white"
+                                                            className="hidden dark:block"
+                                                            size={16}
+                                                        />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                )}
             </div>
 
-            <AnimatePresence>
-              {openDropdown && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  onClick={e => e.stopPropagation()}
-                  className="absolute -left-[110px] top-[calc(100%+6px)] z-[999] w-60 origin-top rounded-2xl border bg-content p-2 shadow"
-                >
-                  {items?.map((item, index) => (
-                    <div
-                      key={`home-main-section-${index}`}
-                      onClick={() => {
-                        item.onClick?.()
-                        setOpenDropdown(false)
-                      }}
-                      className="cursor-pointer rounded-xl p-3 hover:bg-content-hover"
-                    >
-                      <div className="flex h-7 w-full items-center justify-between gap-2">
-                        <span className="font-medium">{item.title}</span>
-                        {item.isActive && (
-                          <div>
-                            <Icon name="check_home_select_section_black" className="dark:hidden" size={16} />
-                            <Icon name="check_home_select_section_white" className="hidden dark:block" size={16} />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        )}
-      </div>
+            {!isMain && (
+                <div className="absolute right-3 top-1/2 size-12 -translate-y-1/2">
+                    <div ref={optionsRef} className="relative grid size-full place-items-center">
+                        <div
+                            onClick={e => {
+                                e.stopPropagation()
+                                setOpenOptions(!openOptions)
+                            }}
+                            className="grid size-6 cursor-pointer place-items-center rounded-full border bg-content duration-75 ease-linear hover:scale-110 active:scale-95"
+                        >
+                            <Icon name="home_section_header_dots_white" size={12} className="hidden dark:block" />
+                            <Icon name="home_section_header_dots_black" size={12} className="dark:hidden" />
+                        </div>
 
-      {!isMain && (
-        <div className="absolute right-3 top-1/2 size-12 -translate-y-1/2">
-          <div ref={optionsRef} className="relative grid size-full place-items-center">
-            <div
-              onClick={e => {
-                e.stopPropagation()
-                setOpenOptions(!openOptions)
-              }}
-              className="grid size-6 cursor-pointer place-items-center rounded-full border bg-content duration-75 ease-linear hover:scale-110 active:scale-95"
-            >
-              <Icon name="home_section_header_dots_white" size={12} className="hidden dark:block" />
-              <Icon name="home_section_header_dots_black" size={12} className="dark:hidden" />
-            </div>
-
-            <AnimatePresence>
-              {openOptions && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  onClick={e => e.stopPropagation()}
-                  className="absolute right-0 top-[calc(100%-4px)] z-[999] w-[224px] origin-top-right rounded-2xl border bg-content p-2 shadow"
-                >
-                  <div
-                    onClick={() => {
-                      switchRef.current?.click()
-                    }}
-                    className="cursor-pointer rounded-xl p-3 hover:bg-content-hover"
-                  >
-                    <div className="flex h-7 w-full items-center justify-between gap-2">
-                      <span className="font-medium">Auto-update</span>
-                      <div>
-                        <Switch ref={switchRef} id={uuidv4()} />
-                      </div>
+                        <AnimatePresence>
+                            {openOptions && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    onClick={e => e.stopPropagation()}
+                                    className="absolute right-0 top-[calc(100%-4px)] z-[999] w-[224px] origin-top-right rounded-2xl border bg-content p-2 shadow"
+                                >
+                                    <div
+                                        onClick={() => {
+                                            switchRef.current?.click()
+                                        }}
+                                        className="cursor-pointer rounded-xl p-3 hover:bg-content-hover"
+                                    >
+                                        <div className="flex h-7 w-full items-center justify-between gap-2">
+                                            <span className="font-medium">Auto-update</span>
+                                            <div>
+                                                <Switch ref={switchRef} id={uuidv4()} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        onClick={() => {
+                                            unPinSection(id)
+                                        }}
+                                        className="cursor-pointer rounded-xl p-3 hover:bg-content-hover"
+                                    >
+                                        <div className="flex h-7 w-full items-center justify-between gap-2">
+                                            <span className="font-medium">Unpin</span>
+                                            <div>
+                                                <Icon className="hidden dark:block" size={20} name="unpin_white" />
+                                                <Icon className="dark:hidden" size={20} name="unpin_black" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
-                  </div>
-                  <div
-                    onClick={() => {
-                      unPinSection(id)
-                    }}
-                    className="cursor-pointer rounded-xl p-3 hover:bg-content-hover"
-                  >
-                    <div className="flex h-7 w-full items-center justify-between gap-2">
-                      <span className="font-medium">Unpin</span>
-                      <div>
-                        <Icon className="hidden dark:block" size={20} name="unpin_white" />
-                        <Icon className="dark:hidden" size={20} name="unpin_black" />
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  )
+    )
 }
 
 export default SectionHeader

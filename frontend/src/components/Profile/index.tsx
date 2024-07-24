@@ -6,12 +6,12 @@ import { User } from '@/types/user'
 import { useUserStore } from '@/providers/StoresProvider'
 
 interface Props {
-  user: User
+    user: User
 }
 
 const Profile = ({ user }: Props) => {
-  const store = useUserStore(state => state)
-  return <ProfileContent user={user} isCurrentUser={store.user?.username === user?.username} />
+    const store = useUserStore(state => state)
+    return <ProfileContent user={user} isCurrentUser={store.user?.username === user?.username} />
 }
 
 export default Profile

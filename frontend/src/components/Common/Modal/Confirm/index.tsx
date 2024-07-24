@@ -1,11 +1,11 @@
 import React from 'react'
 
 type Props = {
-  title: string
+    title: string
 }
 
 const ConfirmModal = (props: Props) => {
-  return <div>ConfirmModal</div>
+    return <div>ConfirmModal</div>
 }
 
 export default ConfirmModal

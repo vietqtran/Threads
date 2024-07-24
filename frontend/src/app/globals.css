@@ -3,130 +3,132 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 0 0% 98%;
-    --background-content: 0, 0%, 100%;
-    --background-content-hover: 0, 0%, 95%;
+    :root {
+        --background: 0 0% 98%;
+        --background-content: 0, 0%, 100%;
+        --background-content-hover: 0, 0%, 95%;
 
-    --foreground: 0 0% 0%;
-    --foreground-secondary: 0, 0%, 60%;
+        --foreground: 0 0% 0%;
+        --foreground-secondary: 0, 0%, 60%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+        --card: 0 0% 100%;
+        --card-foreground: 224 71.4% 4.1%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 224 71.4% 4.1%;
 
-    --primary: 220.9 39.3% 11%;
-    --primary-foreground: 210 20% 98%;
+        --primary: 220.9 39.3% 11%;
+        --primary-foreground: 210 20% 98%;
 
-    --secondary: 0, 0%, 60%;
-    --secondary-foreground: 220.9 39.3% 11%;
+        --secondary: 0, 0%, 60%;
+        --secondary-foreground: 220.9 39.3% 11%;
 
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
+        --muted: 220 14.3% 95.9%;
+        --muted-foreground: 220 8.9% 46.1%;
 
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220.9 39.3% 11%;
+        --accent: 220 14.3% 95.9%;
+        --accent-foreground: 220.9 39.3% 11%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 20% 98%;
 
-    --border: 0 0% 85.1%;
-    --input: 220 13% 91%;
-    --ring: 224 71.4% 4.1%;
+        --border: 0 0% 85.1%;
+        --input: 220 13% 91%;
+        --ring: 224 71.4% 4.1%;
 
-    --radius: 0.5rem;
+        --radius: 0.5rem;
 
-    --linear-gradient-spinner1: linear-gradient(0deg, rgb(0 0 0/50%) 30%, #0000 0 70%, rgb(0 0 0/100%) 0) 50%/8% 100%;
-    --linear-gradient-spinner2: linear-gradient(90deg, rgb(0 0 0/25%) 30%, #0000 0 70%, rgb(0 0 0/75%) 0) 50%/100% 8%;
-  }
+        --linear-gradient-spinner1: linear-gradient(0deg, rgb(0 0 0/50%) 30%, #0000 0 70%, rgb(0 0 0/100%) 0) 50%/8%
+            100%;
+        --linear-gradient-spinner2: linear-gradient(90deg, rgb(0 0 0/25%) 30%, #0000 0 70%, rgb(0 0 0/75%) 0) 50%/100%
+            8%;
+    }
 
-  .dark {
-    --background: 0 0% 4%;
-    --background-content: 0, 0%, 9%;
-    --background-content-hover: 0, 0%, 15%;
+    .dark {
+        --background: 0 0% 4%;
+        --background-content: 0, 0%, 9%;
+        --background-content-hover: 0, 0%, 15%;
 
-    --foreground: 210 20% 96% 1;
-    --foreground-secondary: 0, 0%, 46.67%;
+        --foreground: 210 20% 96% 1;
+        --foreground-secondary: 0, 0%, 46.67%;
 
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
+        --card: 224 71.4% 4.1%;
+        --card-foreground: 210 20% 98%;
 
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
+        --popover: 224 71.4% 4.1%;
+        --popover-foreground: 210 20% 98%;
 
-    --primary: 210 20% 98%;
-    --primary-foreground: 220.9 39.3% 11%;
+        --primary: 210 20% 98%;
+        --primary-foreground: 220.9 39.3% 11%;
 
-    --secondary: 0, 0%, 46.67%;
-    --secondary-foreground: 210 20% 98%;
+        --secondary: 0, 0%, 46.67%;
+        --secondary-foreground: 210 20% 98%;
 
-    --muted: 215 27.9% 16.9%;
-    --muted-foreground: 217.9 10.6% 64.9%;
+        --muted: 215 27.9% 16.9%;
+        --muted-foreground: 217.9 10.6% 64.9%;
 
-    --accent: 215 27.9% 16.9%;
-    --accent-foreground: 210 20% 98%;
+        --accent: 215 27.9% 16.9%;
+        --accent-foreground: 210 20% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 20% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 20% 98%;
 
-    --border: 180 1% 22%;
-    --input: 215 27.9% 16.9%;
-    --ring: 216 12.2% 83.9%;
+        --border: 180 1% 22%;
+        --input: 215 27.9% 16.9%;
+        --ring: 216 12.2% 83.9%;
 
-    --linear-gradient-spinner1: linear-gradient(
-        0deg,
-        rgba(255, 255, 255, 0.5) 30%,
-        transparent 0 70%,
-        rgba(255, 255, 255, 1) 0
-      )
-      50% / 8% 100%;
-    --linear-gradient-spinner2: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0.25) 30%,
-        transparent 0 70%,
-        rgba(255, 255, 255, 0.75) 0
-      )
-      50% / 100% 8%;
-  }
+        --linear-gradient-spinner1: linear-gradient(
+                0deg,
+                rgba(255, 255, 255, 0.5) 30%,
+                transparent 0 70%,
+                rgba(255, 255, 255, 1) 0
+            )
+            50% / 8% 100%;
+        --linear-gradient-spinner2: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.25) 30%,
+                transparent 0 70%,
+                rgba(255, 255, 255, 0.75) 0
+            )
+            50% / 100% 8%;
+    }
 }
 
 @layer base {
-  * {
-    @apply border-border leading-[21px] outline-none;
-  }
-  body {
-    @apply bg-background text-foreground overflow-y-hidden;
-    font-size: 14.6px;
-  }
+    * {
+        @apply border-border leading-[21px] outline-none;
+    }
+    body {
+        @apply bg-background text-foreground overflow-y-hidden;
+        font-size: 14.6px;
+    }
 }
 
 .shadow {
-  box-shadow: 0 10.5px 21px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10.5px 21px rgba(0, 0, 0, 0.08);
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 .simplebar-scrollbar:before {
-  @apply dark:bg-[#777777];
+    @apply dark:bg-[#777777];
 }
 
 .tiptap p.is-editor-empty:first-child::before {
-  color: var(--foreground-secondary);
-  opacity: 0.4;
-  content: attr(data-placeholder);
-  float: left;
-  height: 0;
-  pointer-events: none;
+    color: var(--foreground-secondary);
+    opacity: 0.4;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
 }
 
 .text-description {
-  @apply text-[#999999] dark:text-[#777777];
+    @apply text-[#999999] dark:text-[#777777];
 }
 
 input::placeholder {
-  @apply text-[#999999] dark:text-[#777777];
+    @apply text-[#999999] dark:text-[#777777];
 }

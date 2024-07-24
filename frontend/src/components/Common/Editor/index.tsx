@@ -7,29 +7,29 @@ import Placeholder from '@tiptap/extension-placeholder'
 import StarterKit from '@tiptap/starter-kit'
 
 interface Props {
-  placeholder?: string
-  autoFocus?: boolean
-  content: string
-  setContent: (content: string) => void
+    placeholder?: string
+    autoFocus?: boolean
+    content: string
+    setContent: (content: string) => void
 }
 
 const Editor = ({ placeholder, autoFocus, content, setContent }: Props) => {
-  const id = useId()
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Placeholder.configure({
-        placeholder
-      })
-    ],
-    onUpdate: ({ editor }) => {
-      setContent(editor.getHTML())
-    },
-    immediatelyRender: false,
-    content
-  })
+    const id = useId()
+    const editor = useEditor({
+        extensions: [
+            StarterKit,
+            Placeholder.configure({
+                placeholder
+            })
+        ],
+        onUpdate: ({ editor }) => {
+            setContent(editor.getHTML())
+        },
+        immediatelyRender: false,
+        content
+    })
 
-  return <EditorContent autoFocus={autoFocus} id={id} editor={editor} />
+    return <EditorContent autoFocus={autoFocus} id={id} editor={editor} />
 }
 
 export default memo(Editor)
