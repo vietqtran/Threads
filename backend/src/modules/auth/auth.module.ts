@@ -26,11 +26,6 @@ import { UsersModule } from '../users/users.module'
         })
     ],
     controllers: [AuthController],
-    providers: [
-        AuthService,
-        LocalStrategy,
-        JwtStrategy,
-        JwtRefreshTokenStrategy
-    ]
+    providers: [AuthService, LocalStrategy, JwtStrategy, JwtRefreshTokenStrategy]
 })
 export class AuthModule {}

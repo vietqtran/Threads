@@ -19,8 +19,7 @@ export class AuthService {
 
     private getAuthCredentialField(credential: string, isRegister = false) {
         const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-        const phoneRegex =
-            /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
+        const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
 
         if (emailRegex.test(credential)) {
             return { email: credential }
@@ -35,9 +34,7 @@ export class AuthService {
     }
 
     async getAuthenticatedUser(credential: string, password: string) {
-        const user = await this.usersService.getUserForLogin(
-            this.getAuthCredentialField(credential)
-        )
+        const user = await this.usersService.getUserForLogin(this.getAuthCredentialField(credential))
         if (!(await this.isMatched(password, user.hashedPassword))) {
             throw new PasswordNotMatchException()
         }
@@ -46,10 +43,7 @@ export class AuthService {
     }
 
     async register(registerDto: RegisterDto) {
-        const credential = this.getAuthCredentialField(
-            registerDto.credential,
-            true
-        )
+        const credential = this.getAuthCredentialField(registerDto.credential, true)
         const existingUser = await this.usersService.findOneWithoutException({
             $or: [{ username: registerDto.username }, { ...credential }]
         })
@@ -84,10 +78,7 @@ export class AuthService {
     }
 
     getCookieForLogOut() {
-        return [
-            'Authentication=; HttpOnly; Path=/; Max-Age=0',
-            'Refresh=; HttpOnly; Path=/; Max-Age=0'
-        ]
+        return ['Authentication=; HttpOnly; Path=/; Max-Age=0', 'Refresh=; HttpOnly; Path=/; Max-Age=0']
     }
 
     private async hashPassword(password: string): Promise<string> {

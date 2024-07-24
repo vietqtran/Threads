@@ -9,15 +9,12 @@ export class UploadService {
     constructor(private readonly configService: ConfigService) {
         this.s3 = new AWS.S3({
             accessKeyId: this.configService.get<string>('s3.accessKeyId'),
-            secretAccessKey:
-                this.configService.get<string>('s3.secretAccessKey'),
+            secretAccessKey: this.configService.get<string>('s3.secretAccessKey'),
             region: this.configService.get<string>('s3.region')
         })
     }
 
-    async uploadFile(
-        file: Express.Multer.File
-    ): Promise<AWS.S3.ManagedUpload.SendData> {
+    async uploadFile(file: Express.Multer.File): Promise<AWS.S3.ManagedUpload.SendData> {
         const { originalname, buffer, mimetype } = file
         const bucket = this.configService.get<string>('s3.publicBucket')
 

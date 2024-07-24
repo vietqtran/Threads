@@ -26,10 +26,7 @@ export class RepliesController {
     }
 
     @Put(':id')
-    async update(
-        @Param('id') id: string,
-        @Body() updateReplyDto: UpdateReplyDto
-    ) {
+    async update(@Param('id') id: string, @Body() updateReplyDto: UpdateReplyDto) {
         return await this.repliesService.update(id, updateReplyDto)
     }
 

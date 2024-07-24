@@ -1,9 +1,6 @@
 import { BaseEntity } from '@/base/entity.base'
 import { MediaType } from '@/modules/threads/constants/media-type.enum'
-import {
-    ThreadContentType,
-    ThreadType
-} from '@/modules/threads/constants/thread-type.enum'
+import { ThreadContentType, ThreadType } from '@/modules/threads/constants/thread-type.enum'
 import { User } from '@/modules/users/entities/user.entity'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { Type } from 'class-transformer'

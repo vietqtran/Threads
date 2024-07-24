@@ -36,10 +36,7 @@ export class ThreadsController {
     }
 
     @Put(':id')
-    async update(
-        @Param('id') id: string,
-        @Body() updateThreadDto: UpdateThreadDto
-    ) {
+    async update(@Param('id') id: string, @Body() updateThreadDto: UpdateThreadDto) {
         return await this.threadsService.update(id, updateThreadDto)
     }
 

@@ -6,10 +6,7 @@ import { ThreadsController } from './threads.controller'
 import { ThreadsService } from './threads.service'
 
 @Module({
-    imports: [
-        UsersModule,
-        MongooseModule.forFeature([{ name: Thread.name, schema: ThreadSchema }])
-    ],
+    imports: [UsersModule, MongooseModule.forFeature([{ name: Thread.name, schema: ThreadSchema }])],
     controllers: [ThreadsController],
     providers: [ThreadsService],
     exports: [ThreadsService]

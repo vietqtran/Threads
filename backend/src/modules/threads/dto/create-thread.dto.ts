@@ -1,13 +1,6 @@
 import { User } from '@/modules/users/entities/user.entity'
 import { ApiProperty } from '@nestjs/swagger'
-import {
-    IsArray,
-    IsEnum,
-    IsNotEmpty,
-    IsObject,
-    IsOptional,
-    IsString
-} from 'class-validator'
+import { IsArray, IsEnum, IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator'
 import { MediaType } from '../constants/media-type.enum'
 import { ThreadContentType, ThreadType } from '../constants/thread-type.enum'
 import { Poll } from '../entities/thread.entity'

@@ -20,9 +20,7 @@ export class RepliesService {
     async create(createReplyDto: CreateReplyDto) {
         this.threadsService.validateMedias(createReplyDto.medias)
         await this.validateUser(createReplyDto.user)
-        const thread = await this.threadsService.findOne(
-            createReplyDto.repliedTo
-        )
+        const thread = await this.threadsService.findOne(createReplyDto.repliedTo)
 
         const reply = await this.replyModel.create(createReplyDto)
         thread.replies.push(reply)
@@ -44,13 +42,9 @@ export class RepliesService {
 
     async update(id: string, updateReplyDto: UpdateReplyDto) {
         this.threadsService.validateMedias(updateReplyDto.medias)
-        const reply = await this.replyModel.findByIdAndUpdate(
-            id,
-            updateReplyDto,
-            {
-                new: true
-            }
-        )
+        const reply = await this.replyModel.findByIdAndUpdate(id, updateReplyDto, {
+            new: true
+        })
         if (!reply) {
             throw new HttpException('Reply not found', 404)
         }
@@ -67,9 +61,7 @@ export class RepliesService {
 
     async toggleLikeReply(likeReplyDto: LikeReplyDto) {
         const reply = await this.findOne(likeReplyDto.replyId)
-        const userIndex = reply.likedUsers.findIndex(
-            (user) => user._id.toString() === likeReplyDto.userId
-        )
+        const userIndex = reply.likedUsers.findIndex((user) => user._id.toString() === likeReplyDto.userId)
 
         if (userIndex !== -1) {
             reply.likedUsers.splice(userIndex, 1)

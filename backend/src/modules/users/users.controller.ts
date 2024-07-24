@@ -48,10 +48,7 @@ export class UsersController {
             }
         }
     })
-    async update(
-        @Body() updateUserDto: UpdateUserDto,
-        @Param('id') id: string
-    ) {
+    async update(@Body() updateUserDto: UpdateUserDto, @Param('id') id: string) {
         const user = await this.usersService.update(id, updateUserDto)
         return user
     }

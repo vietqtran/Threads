@@ -44,11 +44,7 @@ export class ThreadsService {
 
     async update(id: string, updateThreadDto: UpdateThreadDto) {
         this.validateMedias(updateThreadDto.medias)
-        const thread = await this.threadModel.findByIdAndUpdate(
-            id,
-            updateThreadDto,
-            { new: true }
-        )
+        const thread = await this.threadModel.findByIdAndUpdate(id, updateThreadDto, { new: true })
         if (!thread) {
             throw new HttpException('Thread not found', 404)
         }
@@ -61,9 +57,7 @@ export class ThreadsService {
 
     async toggleLikeThread(likeThreadDto: LikeThreadDto) {
         const thread = await this.findOne(likeThreadDto.threadId)
-        const userIndex = thread.likedUsers.findIndex(
-            (user) => user._id.toString() === likeThreadDto.userId
-        )
+        const userIndex = thread.likedUsers.findIndex((user) => user._id.toString() === likeThreadDto.userId)
 
         if (userIndex !== -1) {
             thread.likedUsers.splice(userIndex, 1)
@@ -83,9 +77,7 @@ export class ThreadsService {
     validateMedias(medias: Media[]) {
         if (medias && medias.length > 0) {
             const validTypes = ['image', 'video', 'audio']
-            const isValid = medias.every((media) =>
-                validTypes.includes(media.type)
-            )
+            const isValid = medias.every((media) => validTypes.includes(media.type))
             if (!isValid) {
                 throw new HttpException('Invalid media type', 400)
             }

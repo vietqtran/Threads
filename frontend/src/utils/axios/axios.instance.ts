@@ -10,7 +10,7 @@ const instance: AxiosInstance = axios.create({
 })
 
 instance.interceptors.response.use(
-    response => response.data,
+    response => response,
     error => Promise.reject(error.response?.data)
 )
 
